@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MenuItem extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'menu_item_id';
 
     protected $fillable = [
         'merchant_id',

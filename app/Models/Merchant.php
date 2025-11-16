@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Merchant extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'merchant_id';
     
     protected $fillable = [
         'user_id',
