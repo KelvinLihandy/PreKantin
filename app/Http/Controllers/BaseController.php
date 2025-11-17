@@ -28,4 +28,8 @@ class BaseController extends Controller
 
         return view('home', ['topMenuItems' => $topMenuItems]);
     }
+
+    public function aboutPage(){
+        return view('about');
+    }
 }

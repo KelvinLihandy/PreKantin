@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Merchant;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -40,6 +42,21 @@ class AuthController extends Controller
             ]);
         }
 
-        return redirect()->route('login.page');
+        return redirect()->route('login.page')->with('success', __('register.toast'));
+    }
+
+    public function loginAccount(LoginRequest $request)
+    {
+        $credentials = $request->validated();
+        
+        if (Auth::attempt($credentials, $request->boolean('remember', false))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('home.page')->with('success', __('login.toast'));;
+        }
+
+        return back()->withErrors([
+            'email' => __('auth.failed'),
+        ])->onlyInput('email');
     }
 }

@@ -1,12 +1,13 @@
 {
     "mahasiswa": "Mahasiswa",
     "merchant": "Merchant",
+    "masuk": "Masuk",
+    "daftar": "Daftar",
 
     "header.cepat_praktis_lezat": "Cepat Praktis Lezat",
     "navbar.home": "Home",
     "navbar.kantin": "Kantin",
     "navbar.tentang": "Tentang",
-    "navbar.masuk": "Masuk",
     "footer.hubungi": "Hubungi Kami",
     "footer.alamat": "Binus University, Kampus Anggrek",
     "footer.cepat_praktis_lezat": ["Cepat,", "Praktis,", "Lezat"],
@@ -18,7 +19,7 @@
     "home.paling_banyak_dipesan": "Paling Banyak Dipesan",
     "home.menu.more": "Lihat Menu Lain",
     "home.fav.by": "Oleh",
-    "home.why" : "Kenapa Harus Menggunakan PreKantin?",
+    "home.why": "Kenapa Harus Menggunakan PreKantin?",
     "home.why.mahasiswa.title": "Waktu Istirahatmu Berharga, Jangan Habiskan Untuk Mengantre!",
     "home.why.mahasiswa.desc": "Setiap detik di kampus berarti. Entah untuk belajar, berorganisasi, atau sekadar melepas penat bersama teman. Tapi, ",
     "home.why.mahasiswa.desc.strong": "berapa banyak waktu yang terbuang hanya untuk antrean panjang dikantin?",
@@ -26,9 +27,8 @@
     "home.why.merchant.desc": "Di era serba digital ini, mengelola stall kantin kampus tidak lagi cukup hanya dengan menunggu pembeli datang. Tantangan seperti ",
     "home.why.merchant.desc.strong": "jam sibuk yang kacau, antrean mengular, hingga potensi kehilangan pembeli karena waktu yang terbatas",
     "home.why.merchant.desc.continue": ", membutuhkan inovasi.",
-    
+
     "register.already": "Sudah Punya Akun? ",
-    "register.log_in": "Masuk",
     "register.mahasiswa": "Daftar Akun Mahasiswa",
     "register.merchant": "Daftar Akun Merchant",
     "register.mahasiswa.nama": "Nama Lengkap",
@@ -36,5 +36,16 @@
     "register.email": "Email",
     "register.password": "Password",
     "register.confirm": "Konfirmasi Password",
-    "register.register": "Daftar"
+    "register.toast": "Registrasi berhasil! Silakan masuk.",
+
+    "login.already": "Belum Punya Akun? ",
+    "login.lupa": "Lupa Password?",
+    "login.toast": "Berhasil Masuk! Selamat datang.",
+
+    "about.lead1": "Tentang Kami",
+    "about.desc1": "PreKantin adalah platform pemesanan makanan awal yang dirancang untuk lingkungan kampus. Kami membantu mahasiswa, dosen, dan staf untuk memesan makanan favorit dari kantin kampus dengan lebih cepat, mudah, dan praktis.",
+    "about.lead2": "Visi Kami",
+    "about.desc2": "Mewujudkan pengalaman kantin kampus yang lebih cerdas, cepat, dan terhubung melalui teknologi yang menjembatani kebutuhan antara mahasiswa dan penjual makanan. PreKantin hadir dengan visi menciptakan ekosistem kuliner kampus yang efisien, nyaman, dan mendukung perkembangan digital bagi seluruh pihak.",
+    "about.lead3": "Misi Kami",
+    "about.desc3": "PreKantin memiliki misi untuk mempermudah aktivitas makan di lingkungan kampus melalui platform digital yang cepat, efisien, dan ramah. Kami berupaya mengurangi antrean panjang di kantin dengan menghadirkan sistem pemesanan makanan yang praktis dan terorganisir. Selain itu, PreKantin berkomitmen untuk memberdayakan para penjual kantin dengan teknologi yang membantu mereka mengelola pesanan secara lebih mudah dan modern. Melalui langkah ini, kami ingin menciptakan pengalaman makan yang nyaman bagi mahasiswa sekaligus mendukung keberlanjutan operasional kantin kampus menuju era digital yang lebih cerdas dan efisien."
 }

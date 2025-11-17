@@ -1,12 +1,13 @@
 {
     "mahasiswa": "Student",
     "merchant": "Merchant",
+    "masuk": "Log In",
+    "daftar": "Sign In",
 
     "header.cepat_praktis_lezat": "Quick, Practical, Delicious",
     "navbar.home": "Home",
     "navbar.kantin": "Canteen",
     "navbar.tentang": "About",
-    "navbar.masuk": "Log In",
     "footer.hubungi": "Contact Us",
     "footer.alamat": "Binus University, Anggrek Campus",
     "footer.cepat_praktis_lezat": ["Quick,", "Practical,", "Delicious"],
@@ -28,7 +29,6 @@
     "home.why.merchant.desc.continue": ", requires innovation.",
 
     "register.already": "Already have an account? ",
-    "register.log_in": "Log In",
     "register.mahasiswa": "Register Student Account",
     "register.merchant": "Register Merchant Account",
     "register.mahasiswa.nama": "Full Name",
@@ -36,5 +36,17 @@
     "register.email": "Email",
     "register.password": "Password",
     "register.confirm": "Confirm Password",
-    "register.register": "Register"
+    "register.toast": "Registration Successful! Please Log In.",
+
+    "login.already": "No Account? ",
+    "login.lupa" : "Forgot Password?",
+    "login.toast": "Succesfully Logged In! Welcome.",
+
+    "about.lead1": "About Us",
+    "about.desc1": "PreKantin is an early food ordering platform designed for the campus environment. We help students, lecturers, and staff to order their favorite food from campus canteens faster, easier, and more conveniently.",
+    "about.lead2": "Our Vision",
+    "about.desc2": "To create a smarter, faster, and more connected campus canteen experience through technology that bridges the needs of students and food vendors. PreKantin aims to establish an efficient, comfortable culinary ecosystem on campus that supports the digital development of all parties.",
+    "about.lead3": "Our Mission",
+    "about.desc3": "PreKantin's mission is to simplify dining activities on campus through a fast, efficient, and user-friendly digital platform. We strive to reduce long queues at the canteen by providing a practical and organized food ordering system. Additionally, PreKantin is committed to empowering canteen vendors with technology that helps them manage orders more easily and modernly. Through this initiative, we aim to create a comfortable dining experience for students while supporting the sustainable operation of campus canteens towards a smarter and more efficient digital era."
+
 }
