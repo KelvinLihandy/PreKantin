@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PreKantin | {{ __('header.cepat_praktis_lezat') }}</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -28,7 +29,8 @@
     </style>
 </head>
 
-<body>
+<body class="min-vh-100">
+    {{-- change password ada di dropdown hover ketika navbar auth --}}
     <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #4191E8">
         <div class="container">
             <a class="navbar-brand text-white fw-bold" href="#">
@@ -41,10 +43,10 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">{{ __('navbar.home') }}</a></li>
+                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
                     <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">{{ __('navbar.kantin') }}</a></li>
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">{{ __('navbar.tentang') }}</a></li>
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="login">{{ __('navbar.masuk') }}</a></li>
+                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ route('login.page') }}">{{ __('masuk') }}</a></li>
                 </ul>
             </div>
         </div>

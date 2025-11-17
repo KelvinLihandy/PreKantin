@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PreKantin | Cepat, Praktis, Lezat</title>
+    <title>PreKantin | {{ __('header.cepat_praktis_lezat') }}</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -26,8 +26,9 @@
 </head>
 
 <body>
-    @yield('content')
+    <div class="d-flex align-items-center justify-content-center min-vh-100" style="background-color: black">
+        @yield('content')
+    </div>
 </body>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-
 </html>

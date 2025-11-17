@@ -12,7 +12,8 @@
                             class="btn btn-md fw-bold me-2 text-white py-3 px-3"
                             style="background-color: #FB8C30; border-radius: 1rem">{{ __('home.order_button') }}</a>
                         <a href="{{ route('register.page', ['tab' => 'merchant']) }}"
-                            class="btn btn-dark btn-md fw-bold py-3 px-3" style="border-radius: 1rem">{{ __('home.merchant_button') }}</a>
+                            class="btn btn-dark btn-md fw-bold py-3 px-3"
+                            style="border-radius: 1rem">{{ __('home.merchant_button') }}</a>
                     </div>
                     <div class="col-md-6 text-center">
                         <img src="{{ asset('images/HomePic.png') }}" class="img-fluid rounded shadow mt-4 mt-md-0"
@@ -112,9 +113,33 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            @if (session('success'))
+                <div id="loginToast" class="toast align-items-center text-bg-success border-0" role="alert"
+                    aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.getElementById('loginToast');
+                if (toastEl) {
+                    var toast = new bootstrap.Toast(toastEl, {
+                        delay: 10000
+                    });
+                    toast.show();
+                }
+            });
+        </script>
     </div>
 @endsection
