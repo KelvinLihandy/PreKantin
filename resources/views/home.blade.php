@@ -6,7 +6,9 @@
             <div class="container">
                 <div class="row align-items-center g-5">
                     <div class="col-md-6 text-center text-md-start">
-                        <p class="fw-bold mb-3" style="font-size: 4.5rem">{{ __('home.boom') }}</p>
+                        <p class="fw-bold mb-3 display-1">
+                            {{ __('home.boom') }}
+                        </p>
                         <p class="lead mb-4">{{ __('home.lead') }}</p>
                         <a href="{{ route('register.page', ['tab' => 'mahasiswa']) }}"
                             class="btn btn-md fw-bold me-2 text-white py-3 px-3"

@@ -3,11 +3,13 @@
     "merchant": "Merchant",
     "masuk": "Masuk",
     "daftar": "Daftar",
+    "keluar": "Keluar",
 
     "header.cepat_praktis_lezat": "Cepat Praktis Lezat",
     "navbar.home": "Home",
     "navbar.kantin": "Kantin",
     "navbar.tentang": "Tentang",
+    "navbar.kelola": "Kelola Kantin",
     "footer.hubungi": "Hubungi Kami",
     "footer.alamat": "Binus University, Kampus Anggrek",
     "footer.cepat_praktis_lezat": ["Cepat,", "Praktis,", "Lezat"],
@@ -40,7 +42,18 @@
 
     "login.already": "Belum Punya Akun? ",
     "login.lupa": "Lupa Password?",
+    "login.remember": "Ingat Saya",
     "login.toast": "Berhasil Masuk! Selamat datang.",
+
+    "forgot.title": "Lupa Password",
+    "forgot.desc": "Masukkan Email Yang Kamu Gunakan Untuk Membuat Akun",
+    "forgot.send_code": "Kirim Kode",
+
+    "reset.title": "Ganti Password",
+    "reset.reset": "Ganti",
+
+    "change.password": "Password Lama",
+    "change.new_pass": "Password Baru",
 
     "about.lead1": "Tentang Kami",
     "about.desc1": "PreKantin adalah platform pemesanan makanan awal yang dirancang untuk lingkungan kampus. Kami membantu mahasiswa, dosen, dan staf untuk memesan makanan favorit dari kantin kampus dengan lebih cepat, mudah, dan praktis.",

@@ -201,9 +201,14 @@ return [
             'min' => 'Password must be at least :min characters.',
             'regex' => 'Password must contain at least one lowercase letter, one number, and one symbol (!@#$%).',
         ],
-        'confirmation' => [
+        'password_confirmation' => [
             'required' => 'Password confirmation is required.',
             'same' => 'Password confirmation does not match.',
+        ],
+        'new_password' => [
+            'required' => 'New Password is required.',
+            'min' => 'New Password must be at least :min characters.',
+            'regex' => 'New Password must contain at least one lowercase letter, one number, and one symbol (!@#$%).',
         ],
     ],
 

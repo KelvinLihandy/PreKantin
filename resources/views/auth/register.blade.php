@@ -25,8 +25,8 @@
 
                             <p class="small text-dark mb-0">
                                 {{ __('register.already') }}
-                                <a href="{{ route('login.page') }}"
-                                    class="fw-bold text-decoration-none" style="color: #4191E8">{{ __('masuk') }}</a>
+                                <a href="{{ route('login') }}" class="fw-bold text-decoration-none"
+                                    style="color: #4191E8">{{ __('masuk') }}</a>
                             </p>
                         </div>
 
@@ -39,7 +39,6 @@
                                 @csrf
 
                                 <input type="hidden" name="role" id="roleInput" value="mahasiswa">
-
                                 <div class="mb-3">
                                     <input type="text"
                                         class="form-control form-control-lg border-0 text-white custom-input"
@@ -69,38 +68,31 @@
                                             placeholder="{{ __('register.password') }}" name="password" id="password"
                                             style="background-color: rgba(65, 145, 232, 0.75); caret-color: white;"
                                             required>
-                                        <span id="togglePassword"
-                                            class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style="cursor: pointer;">
-                                            <x-eye-closed />
-                                        </span>
                                     </div>
                                     @error('password')
                                         <div class="small text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <span id="iconOpen" class="d-none">
-                                    <x-eye />
-                                </span>
-
-                                <span id="iconClosed" class="d-none">
-                                    <x-eye-closed />
-                                </span>
 
                                 <div class="mb-5">
                                     <input type="text"
                                         class="form-control form-control-lg border-0 text-white custom-input"
-                                        placeholder="{{ __('register.confirm') }}" name="confirmation" id="confirmation"
+                                        placeholder="{{ __('register.confirm') }}" name="password_confirmation"
+                                        id="confirmation"
                                         style="background-color: rgba(65, 145, 232, 0.75); caret-color: white;" required>
-                                    @error('confirmation')
+                                    @error('password_confirmation')
                                         <div class="small text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <button type="submit"
-                                    class="btn btn-lg fw-semibold text-white border-0 w-75 mx-auto d-block px-5"
+                                <button type="submit" id="registerSubmit"
+                                    class="btn btn-lg fw-bold text-white border-0 w-75 mx-auto d-block px-5"
                                     style="background-color: #FB8C30;">
-                                    {{ __('daftar') }}
+                                    <span id="btnText">{{ __('daftar') }}</span>
+                                    <span id="btnSpinner" class="spinner-border spinner-border-sm text-light d-none"
+                                        role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span>
                                 </button>
                             </form>
                         </div>
@@ -120,10 +112,6 @@
             const roleInput = document.getElementById('roleInput');
             const formTitle = document.getElementById('formTitle');
             const nameField = document.getElementById('name');
-            const password = document.getElementById("password");
-            const toggle = document.getElementById("togglePassword");
-            const iconOpen = document.getElementById("iconOpen").innerHTML;
-            const iconClosed = document.getElementById("iconClosed").innerHTML;
 
 
             tabs.forEach(tab => {
@@ -140,11 +128,14 @@
                 });
             });
 
-            toggle.addEventListener("click", () => {
-                const isHidden = password.type === "password";
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                var btn = document.getElementById('registerSubmit');
+                var spinner = document.getElementById('btnSpinner');
+                var btnText = document.getElementById('btnText');
 
-                password.type = isHidden ? "text" : "password";
-                toggle.innerHTML = isHidden ? iconOpen : iconClosed;
+                btn.disabled = true;
+                btnText.classList.add('d-none');
+                spinner.classList.remove('d-none');
             });
         </script>
     </div>

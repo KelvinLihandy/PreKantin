@@ -14,9 +14,10 @@ return [
     */
 
     'reset' => 'Password Anda telah berhasil diubah.',
-    'sent' => 'Kami telah mengirimkan tautan reset password ke email Anda.',
+    'sent' => 'Kami telah mengirimkan link reset password ke email Anda.',
     'throttled' => 'Silakan tunggu sebelum mencoba lagi.',
     'token' => 'Token reset password ini tidak valid.',
     'user' => "Kami tidak dapat menemukan pengguna dengan alamat email tersebut.",
-
+    'differ' => "Password Lama tidak sesuai",
+    'update' => "Password behasil dirubah"
 ];

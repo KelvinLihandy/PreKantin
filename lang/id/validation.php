@@ -138,9 +138,14 @@ return [
             'min' => 'Password minimal 8 karakter.',
             'regex' => 'Password harus ada minimal 1 huruf kecil, 1 angka, dan simbol !@#$%',
         ],
-        'confirmation' => [
+        'password_confirmation' => [
             'required' => 'Password konfirmasi wajib diisi.',
             'same' => 'Password konfirmasi tidak cocok.',
+        ],
+        'new_password' => [
+            'required' => 'Password Baru wajib diisi.',
+            'min' => 'Password Baru minimal 8 karakter.',
+            'regex' => 'Password Baru harus ada minimal 1 huruf kecil, 1 angka, dan simbol !@#$%',
         ],
     ],
 

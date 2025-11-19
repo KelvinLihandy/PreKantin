@@ -3,11 +3,13 @@
     "merchant": "Merchant",
     "masuk": "Log In",
     "daftar": "Sign In",
+    "keluar": "Sign out",
 
     "header.cepat_praktis_lezat": "Quick, Practical, Delicious",
     "navbar.home": "Home",
     "navbar.kantin": "Canteen",
     "navbar.tentang": "About",
+    "navbar.kelola": "Manage Canteen",
     "footer.hubungi": "Contact Us",
     "footer.alamat": "Binus University, Anggrek Campus",
     "footer.cepat_praktis_lezat": ["Quick,", "Practical,", "Delicious"],
@@ -40,7 +42,18 @@
 
     "login.already": "No Account? ",
     "login.lupa" : "Forgot Password?",
+    "login.remember": "Remember Me",
     "login.toast": "Succesfully Logged In! Welcome.",
+
+    "forgot.title": "Forgot Password",
+    "forgot.desc": "Enter The Email Used to Create Your Account",
+    "forgot.send_code": "Send Code",
+
+    "reset.title": "Change Password",
+    "reset.reset": "Change",
+
+    "change.password": "Old Password",
+    "change.new_pass": "New Password",
 
     "about.lead1": "About Us",
     "about.desc1": "PreKantin is an early food ordering platform designed for the campus environment. We help students, lecturers, and staff to order their favorite food from campus canteens faster, easier, and more conveniently.",

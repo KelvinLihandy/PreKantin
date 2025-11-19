@@ -26,12 +26,17 @@
         #roleTab .nav-link:not(.active) {
             color: rgba(0, 0, 0, 0.5) !important;
         }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
     </style>
 </head>
 
 <body class="min-vh-100">
-    {{-- change password ada di dropdown hover ketika navbar auth --}}
-    <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #4191E8">
+    {{-- change password & logoutada di dropdown hover ketika navbar auth --}}
+    <nav class="navbar navbar-expand-lg navbar-dark py-3 sticky-top" style="background-color: #4191E8">
         <div class="container">
             <a class="navbar-brand text-white fw-bold" href="#">
                 <img src="{{ asset('images/HomeLogo.png') }}" alt="PreKantin" height="40" class="me-2">
@@ -43,12 +48,123 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">{{ __('navbar.kantin') }}</a></li>
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ route('login.page') }}">{{ __('masuk') }}</a></li>
+                    @guest
+                        <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                href="#">{{ __('navbar.kantin') }}</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                href="{{ route('login') }}">{{ __('masuk') }}</a></li>
+                    @endguest
+                    @auth
+                        @php
+                            $user = auth()->user();
+                            $fullName = $user->name;
+                            $displayName = strlen($fullName) > 12 ? substr($fullName, 0, 12) . '...' : $fullName;
+
+                            if ($user->role->name === 'Mahasiswa') {
+                                $order_count = \App\Models\Order::where('user_id', $user->id)
+                                    ->whereIn('status_id', [1, 2, 3])
+                                    ->count();
+                            } elseif ($user->role->name === 'Merchant') {
+                                $order_count = \App\Models\Order::whereHas('merchant', function ($q) use ($user) {
+                                    $q->where('user_id', $user->id);
+                                })
+                                    ->whereIn('status_id', [1, 2, 3])
+                                    ->count();
+                            } else {
+                                $order_count = 0;
+                            }
+                        @endphp
+                        <div class="d-none d-lg-flex align-items-center">
+                            @if ($user->role->name === 'Mahasiswa')
+                                <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                        href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
+                                {{-- not implemented --}}
+                                <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                        href="#">{{ __('navbar.kantin') }}</a></li>
+                            @endif
+                            @if ($user->role->name === 'Merchant')
+                                {{-- not implemented --}}
+                                <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                        href="#">{{ __('navbar.kelola') }}</a></li>
+                            @endif
+                            <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                    href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+                            <li class="nav-item d-flex align-items-center mx-4">
+                                <div style="width:2px;height:40px;background:white;"></div>
+                            </li>
+                            {{-- not implemented --}}
+                            <li class="nav-item d-flex align-items-center gap-2">
+                                <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
+                                <a class="nav-link p-0" href="#">
+                                    <x-history />
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown d-flex align-items-end flex-column fw-bold ms-3">
+
+                                <p class="text-warning m-0">{{ auth()->user()->role->name }}</p>
+                                <p class="text-white m-0">{{ $displayName }}</p>
+
+                                <ul class="dropdown-menu dropdown-menu-end text-center">
+                                    <li class="fw-bold px-2 py-1">{{ $fullName }}</li>
+                                    <li>
+                                        <a class="dropdown-item fw-bold" style="color: #4191E8"
+                                            href="{{ route('password.change') }}">{{ __('reset.title') }}</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button class="dropdown-item text-danger fw-bold"
+                                                type="submit">{{ __('keluar') }}</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </div>
+
+                        <div class="d-lg-none">
+                            @if ($user->role->name === 'Mahasiswa')
+                                <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                        href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
+                                        {{-- not implemented --}}
+                                <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                        href="#">{{ __('navbar.kantin') }}</a></li>
+                            @endif
+                            @if ($user->role->name === 'Merchant')
+                                <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                        href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+                            @endif
+                            <div class="d-flex gap-4">
+                                <li class="nav-item fw-bold">
+                                    <span class="text-warning d-block">{{ auth()->user()->role->name }}</span>
+                                    <span class="text-white d-block">{{ $fullName }}</span>
+                                </li>
+                                {{-- not implemented --}}
+                                <li class="nav-item d-flex align-items-center gap-2">
+                                    <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
+                                    <a class="nav-link p-0 text-white fw-bold" href="#">
+                                        <x-history />
+                                    </a>
+                                </li>
+                            </div>
+                            <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                    href="{{ route('password.change') }}">{{ __('reset.title') }}</a></li>
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button class="nav-link text-white fw-bold border-0 bg-transparent p-0" type="submit">
+                                        {{ __('keluar') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </div>
+                    @endauth
                 </ul>
             </div>
+
         </div>
     </nav>
 
