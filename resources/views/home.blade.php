@@ -40,7 +40,7 @@
                 </div>
                 <div class="row g-4">
                     @foreach ($topMenuItems as $topMenuItem)
-                        {{-- nav not implemented --}}
+                        {{-- fav not implemented --}}
                         <x-fav-menu-card image="{{ $topMenuItem->menu_item->image }}"
                             name="{{ $topMenuItem->menu_item->name }}"
                             merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
