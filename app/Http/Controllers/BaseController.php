@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
+use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BaseController extends Controller
 {
@@ -26,10 +28,13 @@ class BaseController extends Controller
             ->take(3)
             ->get();
 
-        return view('home', ['topMenuItems' => $topMenuItems]);
+        return view('home', [
+            'topMenuItems' => $topMenuItems,
+        ]);
     }
 
-    public function aboutPage(){
+    public function aboutPage()
+    {
         return view('about');
     }
 }

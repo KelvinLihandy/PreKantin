@@ -23,9 +23,9 @@
                         </div>
 
                         <div class="col-md-7 bg-white p-5">
-                            <h3 class="text-center mb-4 fw-semibold text-dark">{{ __('masuk') }}</h3>
+                            <h3 class="text-center mb-4 fw-bold text-dark">{{ __('masuk') }}</h3>
 
-                            <form action={{ route('login.do') }} method="POST">
+                            <form action={{ route('login.do') }} method="POST" id="loginForm">
                                 @csrf
                                 <div class="mb-3">
                                     <input type="email"
@@ -45,40 +45,32 @@
                                             placeholder="{{ __('register.password') }}" name="password" id="password"
                                             style="background-color: rgba(65, 145, 232, 0.75); caret-color: white;"
                                             required>
-                                        <span id="togglePassword"
-                                            class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style="cursor: pointer;">
-                                            <x-eye-closed />
-                                        </span>
                                     </div>
                                     @error('password')
                                         <div class="small text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <span id="iconOpen" class="d-none">
-                                    <x-eye />
-                                </span>
-
-                                <span id="iconClosed" class="d-none">
-                                    <x-eye-closed />
-                                </span>
                                 <div class="form-check mb-5">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                         {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label fw-bold" style="color: #4191E8" for="remember">
-                                        Remember Me
+                                        {{ __('login.remember') }}
                                     </label>
                                 </div>
 
-                                <button type="submit"
+                                <button type="submit" id="loginSubmit"
                                     class="btn btn-lg fw-semibold text-white border-0 w-75 mx-auto d-block"
                                     style="background-color: #FB8C30;">
-                                    {{ __('daftar') }}
+                                    <span id="btnText">{{ __('masuk') }}</span>
+                                    <span id="btnSpinner" class="spinner-border spinner-border-sm text-light d-none"
+                                        role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span>
                                 </button>
 
                                 <div class="text-center mt-3">
-                                    {{-- not implemented --}}
-                                    <a href="#" class="btn btn-dark text-white fw-semibold small w-50">
+                                    <a href={{ route('password.request') }}
+                                        class="btn btn-dark text-white fw-bold small w-50">
                                         {{ __('login.lupa') }}
                                     </a>
                                 </div>
@@ -97,6 +89,20 @@
                                     </div>
                                 @endif
                             </div>
+                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                @if (session('status'))
+                                    <div id="loginToast" class="toast align-items-center text-bg-success border-0"
+                                        role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="d-flex">
+                                            <div class="toast-body">
+                                                {{ session('status') }}
+                                            </div>
+                                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,8 +111,6 @@
         <script>
             const password = document.getElementById("password");
             const toggle = document.getElementById("togglePassword");
-            const iconOpen = document.getElementById("iconOpen").innerHTML;
-            const iconClosed = document.getElementById("iconClosed").innerHTML;
             document.addEventListener('DOMContentLoaded', function() {
                 var toastEl = document.getElementById('registerToast');
                 if (toastEl) {
@@ -116,12 +120,14 @@
                     toast.show();
                 }
             });
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                var btn = document.getElementById('loginSubmit');
+                var spinner = document.getElementById('btnSpinner');
+                var btnText = document.getElementById('btnText');
 
-            toggle.addEventListener("click", () => {
-                const isHidden = password.type === "password";
-
-                password.type = isHidden ? "text" : "password";
-                toggle.innerHTML = isHidden ? iconOpen : iconClosed;
+                btn.disabled = true;
+                btnText.classList.add('d-none');
+                spinner.classList.remove('d-none');
             });
         </script>
     </div>

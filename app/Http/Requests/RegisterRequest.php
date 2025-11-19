@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|min:5|max:255|regex:/^[A-Za-z ]+$/',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%]{8,}$/',
-            'confirmation' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
         ];
     }
 }
