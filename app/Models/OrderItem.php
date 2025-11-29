@@ -16,11 +16,18 @@ class OrderItem extends Model
         'quantity'
     ];
 
-    public function order() {
+    public function getSubtotalAttribute()
+    {
+        return $this->quantity * ($this->menu_item->price ?? 0);
+    }
+
+    public function order()
+    {
         return $this->belongsTo(Order::class, 'order_id');
     }
 
-    public function menu_item() {
+    public function menu_item()
+    {
         return $this->belongsTo(MenuItem::class, 'menu_item_id');
     }
 }

@@ -40,11 +40,12 @@
                 </div>
                 <div class="row g-4">
                     @foreach ($topMenuItems as $topMenuItem)
-                        {{-- fav not implemented --}}
-                        <x-fav-menu-card image="{{ $topMenuItem->menu_item->image }}"
-                            name="{{ $topMenuItem->menu_item->name }}"
-                            merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
-                            price="{{ $topMenuItem->menu_item->price }}" />
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <x-fav-menu-card image="{{ $topMenuItem->menu_item->image }}"
+                                name="{{ $topMenuItem->menu_item->name }}"
+                                merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
+                                price="{{ $topMenuItem->menu_item->price }}" />
+                        </div>
                     @endforeach
                 </div>
             </div>

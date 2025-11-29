@@ -6,25 +6,23 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Arrow extends Component
+class Camera extends Component
 {
     public string $color;
     public int $size;
-    public string $direction;
     public string $class;
 
     /**
      * Create a new component instance.
      *
-     * @param string $color Icon color (default: blue)
+     * @param string $color Icon color (default: gray)
      * @param int $size Icon size in px (default: 24)
-     *  @param int $direction Icon direction (default: left)
      * @param string $class Additional CSS classes
      */
-    public function __construct(string $color = '#4191E8', int $size = 24, string $direction = 'left', string $class = '') {
+    public function __construct(string $color = 'rgba(0,0,0,0.38)', int $size = 24, string $class = '')
+    {
         $this->color = $color;
         $this->size = $size;
-        $this->direction = $direction;
         $this->class = $class;
     }
 
@@ -33,6 +31,6 @@ class Arrow extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.arrow');
+        return view('components.camera');
     }
 }

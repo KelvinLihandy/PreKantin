@@ -21,7 +21,7 @@ class MenuItemFactory extends Factory
 
         return [
             'merchant_id' => $this->faker->randomElement($merchant_ids),
-            'image' => $this->faker->imageUrl(400, 300, 'food', true),
+            'image' => 'images/dummyMenu.png',
             'name' => $this->faker->sentence(3, true),
             'price' => $this->faker->numberBetween(10000, 30000),
             'is_available' => $this->faker->boolean(90),

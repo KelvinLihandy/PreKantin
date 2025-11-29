@@ -60,33 +60,20 @@
                     @endguest
                     @auth
                         @php
-                            $user = auth()->user();
-                            $fullName = $user->name;
-                            $displayName = strlen($fullName) > 12 ? substr($fullName, 0, 12) . '...' : $fullName;
-
-                            if ($user->role->name === 'Mahasiswa') {
-                                $order_count = \App\Models\Order::where('user_id', $user->id)
-                                    ->whereIn('status_id', [1, 2, 3])
-                                    ->count();
-                            } elseif ($user->role->name === 'Merchant') {
-                                $order_count = \App\Models\Order::whereHas('merchant', function ($q) use ($user) {
-                                    $q->where('user_id', $user->id);
-                                })
-                                    ->whereIn('status_id', [1, 2, 3])
-                                    ->count();
-                            } else {
-                                $order_count = 0;
-                            }
+                            $order_count = $navbarData['order_count'];
+                            $fullName = $navbarData['fullName'];
+                            $displayName = $navbarData['displayName'];
+                            $role = $navbarData['role'];
                         @endphp
                         <div class="d-none d-lg-flex align-items-center">
-                            @if ($user->role->name === 'Mahasiswa')
+                            @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
                                 {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="#">{{ __('navbar.kantin') }}</a></li>
                             @endif
-                            @if ($user->role->name === 'Merchant')
+                            @if ($role === 'Merchant')
                                 {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="#">{{ __('navbar.kelola') }}</a></li>
@@ -105,7 +92,7 @@
                             </li>
                             <li class="nav-item dropdown d-flex align-items-end flex-column fw-bold ms-3">
 
-                                <p class="text-warning m-0">{{ auth()->user()->role->name }}</p>
+                                <p class="text-warning m-0">{{ $role }}</p>
                                 <p class="text-white m-0">{{ $displayName }}</p>
 
                                 <ul class="dropdown-menu dropdown-menu-end text-center">
@@ -126,20 +113,20 @@
                         </div>
 
                         <div class="d-lg-none">
-                            @if ($user->role->name === 'Mahasiswa')
+                            @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
-                                        {{-- not implemented --}}
+                                {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="#">{{ __('navbar.kantin') }}</a></li>
                             @endif
-                            @if ($user->role->name === 'Merchant')
+                            @if ($role === 'Merchant')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
                             @endif
                             <div class="d-flex gap-4">
                                 <li class="nav-item fw-bold">
-                                    <span class="text-warning d-block">{{ auth()->user()->role->name }}</span>
+                                    <span class="text-warning d-block">{{ $role }}</span>
                                     <span class="text-white d-block">{{ $fullName }}</span>
                                 </li>
                                 {{-- not implemented --}}

@@ -50,4 +50,13 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function merchant()
+    {
+        return $this->hasOne(Merchant::class, 'user_id', 'user_id');
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class, "order_id");
+    }
 }
