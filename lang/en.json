@@ -4,6 +4,10 @@
     "masuk": "Log In",
     "daftar": "Sign In",
     "keluar": "Sign out",
+    "buka": "OPEN",
+    "tutup": "CLOSED",
+    "simpan": "SAVE",
+    "pesan": "ORDER",
 
     "header.cepat_praktis_lezat": "Quick, Practical, Delicious",
     "navbar.home": "Home",
@@ -41,7 +45,7 @@
     "register.toast": "Registration Successful! Please Log In.",
 
     "login.already": "No Account? ",
-    "login.lupa" : "Forgot Password?",
+    "login.lupa": "Forgot Password?",
     "login.remember": "Remember Me",
     "login.toast": "Succesfully Logged In! Welcome.",
 
@@ -60,6 +64,12 @@
     "about.lead2": "Our Vision",
     "about.desc2": "To create a smarter, faster, and more connected campus canteen experience through technology that bridges the needs of students and food vendors. PreKantin aims to establish an efficient, comfortable culinary ecosystem on campus that supports the digital development of all parties.",
     "about.lead3": "Our Mission",
-    "about.desc3": "PreKantin's mission is to simplify dining activities on campus through a fast, efficient, and user-friendly digital platform. We strive to reduce long queues at the canteen by providing a practical and organized food ordering system. Additionally, PreKantin is committed to empowering canteen vendors with technology that helps them manage orders more easily and modernly. Through this initiative, we aim to create a comfortable dining experience for students while supporting the sustainable operation of campus canteens towards a smarter and more efficient digital era."
+    "about.desc3": "PreKantin's mission is to simplify dining activities on campus through a fast, efficient, and user-friendly digital platform. We strive to reduce long queues at the canteen by providing a practical and organized food ordering system. Additionally, PreKantin is committed to empowering canteen vendors with technology that helps them manage orders more easily and modernly. Through this initiative, we aim to create a comfortable dining experience for students while supporting the sustainable operation of campus canteens towards a smarter and more efficient digital era.",
 
+    "total.pesanan": "Total Orders",
+    "total.transaksi": "Total Transactions",
+    "total.pembeli": "Total Customers",
+    "pesanan": "Your Orders",
+    "menu.belum": "No menu available",
+    "menu.belum.desc": "Merchant has not added any menu."
 }

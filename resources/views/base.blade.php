@@ -38,7 +38,7 @@
     {{-- change password & logoutada di dropdown hover ketika navbar auth --}}
     <nav class="navbar navbar-expand-lg navbar-dark py-3 sticky-top" style="background-color: #4191E8">
         <div class="container">
-            <a class="navbar-brand text-white fw-bold" href="#">
+            <a class="navbar-brand text-white fw-bold" href="{{ route('home.page') }}">
                 <img src="{{ asset('images/HomeLogo.png') }}" alt="PreKantin" height="40" class="me-2">
                 PreKantin
             </a>
