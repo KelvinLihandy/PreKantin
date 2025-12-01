@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\KantinController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderHistoryController;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
 
@@ -24,4 +25,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/change-password', [AuthController::class, 'changePage'])->name('password.change');
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.changed');
     Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
+
+    Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
+    Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
 });

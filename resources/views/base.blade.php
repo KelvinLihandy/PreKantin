@@ -86,7 +86,7 @@
                             {{-- not implemented --}}
                             <li class="nav-item d-flex align-items-center gap-2">
                                 <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                <a class="nav-link p-0" href="#">
+                                <a class="nav-link p-0" href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
                                     <x-history />
                                 </a>
                             </li>
@@ -132,7 +132,7 @@
                                 {{-- not implemented --}}
                                 <li class="nav-item d-flex align-items-center gap-2">
                                     <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                    <a class="nav-link p-0 text-white fw-bold" href="#">
+                                    <a class="nav-link p-0 text-white fw-bold" href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
                                         <x-history />
                                     </a>
                                 </li>

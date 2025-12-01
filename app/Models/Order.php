@@ -17,6 +17,13 @@ class Order extends Model
         'order_time'
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'order_time' => 'datetime',
+        ];
+    }
+
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -30,6 +37,13 @@ class Order extends Model
     }
 
     public function orderItems(){
-        return $this->hasMany(OrderItem::class, 'order_item_id');
+        return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        return $this->orderItems->sum(function($item) {
+            return $item->quantity * $item->menu_item->price;
+        });
     }
 }
