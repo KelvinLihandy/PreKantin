@@ -20,4 +20,12 @@ class Merchant extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function menuItems() {
+        return $this->hasMany(MenuItem::class, 'merchant_id');
+    }
+
+    public function orders() {
+        return $this->hasMany(Order::class, 'merchant_id');
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\KantinController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
@@ -22,4 +23,5 @@ Route::middleware('auth')->group(function(){
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/change-password', [AuthController::class, 'changePage'])->name('password.change');
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.changed');
+    Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
 });

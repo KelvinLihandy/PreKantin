@@ -21,7 +21,7 @@ class MerchantFactory extends Factory
 
         return [
             'user_id' => $this->faker->unique()->randomElement($merchant_users),
-            'image' => $this->faker->imageUrl(),
+            'image' => 'images/dummyKantin.png',
             'open' => $this->faker->time('H:i'),
             'close' => $this->faker->time('H:i'),
         ];

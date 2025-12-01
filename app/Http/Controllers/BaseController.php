@@ -10,6 +10,44 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseController extends Controller
 {
+    public static function getNavbarData()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return [
+                'order_count' => 0,
+                'fullName' => null,
+                'displayName' => null,
+                'role' => null,
+            ];
+        }
+
+        $fullName = $user->name;
+        $displayName = strlen($fullName) > 12 ? substr($fullName, 0, 12) . '...' : $fullName;
+
+        if ($user->role->name === 'Mahasiswa') {
+            $order_count = Order::where('user_id', $user->id)
+                ->whereIn('status_id', [1, 2, 3])
+                ->count();
+        } elseif ($user->role->name === 'Merchant') {
+            $order_count = Order::whereHas('merchant', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+                ->whereIn('status_id', [1, 2, 3])
+                ->count();
+        } else {
+            $order_count = 0;
+        }
+
+        return [
+            'order_count' => $order_count,
+            'fullName' => $fullName,
+            'displayName' => $displayName,
+            'role' => $user->role->name,
+        ];
+    }
+
     public function homePage()
     {
         $topMenuItems = OrderItem::select('menu_item_id')
