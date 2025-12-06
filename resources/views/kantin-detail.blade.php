@@ -51,20 +51,20 @@
                         <h3 class="fw-bold">{{ __('total.pesanan') }}</h3>
                         <p class="fs-4 fw-bold" style="color: #4191E8">{{ $orderCount ?? 0 }}</p>
                         <hr>
-                        <h3 class="fw-bold">>{{ __('total.transaksi') }}</h3>
+                        <h3 class="fw-bold">{{ __('total.transaksi') }}</h3>
                         <p class="fs-4 fw-bold" style="color: #4191E8">Rp.{{ number_format($total, 2, ',', '.') }}</p>
                         <hr>
-                        <h3 class="fw-bold">>{{ __('total.pembeli') }}</h3>
+                        <h3 class="fw-bold">{{ __('total.pembeli') }}</h3>
                         <p class="fs-4 fw-bold" style="color: #4191E8">{{ $customerCount ?? 0 }}</p>
 
-                        <button class="btn w-100 mt-2 fw-bold text-white" style="background-color: #4191E8">>{{ __('simpan') }}</button>
+                        <button class="btn w-100 mt-2 fw-bold text-white" style="background-color: #4191E8">{{ __('simpan') }}</button>
                     @else
-                        <h1 class="fw-bold text-center mb-1">>{{ __('pesanan') }}</h1>
+                        <h1 class="fw-bold text-center mb-1">{{ __('pesanan') }}</h1>
                         <hr>
                         <div id="orderScroll" class="flex-grow-1 overflow-auto pe-1">
                             {{-- list order di sini --}}
                         </div>
-                        <button class="btn w-100 text-white fw-bold mt-2" style="background-color: #FB8C30">>{{ __('pesan') }}</button>
+                        <button class="btn w-100 text-white fw-bold mt-2" style="background-color: #FB8C30">{{ __('pesan') }}</button>
                     @endif
                 </div>
             </div>
@@ -88,12 +88,12 @@
                         </div>
                     @endif
                     @if ($menus->isEmpty())
-                        @unless (!$isMerchant)
+                        @unless ($isMerchant)
                             <div class="col-12">
                                 <div class="card border-0 shadow-sm rounded-4 p-5 text-center d-flex align-items-center justify-content-center"
                                     style="background-color: #f8f9fa;">
-                                    <h4 class="fw-bold text-muted mb-1">>{{ __('menu.belum') }}</h4>
-                                    <p class="text-secondary">>{{ __('menu.belum.desc') }}</p>
+                                    <h4 class="fw-bold text-muted mb-1">{{ __('menu.belum') }}</h4>
+                                    <p class="text-secondary">{{ __('menu.belum.desc') }}</p>
                                 </div>
                             </div>
                         @endunless
