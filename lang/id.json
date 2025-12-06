@@ -71,5 +71,19 @@
     "total.pembeli": "Total Pembeli",
     "pesanan": "Pesanan Anda",
     "menu.belum": "Belum ada menu tersedia",
-    "menu.belum.desc": "Merchant belum menambahkan menu apapun."
+    "menu.belum.desc": "Merchant belum menambahkan menu apapun.",
+    
+    "orderHistory.title": "Pesanan Anda",
+    "orderHistory.empty": "Belum ada riwayat pesanan.",
+    "orderHistory.order_now": "Pesan Sekarang",
+    "orderHistory.total_price": "Total Harga",
+    "orderHistory.merchant": "Merchant",
+    "orderHistory.time": "Waktu",
+    "orderHistory.view_button": "Lihat Pesanan",
+    "orderHistory.detail_title": "Detail Pesanan",
+    "orderHistory.order_id": "ID Pesanan",
+    "orderHistory.items": "Item Pesanan",
+    "orderHistory.total_payment": "Total Pembayaran",
+    "orderHistory.thanks": "Terima kasih sudah memesan di PreKantin!",
+    "orderHistory.back": "Kembali"
 }

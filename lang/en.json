@@ -71,5 +71,19 @@
     "total.pembeli": "Total Customers",
     "pesanan": "Your Orders",
     "menu.belum": "No menu available",
-    "menu.belum.desc": "Merchant has not added any menu."
+    "menu.belum.desc": "Merchant has not added any menu.",
+
+    "orderHistory.title": "Your Orders",
+    "orderHistory.empty": "No order history found.",
+    "orderHistory.order_now": "Order Now",
+    "orderHistory.total_price": "Total Price",
+    "orderHistory.merchant": "Merchant",
+    "orderHistory.time": "Time",
+    "orderHistory.view_button": "View Order",
+    "orderHistory.detail_title": "Order Details",
+    "orderHistory.order_id": "Order ID",
+    "orderHistory.items": "Order Items",
+    "orderHistory.total_payment": "Total Payment",
+    "orderHistory.thanks": "Thank you for ordering at PreKantin!",
+    "orderHistory.back": "Back"
 }
