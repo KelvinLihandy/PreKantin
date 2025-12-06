@@ -16,6 +16,7 @@ class BaseController extends Controller
 
         if (!$user) {
             return [
+                'id' => null,
                 'order_count' => 0,
                 'fullName' => null,
                 'displayName' => null,
@@ -25,22 +26,26 @@ class BaseController extends Controller
 
         $fullName = $user->name;
         $displayName = strlen($fullName) > 12 ? substr($fullName, 0, 12) . '...' : $fullName;
+        $id = null;
 
         if ($user->role->name === 'Mahasiswa') {
             $order_count = Order::where('user_id', $user->id)
                 ->whereIn('status_id', [1, 2, 3])
                 ->count();
+            $id = $user->user_id;
         } elseif ($user->role->name === 'Merchant') {
             $order_count = Order::whereHas('merchant', function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             })
                 ->whereIn('status_id', [1, 2, 3])
                 ->count();
+            $id = $user->merchant->merchant_id;
         } else {
             $order_count = 0;
         }
-
+        
         return [
+            'id' => $id,
             'order_count' => $order_count,
             'fullName' => $fullName,
             'displayName' => $displayName,

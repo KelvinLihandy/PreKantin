@@ -74,16 +74,15 @@
                                         href="#">{{ __('navbar.kantin') }}</a></li>
                             @endif
                             @if ($role === 'Merchant')
-                                {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="#">{{ __('navbar.kelola') }}</a></li>
+                                        href="{{ route('kantin.page', ['id' => $navbarData['id']]) }}">{{ __('navbar.kelola') }}</a></li>
                             @endif
                             <li class="nav-item"><a class="nav-link text-white fw-bold"
                                     href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
                             <li class="nav-item d-flex align-items-center mx-4">
                                 <div style="width:2px;height:40px;background:white;"></div>
                             </li>
-                            {{-- not implemented --}}
+                            {{-- not implemented for merchant--}}
                             <li class="nav-item d-flex align-items-center gap-2">
                                 <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
                                 <a class="nav-link p-0" href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">

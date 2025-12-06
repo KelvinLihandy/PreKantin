@@ -1,5 +1,8 @@
 @extends('auth.base')
 @section('content')
+    @php
+        $activeTab = old('role', request('tab', 'mahasiswa'));
+    @endphp
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-md-11 col-sm-12">
@@ -16,8 +19,8 @@
                             class="col-md-5 bg-white d-flex flex-column align-items-center justify-content-center p-4 text-center">
 
                             <x-login-tabs :items="[
-                                ['id' => 'student', 'label' => __('mahasiswa'), 'active' => true],
-                                ['id' => 'merchant', 'label' => __('merchant'), 'active' => false],
+                                ['id' => 'student', 'label' => __('mahasiswa'), 'active' => $activeTab === 'mahasiswa'],
+                                ['id' => 'merchant', 'label' => __('merchant'), 'active' => $activeTab === 'merchant'],
                             ]" />
 
                             <img src="{{ asset('images/PreKantinLogo.png') }}" alt="PreKantin Logo"
@@ -37,8 +40,7 @@
 
                             <form action="{{ route('register.do') }}" method="POST" id="registerForm">
                                 @csrf
-
-                                <input type="hidden" name="role" id="roleInput" value="mahasiswa">
+                                <input type="hidden" name="role" id="roleInput" value="{{ $activeTab }}">
                                 <div class="mb-3">
                                     <input type="text"
                                         class="form-control form-control-lg border-0 text-white custom-input"
@@ -102,6 +104,16 @@
         </div>
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const activeTab = "{{ $activeTab }}";
+
+                if (activeTab === "merchant") {
+                    document.getElementById("merchant-tab").click();
+                } else {
+                    document.getElementById("student-tab").click();
+                }
+            });
+            
             const labels = {
                 mahasiswa: "{{ __('register.mahasiswa') }}",
                 mahasiswaNama: "{{ __('register.mahasiswa.nama') }}",
