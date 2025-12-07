@@ -42,10 +42,11 @@
                 <img src="{{ asset('images/HomeLogo.png') }}" alt="PreKantin" height="40" class="me-2">
                 PreKantin
             </a>
-            <button class="navbar-toggler navbar-white" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+            <button class="navbar-toggler navbar-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
+
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     @guest
@@ -65,7 +66,7 @@
                             $displayName = $navbarData['displayName'];
                             $role = $navbarData['role'];
                         @endphp
-                        <div class="d-none d-lg-flex align-items-center">
+                        <li class="d-none d-lg-flex align-items-center">
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
@@ -111,9 +112,9 @@
                                     </li>
                                 </ul>
                             </li>
-                        </div>
+                        </li>
 
-                        <div class="d-lg-none">
+                        <li class="d-lg-none">
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
@@ -144,12 +145,13 @@
                             <li class="nav-item">
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                    <button class="nav-link text-white fw-bold border-0 bg-transparent p-0" type="submit">
+                                    <button class="nav-link text-white fw-bold border-0 bg-transparent p-0"
+                                        type="submit">
                                         {{ __('keluar') }}
                                     </button>
                                 </form>
                             </li>
-                        </div>
+                        </li>
                     @endauth
                 </ul>
             </div>
@@ -201,9 +203,7 @@
             </div>
         </div>
     </footer>
-
-
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -125,9 +125,10 @@
             const formTitle = document.getElementById('formTitle');
             const nameField = document.getElementById('name');
 
-
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
                     if (this.id === 'merchant-tab') {
                         roleInput.value = 'merchant';
                         formTitle.textContent = labels.merchant;
