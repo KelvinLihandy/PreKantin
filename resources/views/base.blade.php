@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PreKantin | {{ __('header.cepat_praktis_lezat') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -75,17 +75,19 @@
                             @endif
                             @if ($role === 'Merchant')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="{{ route('kantin.page', ['id' => $navbarData['id']]) }}">{{ __('navbar.kelola') }}</a></li>
+                                        href="{{ route('kantin.page', ['id' => $navbarData['id']]) }}">{{ __('navbar.kelola') }}</a>
+                                </li>
                             @endif
                             <li class="nav-item"><a class="nav-link text-white fw-bold"
                                     href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
                             <li class="nav-item d-flex align-items-center mx-4">
                                 <div style="width:2px;height:40px;background:white;"></div>
                             </li>
-                            {{-- not implemented for merchant--}}
+                            {{-- not implemented for merchant --}}
                             <li class="nav-item d-flex align-items-center gap-2">
                                 <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                <a class="nav-link p-0" href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
+                                <a class="nav-link p-0"
+                                    href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
                                     <x-history />
                                 </a>
                             </li>
@@ -131,7 +133,8 @@
                                 {{-- not implemented --}}
                                 <li class="nav-item d-flex align-items-center gap-2">
                                     <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                    <a class="nav-link p-0 text-white fw-bold" href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
+                                    <a class="nav-link p-0 text-white fw-bold"
+                                        href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
                                         <x-history />
                                     </a>
                                 </li>
