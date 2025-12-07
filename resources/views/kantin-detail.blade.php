@@ -115,10 +115,8 @@
         </div>
     </div>
 
-</div> {{-- END CONTAINER --}}
-{{-- ========================= --}}
+</div>
 {{-- MODAL TAMBAH PRODUK --}}
-{{-- ========================= --}}
 <div class="modal fade" id="confirmAddModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content rounded-4 shadow">
@@ -142,9 +140,8 @@
 </div>
 
 
-{{-- ========================= --}}
+
 {{-- MODAL KONFIRMASI CHECKOUT --}}
-{{-- ========================= --}}
 <div class="modal fade" id="confirmCheckoutModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content rounded-4 shadow">
@@ -173,9 +170,7 @@
 </div>
 
 
-{{-- ========================= --}}
 {{-- MODAL QR PEMBAYARAN --}}
-{{-- ========================= --}}
 <div class="modal fade" id="qrPaymentModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content rounded-4 shadow">
@@ -204,9 +199,8 @@
 let cart = [];
 let selectedProduct = null;
 
-// =====================================================
+
 // KLIK PRODUK ⇒ TAMPILKAN MODAL KONFIRMASI
-// =====================================================
 function selectProduct(name, price, image) {
     selectedProduct = { name, price, image };
 
@@ -221,9 +215,8 @@ function selectProduct(name, price, image) {
     new bootstrap.Modal(document.getElementById('confirmAddModal')).show();
 }
 
-// =====================================================
+
 // KONFIRMASI TAMBAH PRODUK KE CART
-// =====================================================
 document.getElementById("confirmAddBtn").addEventListener("click", () => {
     cart.push(selectedProduct);
 
@@ -234,9 +227,8 @@ document.getElementById("confirmAddBtn").addEventListener("click", () => {
     renderCart();
 });
 
-// =====================================================
+
 // RENDER CART DI YOUR ORDER
-// =====================================================
 function renderCart() {
     let html = "";
 
@@ -255,9 +247,8 @@ function renderCart() {
     document.getElementById("cartList").innerHTML = html;
 }
 
-// =====================================================
+
 // BUKA CHECKOUT
-// =====================================================
 function openCheckout() {
     if (cart.length === 0) {
         alert("Belum ada pesanan!");
@@ -287,9 +278,8 @@ function openCheckout() {
     new bootstrap.Modal(document.getElementById('confirmCheckoutModal')).show();
 }
 
-// =====================================================
+
 // GENERATE QR PEMBAYARAN (BELUM PAKAI MIDTRANS)
-// =====================================================
 document.getElementById("confirmPaymentBtn").addEventListener("click", async () => {
 
     let total = cart.reduce((sum, item) => sum + item.price, 0);
