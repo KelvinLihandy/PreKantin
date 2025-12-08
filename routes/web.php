@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\KantinController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\PaymentController;
@@ -29,14 +30,8 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
+    Route::post('/order/add', [OrderController::class, 'addOrder'])->name('order.add');
+    Route::post('/order/create', [OrderController::class, 'store']);
+    Route::post('/order/create', [OrderController::class, 'store'])->name('order.create');
+    Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
 });
-Route::post('/order/add', [App\Http\Controllers\OrderController::class, 'addOrder'])
-    ->name('order.add');
-Route::post('/order/create', [OrderController::class, 'store']);
-Route::post('/order/create', [OrderController::class, 'store'])->name('order.create');
-Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
-
-
-
-
-

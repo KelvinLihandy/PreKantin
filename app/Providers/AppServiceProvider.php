@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Midtrans\Config; // ← Tambahkan ini
 
@@ -22,7 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Navbar Composer
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         View::composer('*', function ($view) {
             $view->with('navbarData', BaseController::getNavbarData());
         });
