@@ -5,10 +5,11 @@ use App\Http\Controllers\BaseController;
 use App\Http\Controllers\KantinController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
+use App\Http\Controllers\MerchantMenuController;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
 
-Route::middleware('guest')->group(function(){
+Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'registerPage'])->name('register.page');
     Route::post('/register', [AuthController::class, 'registerAccount'])->name('register.do');
     Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
@@ -20,7 +21,7 @@ Route::middleware('guest')->group(function(){
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/change-password', [AuthController::class, 'changePage'])->name('password.change');
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.changed');
@@ -28,4 +29,12 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
+
+    Route::get('/merchant/order-history', [OrderHistoryController::class, 'merchantIndex'])->name('merchant.order.history');
+    Route::post('/merchant/order/{id}/status', [OrderHistoryController::class, 'updateStatus'])->name('merchant.order.update');
+
+    Route::get('/merchant/order/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
+
+    Route::get('/merchant/menu', [MerchantMenuController::class, 'index'])->name('merchant.menu.index');
+    Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
 });
