@@ -3,9 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\KantinController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\MerchantMenuController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
 
@@ -37,4 +39,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/merchant/menu', [MerchantMenuController::class, 'index'])->name('merchant.menu.index');
     Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
+
+    Route::post('/order/add', [OrderController::class, 'addOrder'])->name('order.add');
+    Route::post('/order/create', [OrderController::class, 'store']);
+    Route::post('/order/create', [OrderController::class, 'store'])->name('order.create');
+    Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
 });

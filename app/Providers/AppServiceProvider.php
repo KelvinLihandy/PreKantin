@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Midtrans\Config; // ← Tambahkan ini
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,8 +23,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         View::composer('*', function ($view) {
             $view->with('navbarData', BaseController::getNavbarData());
         });
+
+        Config::$serverKey    = config('midtrans.serverKey');
+        Config::$clientKey    = config('midtrans.clientKey');
+        Config::$isProduction = config('midtrans.isProduction');
+
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
     }
 }

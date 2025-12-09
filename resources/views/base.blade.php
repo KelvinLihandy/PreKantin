@@ -35,20 +35,21 @@
 </head>
 
 <body class="min-vh-100">
-    {{-- change password & logoutada di dropdown hover ketika navbar auth --}}
     <nav class="navbar navbar-expand-lg navbar-dark py-3 sticky-top" style="background-color: #4191E8">
         <div class="container">
             <a class="navbar-brand text-white fw-bold" href="{{ route('home.page') }}">
                 <img src="{{ asset('images/HomeLogo.png') }}" alt="PreKantin" height="40" class="me-2">
                 PreKantin
             </a>
-            <button class="navbar-toggler navbar-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-lg-center">
+
                     @guest
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
@@ -59,6 +60,7 @@
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('login') }}">{{ __('masuk') }}</a></li>
                     @endguest
+
                     @auth
                         @php
                             $order_count = $navbarData['order_count'];
@@ -66,7 +68,8 @@
                             $displayName = $navbarData['displayName'];
                             $role = $navbarData['role'];
                         @endphp
-                        <li class="d-none d-lg-flex align-items-center">
+
+                        <div class="d-none d-lg-flex align-items-center">
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
@@ -74,35 +77,30 @@
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="#">{{ __('navbar.kantin') }}</a></li>
                             @endif
+
                             @if ($role === 'Merchant')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('kantin.page', ['id' => $navbarData['id']]) }}">{{ __('navbar.kelola') }}</a>
                                 </li>
                             @endif
+
                             <li class="nav-item"><a class="nav-link text-white fw-bold"
                                     href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
-                            <li class="nav-item d-flex align-items-center mx-4">
-                                <div style="width:2px;height:40px;background:white;"></div>
-                            </li>
-                            {{-- not implemented for merchant --}}
+                            <div class="mx-4" style="width:2px;height:40px;background:white;"></div>
                             <li class="nav-item d-flex align-items-center gap-2">
                                 <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                <a class="nav-link p-0"
-                                    href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
+                                <a class="nav-link p-0" href="{{ $role === 'Mahasiswa' ? route('order.history') : '#' }}">
                                     <x-history />
                                 </a>
                             </li>
-                            <li class="nav-item dropdown d-flex align-items-end flex-column fw-bold ms-3">
-
+                            <li class="nav-item dropdown d-flex flex-column align-items-end fw-bold ms-3">
                                 <p class="text-warning m-0">{{ $role }}</p>
                                 <p class="text-white m-0">{{ $displayName }}</p>
 
                                 <ul class="dropdown-menu dropdown-menu-end text-center">
                                     <li class="fw-bold px-2 py-1">{{ $fullName }}</li>
-                                    <li>
-                                        <a class="dropdown-item fw-bold" style="color: #4191E8"
-                                            href="{{ route('password.change') }}">{{ __('reset.title') }}</a>
-                                    </li>
+                                    <li><a class="dropdown-item fw-bold" style="color: #4191E8"
+                                            href="{{ route('password.change') }}">{{ __('reset.title') }}</a></li>
                                     <li>
                                         <form action="{{ route('logout') }}" method="POST">
                                             @csrf
@@ -112,9 +110,8 @@
                                     </li>
                                 </ul>
                             </li>
-                        </li>
-
-                        <li class="d-lg-none">
+                        </div>
+                        <div class="d-lg-none">
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
@@ -122,20 +119,26 @@
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="#">{{ __('navbar.kantin') }}</a></li>
                             @endif
+
                             @if ($role === 'Merchant')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+                                        href="{{ route('kantin.page', ['id' => $navbarData['id']]) }}">{{ __('navbar.kelola') }}</a>
+                                </li>
                             @endif
-                            <div class="d-flex gap-4">
+
+                            <li class="nav-item"><a class="nav-link text-white fw-bold"
+                                    href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+
+                            <div class="d-flex gap-4 my-2">
                                 <li class="nav-item fw-bold">
                                     <span class="text-warning d-block">{{ $role }}</span>
                                     <span class="text-white d-block">{{ $fullName }}</span>
                                 </li>
-                                {{-- not implemented --}}
+                                {{-- not implemented for merchant --}}
                                 <li class="nav-item d-flex align-items-center gap-2">
                                     <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
                                     <a class="nav-link p-0 text-white fw-bold"
-                                        href="{{ $navbarData['role'] === 'Mahasiswa' ? route('order.history') : '#' }}">
+                                        href="{{ $role === 'Mahasiswa' ? route('order.history') : '#' }}">
                                         <x-history />
                                     </a>
                                 </li>
@@ -146,16 +149,14 @@
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button class="nav-link text-white fw-bold border-0 bg-transparent p-0"
-                                        type="submit">
-                                        {{ __('keluar') }}
-                                    </button>
+                                        type="submit">{{ __('keluar') }}</button>
                                 </form>
                             </li>
-                        </li>
+                        </div>
                     @endauth
+
                 </ul>
             </div>
-
         </div>
     </nav>
 
