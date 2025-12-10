@@ -5,14 +5,14 @@
         <div class="container">
 
             <div class="bg-white p-4 rounded-4 shadow-sm mb-4">
-                <h2 class="fw-bold m-0">Order History Merchant</h2>
+                <h2 class="fw-bold m-0">{{ __('merchant.history.title') }}</h2>
             </div>
 
-            <h3 class="fw-bold text-primary mb-3 mt-5 px-2">Your Orders</h3>
+            <h3 class="fw-bold text-primary mb-3 mt-5 px-2">{{ __('orderHistory.title') }}</h3>
 
             @if($activeOrders->isEmpty())
                 <div class="card rounded-4 border-0 p-4 text-center shadow-sm bg-white">
-                    <p class="m-0 text-muted">Belum ada pesanan masuk saat ini.</p>
+                    <p class="m-0 text-muted">{{ __('merchant.history.empty') }}</p>
                 </div>
             @else
                 @foreach ($activeOrders as $order)
@@ -24,29 +24,29 @@
                                 <div class="col-md-8 d-flex flex-column justify-content-between">
                                     <div>
                                         <h5 class="fw-bold mb-3" style="color: #4191E8">#{{ $order->order_id }}</h5>
-                                        <p class="mb-1 fw-bold">Total Harga : Rp.
+                                        <p class="mb-1 fw-bold">{{ __('total.harga') }} : Rp.
                                             {{ number_format($order->total_price, 0, ',', '.') }}
                                         </p>
-                                        <p class="mb-1 text-muted">Buyer : {{ $order->user->name }}</p>
-                                        <p class="mb-1 text-muted">Time : {{ $order->order_time->format('d F H:i') }}</p>
+                                        <p class="mb-1 text-muted">{{ __('pembeli') }} : {{ $order->user->name }}</p>
+                                        <p class="mb-1 text-muted">{{ __('waktu') }} : {{ $order->order_time->format('d F H:i') }}</p>
                                     </div>
 
                                     <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
                                         <a href="{{ route('order.detail', $order->order_id) }}" class="btn text-white fw-bold px-4"
                                             style="background-color: #4191E8;">
-                                            Lihat Detail
+                                            {{ __('lihat.detail') }}
                                         </a>
 
                                         @if($order->status_id == 1)
                                             <form action="{{ route('merchant.order.update', $order->order_id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status_id" value="2">
-                                                <button class="btn btn-outline-primary fw-bold px-3">Terima</button>
+                                                <button class="btn btn-outline-primary fw-bold px-3">{{ __('terima') }}</button>
                                             </form>
                                             <form action="{{ route('merchant.order.update', $order->order_id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status_id" value="5">
-                                                <button class="btn btn-danger fw-bold px-3">Tolak</button>
+                                                <button class="btn btn-danger fw-bold px-3">{{ __('tolak') }}</button>
                                             </form>
                                         @endif
 
@@ -54,12 +54,12 @@
                                             <form action="{{ route('merchant.order.update', $order->order_id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status_id" value="3">
-                                                <button class="btn btn-warning text-dark fw-bold px-3">Siapkan</button>
+                                                <button class="btn btn-warning text-dark fw-bold px-3">{{ __('siapkan') }}</button>
                                             </form>
                                             <form action="{{ route('merchant.order.update', $order->order_id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status_id" value="4">
-                                                <button class="btn btn-success fw-bold px-3">Selesai</button>
+                                                <button class="btn btn-success fw-bold px-3">{{ __('selesai.caps') }}</button>
                                             </form>
                                         @endif
 
@@ -67,7 +67,7 @@
                                             <form action="{{ route('merchant.order.update', $order->order_id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status_id" value="4">
-                                                <button class="btn btn-success fw-bold px-3">Pesanan Selesai</button>
+                                                <button class="btn btn-success fw-bold px-3">{{ __('selesai.pesanan') }}</button>
                                             </form>
                                         @endif
                                     </div>
@@ -116,7 +116,7 @@
 
             <hr class="my-5 border-3 text-primary opacity-25">
 
-            <h3 class="fw-bold text-primary mb-3 px-2">Riwayat Transaksi</h3>
+            <h3 class="fw-bold text-primary mb-3 px-2">{{ __('riwayat.transaksi') }}</h3>
 
             @foreach ($groupedHistory as $year => $months)
                 <div class="mb-2">

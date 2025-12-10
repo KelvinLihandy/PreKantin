@@ -8,6 +8,17 @@
     "tutup": "TUTUP",
     "simpan": "SIMPAN",
     "pesan": "PESAN",
+    "kembali": "Kembali",
+    "selesai": "Selesai",
+    "total.harga": "Total Harga",
+    "pembeli": "Pembeli",
+    "waktu": "Waktu",
+
+    "terima": "TERIMA",
+    "tolak": "TOLAK",
+    "siapkan": "SIAPKAN",
+    "selesai.caps": "SELESAI",
+    "selesai.pesanan": "PESANAN SELESAI",
 
     "header.cepat_praktis_lezat": "Cepat Praktis Lezat",
     "navbar.home": "Home",
@@ -72,6 +83,13 @@
     "pesanan": "Pesanan Anda",
     "menu.belum": "Belum ada menu tersedia",
     "menu.belum.desc": "Merchant belum menambahkan menu apapun.",
+    "kantin.tambah.title": "Tambahkan ke pesanan?",
+    "kantin.tambah.true": "Tambahkan",
+    "kantin.tambah.false": "Batal",
+    "kantin.pesan.konfirmasi": "Konfirmasi Pesanan",
+    "kantin.pesan.total": "Total",
+    "kantin.pesan.lanjut": "Lanjut ke Pembayaran",
+    "kantin.pesan.scan": "Scan QR untuk Membayar",
     
     "orderHistory.title": "Pesanan Anda",
     "orderHistory.empty": "Belum ada riwayat pesanan.",
@@ -85,5 +103,10 @@
     "orderHistory.items": "Item Pesanan",
     "orderHistory.total_payment": "Total Pembayaran",
     "orderHistory.thanks": "Terima kasih sudah memesan di PreKantin!",
-    "orderHistory.back": "Kembali"
+    "orderHistory.back": "Kembali",
+
+    "merchant.history.title": "Order History Merchant",
+    "merchant.history.empty": "Belum ada pesanan masuk untuk saat ini.",
+    "lihat.detail": "Lihat Detail",
+    "riwayat.transaksi": "Riwayat Transaksi"
 }
