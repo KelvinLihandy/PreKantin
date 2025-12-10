@@ -25,7 +25,7 @@
                                     <div>
                                         <h5 class="fw-bold mb-3" style="color: #4191E8">#{{ $order->order_id }}</h5>
                                         <p class="mb-1 fw-bold">{{ __('total.harga') }} : Rp.
-                                            {{ number_format($order->total_price, 0, ',', '.') }}
+                                            {{ number_format($order->total_price, 2, ',', '.') }}
                                         </p>
                                         <p class="mb-1 text-muted">{{ __('pembeli') }} : {{ $order->user->name }}</p>
                                         <p class="mb-1 text-muted">{{ __('waktu') }} : {{ $order->order_time->format('d F H:i') }}</p>
@@ -93,7 +93,7 @@
                                                 <div class="d-flex justify-content-between align-items-end mt-auto">
                                                     <div class="px-2 py-1 rounded-3 text-white fw-bold"
                                                         style="background-color: #4191E8; font-size: 0.75rem;">
-                                                        Rp. {{ number_format($firstItem->menu_item->price, 0, ',', '.') }}
+                                                        Rp. {{ number_format($firstItem->menu_item->price, 2, ',', '.') }}
                                                     </div>
                                                     <div class="d-flex align-items-baseline">
                                                         <span class="fw-bold me-1 fs-5 text-dark">&times;</span>
@@ -145,7 +145,7 @@
                                                         <div>
                                                             <h5 class="fw-bold mb-3" style="color: #4191E8">#{{ $order->order_id }}</h5>
                                                             <p class="mb-1 fw-bold">Rp.
-                                                                {{ number_format($order->total_price, 0, ',', '.') }}
+                                                                {{ number_format($order->total_price, 2, ',', '.') }}
                                                             </p>
                                                             <p class="mb-1 text-muted">{{ $order->user->name }} |
                                                                 {{ $order->order_time->format('H:i') }}
@@ -190,7 +190,7 @@
                                                                         <div class="px-2 py-1 rounded-3 text-white fw-bold"
                                                                             style="background-color: #4191E8; font-size: 0.75rem;">
                                                                             Rp.
-                                                                            {{ number_format($firstItem->menu_item->price, 0, ',', '.') }}
+                                                                            {{ number_format($firstItem->menu_item->price, 2, ',', '.') }}
                                                                         </div>
                                                                         <div class="d-flex align-items-baseline">
                                                                             <span class="fw-bold me-1 fs-5 text-dark">&times;</span>
