@@ -78,7 +78,7 @@
                                                                     </h6>
                                                                     <div class="d-flex justify-content-between align-items-end mt-auto">
                                                                         <div class="px-2 py-1 rounded-3 text-white fw-bold" style="background-color: #4191E8; font-size: 0.75rem;">
-                                                                            Rp. {{ number_format($firstItem->menu_item->price, 0, ',', '.') }}
+                                                                            Rp. {{ number_format($firstItem->menu_item->price, 2, ',', '.') }}
                                                                         </div>
                                                                         <div class="d-flex align-items-baseline">
                                                                             <span class="fw-bold me-1 fs-5 text-dark">&times;</span>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Menu;
+use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,7 @@ class OrderController extends Controller
 {
     public function store(Request $request)
     {
-        $menu = Menu::findOrFail($request->menu_id);
+        $menu = MenuItem::findOrFail($request->menu_id);
 
         Order::create([
             'user_id' => Auth::id(),

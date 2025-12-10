@@ -89,7 +89,7 @@
                             <div class="mx-4" style="width:2px;height:40px;background:white;"></div>
                             <li class="nav-item d-flex align-items-center gap-2">
                                 <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                <a class="nav-link p-0" href="{{ $role === 'Mahasiswa' ? route('order.history') : '#' }}">
+                                <a class="nav-link p-0" href="{{ $role === 'Mahasiswa' ? route('order.history') : route('merchant.order.history') }}">
                                     <x-history />
                                 </a>
                             </li>
@@ -134,11 +134,10 @@
                                     <span class="text-warning d-block">{{ $role }}</span>
                                     <span class="text-white d-block">{{ $fullName }}</span>
                                 </li>
-                                {{-- not implemented for merchant --}}
                                 <li class="nav-item d-flex align-items-center gap-2">
                                     <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
                                     <a class="nav-link p-0 text-white fw-bold"
-                                        href="{{ $role === 'Mahasiswa' ? route('order.history') : '#' }}">
+                                        href="{{ $role === 'Mahasiswa' ? route('order.history') : route('merchant.order.history') }}">
                                         <x-history />
                                     </a>
                                 </li>

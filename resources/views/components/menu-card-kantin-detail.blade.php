@@ -1,14 +1,11 @@
-<div class="card border-0 shadow-sm rounded-5 overflow-hidden"
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden"
     style="cursor:pointer; height:360px; display:flex; flex-direction:column;"
     @if(!$add)
         onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}')"
     @endif
 >
-
     @if ($add)
-
-        {{-- MODE TAMBAH MENU --}}
-        <div class="card border-0 shadow rounded-5 d-flex align-items-center justify-content-center"
+        <div class="card border-0 shadow rounded-4 d-flex align-items-center justify-content-center"
             style="flex: 1; background-color: #D9D9D9;">
             <button class="btn rounded-5 text-white d-flex align-items-center justify-content-center"
                 style="background-color: #4191E8; width: 60px; height: 60px;">
@@ -22,10 +19,7 @@
                 </svg>
             </button>
         </div>
-
     @else
-
-        {{-- GAMBAR MENU --}}
         <div style="height:220px; width:100%; overflow:hidden; position:relative;">
             @if (!empty($image))
                 <img src="{{ asset($image) }}" class="w-100 h-100" style="object-fit:cover;">
@@ -34,7 +28,6 @@
                     <x-camera size="50" class="text-secondary" />
                 </div>
             @endif
-
             @if ($isMerchant)
                 <div class="position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center rounded-circle shadow"
                     style="width:38px; height:38px; cursor:pointer; background-color:#4191E8;">
@@ -42,8 +35,6 @@
                 </div>
             @endif
         </div>
-
-        {{-- NAMA & HARGA --}}
         <div class="p-3 d-flex flex-column justify-content-between" style="height:200px;">
             <p class="fw-bold text-break"
                 style="color:#FB8C30; font-size:1rem;display: -webkit-box;
@@ -53,13 +44,11 @@
                     text-overflow: ellipsis;">
                 {{ $name }}
             </p>
-
             <button class="btn w-100 fw-bold rounded-pill text-white"
                 style="background-color:#4191E8;"
                 onclick="event.stopPropagation(); selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}')">
                 Rp. {{ number_format($price, 2, ',', '.') }}
             </button>
         </div>
-
     @endif
 </div>

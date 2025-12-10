@@ -36,11 +36,11 @@
                             <div class="ms-3 flex-grow-1">
                                 <h6 class="fw-bold m-0 text-dark">{{ $item->menu_item->name }}</h6>
                                 <p class="text-muted small m-0">
-                                    Rp {{ number_format($item->menu_item->price, 0, ',', '.') }} x {{ $item->quantity }}
+                                    Rp {{ number_format($item->menu_item->price, 2, ',', '.') }} x {{ $item->quantity }}
                                 </p>
                             </div>
                             <div class="fw-bold text-dark">
-                                Rp {{ number_format($item->quantity * $item->menu_item->price, 0, ',', '.') }}
+                                Rp {{ number_format($item->quantity * $item->menu_item->price, 2, ',', '.') }}
                             </div>
                         </div>
                         @endforeach

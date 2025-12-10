@@ -10,12 +10,14 @@
                             {{ __('home.boom') }}
                         </p>
                         <p class="lead mb-4">{{ __('home.lead') }}</p>
-                        <a href="{{ route('register.page', ['tab' => 'mahasiswa']) }}"
-                            class="btn btn-md fw-bold me-2 text-white py-3 px-3"
-                            style="background-color: #FB8C30; border-radius: 1rem">{{ __('home.order_button') }}</a>
-                        <a href="{{ route('register.page', ['tab' => 'merchant']) }}"
-                            class="btn btn-dark btn-md fw-bold py-3 px-3"
-                            style="border-radius: 1rem">{{ __('home.merchant_button') }}</a>
+                        @guest
+                            <a href="{{ route('register.page', ['tab' => 'mahasiswa']) }}"
+                                class="btn btn-md fw-bold me-2 text-white py-3 px-3"
+                                style="background-color: #FB8C30; border-radius: 1rem">{{ __('home.order_button') }}</a>
+                            <a href="{{ route('register.page', ['tab' => 'merchant']) }}"
+                                class="btn btn-dark btn-md fw-bold py-3 px-3"
+                                style="border-radius: 1rem">{{ __('home.merchant_button') }}</a>
+                        @endguest
                     </div>
                     <div class="col-md-6 text-center">
                         <img src="{{ asset('images/HomePic.png') }}" class="img-fluid rounded shadow mt-4 mt-md-0"

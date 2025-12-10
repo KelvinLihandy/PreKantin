@@ -2,12 +2,23 @@
     "mahasiswa": "Student",
     "merchant": "Merchant",
     "masuk": "Log In",
-    "daftar": "Sign In",
-    "keluar": "Sign out",
+    "daftar": "Sign Up",
+    "keluar": "Log Out",
     "buka": "OPEN",
     "tutup": "CLOSED",
     "simpan": "SAVE",
     "pesan": "ORDER",
+    "kembali": "Back",
+    "selesai": "Finish",
+    "total.harga": "Total Price",
+    "pembeli": "Customer",
+    "waktu": "Time",
+
+    "terima": "ACCEPT",
+    "tolak": "REJECT",
+    "siapkan": "PREPARE",
+    "selesai.caps": "FINISHED",
+    "selesai.pesanan": "ORDER COMPLETED",
 
     "header.cepat_praktis_lezat": "Quick, Practical, Delicious",
     "navbar.home": "Home",
@@ -47,10 +58,10 @@
     "login.already": "No Account? ",
     "login.lupa": "Forgot Password?",
     "login.remember": "Remember Me",
-    "login.toast": "Succesfully Logged In! Welcome.",
+    "login.toast": "Successfully Logged In! Welcome.",
 
     "forgot.title": "Forgot Password",
-    "forgot.desc": "Enter The Email Used to Create Your Account",
+    "forgot.desc": "Enter The Email You Used To Create Your Account",
     "forgot.send_code": "Send Code",
 
     "reset.title": "Change Password",
@@ -62,9 +73,9 @@
     "about.lead1": "About Us",
     "about.desc1": "PreKantin is an early food ordering platform designed for the campus environment. We help students, lecturers, and staff to order their favorite food from campus canteens faster, easier, and more conveniently.",
     "about.lead2": "Our Vision",
-    "about.desc2": "To create a smarter, faster, and more connected campus canteen experience through technology that bridges the needs of students and food vendors. PreKantin aims to establish an efficient, comfortable culinary ecosystem on campus that supports the digital development of all parties.",
+    "about.desc2": "To create a smarter, faster, and more connected campus canteen experience through technology that bridges the needs of students and food vendors.",
     "about.lead3": "Our Mission",
-    "about.desc3": "PreKantin's mission is to simplify dining activities on campus through a fast, efficient, and user-friendly digital platform. We strive to reduce long queues at the canteen by providing a practical and organized food ordering system. Additionally, PreKantin is committed to empowering canteen vendors with technology that helps them manage orders more easily and modernly. Through this initiative, we aim to create a comfortable dining experience for students while supporting the sustainable operation of campus canteens towards a smarter and more efficient digital era.",
+    "about.desc3": "PreKantin's mission is to simplify dining activities on campus through a fast, efficient, and user-friendly digital platform. We aim to reduce long queues while empowering vendors with modern tools.",
 
     "total.pesanan": "Total Orders",
     "total.transaksi": "Total Transactions",
@@ -72,6 +83,14 @@
     "pesanan": "Your Orders",
     "menu.belum": "No menu available",
     "menu.belum.desc": "Merchant has not added any menu.",
+
+    "kantin.tambah.title": "Add to order?",
+    "kantin.tambah.true": "Add",
+    "kantin.tambah.false": "Cancel",
+    "kantin.pesan.konfirmasi": "Order Confirmation",
+    "kantin.pesan.total": "Total",
+    "kantin.pesan.lanjut": "Proceed to Payment",
+    "kantin.pesan.scan": "Scan QR to Pay",
 
     "orderHistory.title": "Your Orders",
     "orderHistory.empty": "No order history found.",
@@ -85,5 +104,10 @@
     "orderHistory.items": "Order Items",
     "orderHistory.total_payment": "Total Payment",
     "orderHistory.thanks": "Thank you for ordering at PreKantin!",
-    "orderHistory.back": "Back"
+    "orderHistory.back": "Back",
+
+    "merchant.history.title": "Merchant Order History",
+    "merchant.history.empty": "No incoming orders at the moment.",
+    "lihat.detail": "View Details",
+    "riwayat.transaksi": "Transaction History"
 }
