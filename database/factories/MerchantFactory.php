@@ -18,12 +18,18 @@ class MerchantFactory extends Factory
     public function definition(): array
     {
         $merchant_users = User::where('is_merchant', true)->pluck('user_id')->toArray();
+        $openHour = $this->faker->numberBetween(6, 18);
+        $openMinute = $this->faker->numberBetween(0, 59);
+        $open = sprintf('%02d:%02d', $openHour, $openMinute);
+        $closeHour = $this->faker->numberBetween($openHour + 1, 22);
+        $closeMinute = $this->faker->numberBetween(0, 59);
+        $close = sprintf('%02d:%02d', $closeHour, $closeMinute);
 
         return [
             'user_id' => $this->faker->unique()->randomElement($merchant_users),
             'image' => 'images/dummyKantin.png',
-            'open' => $this->faker->time('H:i'),
-            'close' => $this->faker->time('H:i'),
+            'open' => $open,
+            'close' => $close,
         ];
     }
 }

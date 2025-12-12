@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Merchant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class KantinController extends Controller
@@ -100,19 +101,35 @@ class KantinController extends Controller
     {
         $sort = $request->get('sort', 'name');
 
-        $query = Merchant::with('user', 'menuItems');
+        $query = Merchant::with('user', 'menuItems')
+            ->withAvg('menuItems', 'price')
+            ->withCount('orders')
+            ->has('menuItems')
+            ->whereNotNull('image')
+            ->whereNotNull('open')
+            ->whereNotNull('close');
 
-        if ($sort === 'price_asc' || $sort === 'price_desc') {
-            $query->leftJoin('menu_items', 'merchants.merchant_id', '=', 'menu_items.merchant_id')
-                ->selectRaw('merchants.*, AVG(menu_items.price) as avg_price')
-                ->distinct('merchants.merchant_id')
-                ->groupBy('merchants.merchant_id')
-                ->orderBy('avg_price', $sort === 'price_asc' ? 'asc' : 'desc');
+        if ($sort === 'price_asc') {
+            $query->orderBy('menu_items_avg_price', 'asc');
+        } elseif ($sort === 'price_desc') {
+            $query->orderBy('menu_items_avg_price', 'desc');
         } else {
-            $query->select('merchants.*')->orderBy('merchants.created_at', 'desc');
+            $query->orderBy('created_at', 'desc');
         }
 
         $merchants = $query->paginate(12);
+
+        if ($merchants->total() === 0) {
+            $empty = new LengthAwarePaginator(
+                collect(), // empty
+                0,         // total items
+                12,        // per page
+                1,         // current page
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+
+            $merchants = $empty;
+        }
 
         return view('kantin-list', compact('merchants', 'sort'));
     }
