@@ -98,6 +98,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-end text-center">
                                     <li class="fw-bold px-2 py-1">{{ $fullName }}</li>
+                                    {{-- KRITIS: Menggunakan route yang sesuai dengan web.php Anda --}}
                                     <li><a class="dropdown-item fw-bold" style="color: #4191E8"
                                             href="{{ route('password.change') }}">{{ __('reset.title') }}</a></li>
                                     <li>
@@ -203,5 +204,4 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
