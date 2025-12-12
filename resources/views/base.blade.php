@@ -9,6 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ... CSS Styles Anda ... */
         * {
             margin: 0;
             padding: 0;
@@ -57,6 +58,7 @@
                                 href="#">{{ __('navbar.kantin') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
+                        {{-- KRITIS: Menggunakan route yang sesuai dengan web.php Anda --}}
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('login') }}">{{ __('masuk') }}</a></li>
                     @endguest
@@ -99,6 +101,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-end text-center">
                                     <li class="fw-bold px-2 py-1">{{ $fullName }}</li>
+                                    {{-- KRITIS: Menggunakan route yang sesuai dengan web.php Anda --}}
                                     <li><a class="dropdown-item fw-bold" style="color: #4191E8"
                                             href="{{ route('password.change') }}">{{ __('reset.title') }}</a></li>
                                     <li>
@@ -203,7 +206,11 @@
             </div>
         </div>
     </footer>
+    
+    {{-- KRITIS: Urutan pemuatan script sudah benar. jQuery dimuat sebelum Bootstrap. --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    @yield('scripts') 
 
+</body>
 </html>
