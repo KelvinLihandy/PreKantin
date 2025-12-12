@@ -1,0 +1,33 @@
+<?php
+
+namespace App\View\Components;
+
+use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
+
+class MenuCardKantinDetail extends Component
+{
+    public $name;
+    public $price;
+    public $image;
+    public $add;
+    public $isMerchant;
+
+    public function __construct($name = "", $price = 0, $image = null, $add = false, $isMerchant = false)
+    {
+        $this->name = $name;
+        $this->price = $price;
+        $this->image = $image;
+        $this->add = $add;
+        $this->isMerchant = $isMerchant;
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('components.menu-card-kantin-detail');
+    }
+}
