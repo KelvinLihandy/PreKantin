@@ -10,6 +10,7 @@ use App\Http\Controllers\MerchantMenuController;
 use App\Http\Controllers\PaymentController;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
+Route::get('/kantins', [KantinController::class, 'kantinListPage'])->name('kantin.list');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'registerPage'])->name('register.page');

@@ -31,8 +31,7 @@
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold">{{ __('home.paling_banyak_dipesan') }}</h3>
-                    {{-- not implemented --}}
-                    <a href="#" class="fw-bold btn"
+                    <a href="{{ route('kantin.list') }}" class="fw-bold btn"
                         style="color: #4191E8; border: 2px solid #FB8C30; background-color: transparent; text-decoration: none; rounded"
                         onmouseover="this.style.backgroundColor='#FB8C30'; this.style.color='white'; this.style.borderColor='#FB8C30';"
                         onmouseout="this.style.backgroundColor='transparent'; this.style.color='#4191E8'; this.style.borderColor='#FB8C30';">

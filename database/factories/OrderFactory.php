@@ -19,13 +19,15 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
-        $merchants = Merchant::whereHas('user', function($query) {
+        $merchant = Merchant::whereHas('user', function($query) {
             $query->where('is_merchant', true);
         })->inRandomOrder()->first();
 
+        $user = User::where('is_merchant', false)->inRandomOrder()->first();
+
         return [
-            'user_id' => User::where('is_merchant', false)->inRandomOrder()->first()->user_id,
-            'merchant_id' => $merchants,
+            'user_id' => $user ? $user->user_id : 1,
+            'merchant_id' => $merchant ? $merchant->merchant_id : 1,
             'status_id' => Status::inRandomOrder()->first()->status_id,
             'order_time' => now(),
         ];

@@ -54,7 +54,7 @@
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                href="#">{{ __('navbar.kantin') }}</a></li>
+                                href="{{ route('kantin.list') }}">{{ __('navbar.kantin') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
@@ -73,9 +73,8 @@
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
-                                {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="#">{{ __('navbar.kantin') }}</a></li>
+                                        href="{{ route('kantin.list') }}">{{ __('navbar.kantin') }}</a></li>
                             @endif
 
                             @if ($role === 'Merchant')
@@ -115,9 +114,8 @@
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
-                                {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="#">{{ __('navbar.kantin') }}</a></li>
+                                        href="{{ route('kantin.list') }}">{{ __('navbar.kantin') }}</a></li>
                             @endif
 
                             @if ($role === 'Merchant')

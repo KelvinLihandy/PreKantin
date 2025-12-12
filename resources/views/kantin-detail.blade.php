@@ -162,6 +162,17 @@
         let cart = [];
         let selectedProduct = null;
 
+        document.addEventListener("DOMContentLoaded", () => {
+            const merchantCard = document.getElementById('merchantCard');
+            const orderCard = document.getElementById('orderCard');
+
+            @if (!$isMerchant)
+                if (merchantCard && orderCard) {
+                    orderCard.style.height = merchantCard.offsetHeight + "px";
+                }
+            @endif
+        });
+
         function selectProduct(name, price, image) {
             selectedProduct = {
                 name,
