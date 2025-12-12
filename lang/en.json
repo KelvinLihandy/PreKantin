@@ -13,6 +13,7 @@
     "total.harga": "Total Price",
     "pembeli": "Customer",
     "waktu": "Time",
+    "harga": "Price",
 
     "terima": "ACCEPT",
     "tolak": "REJECT",
@@ -109,5 +110,14 @@
     "merchant.history.title": "Merchant Order History",
     "merchant.history.empty": "No incoming orders at the moment.",
     "lihat.detail": "View Details",
-    "riwayat.transaksi": "Transaction History"
+    "riwayat.transaksi": "Transaction History",
+
+    "kantin.list.title": "Our Canteens",
+    "kantin.list.lead": "Order now and enjoy fresh meals from a variety of selected canteens!",
+    "kantin.list.all": "All Canteens",
+    "kantin.list.low": "Lowest Price",
+    "kantin.list.high": "Highest Price",
+    "kantin.list.empty": "Sorry, no canteens are available at the moment.",
+    "kantin.list.count": "Ordered ",
+    "kantin.list.times": " times"
 }
