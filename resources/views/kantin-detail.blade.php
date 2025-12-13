@@ -3,12 +3,10 @@
 @section('content')
     <div class="container-fluid py-5" style="background-color: #C9E2FE;">
         <div class="row justify-content-center mb-5 px-2 px-sm-3 px-md-4 px-lg-5">
-            <div class="col-12 col-md-8 col-lg-6 mb-4">
-                <div id="merchantCard" class="card border-0 shadow rounded-4 p-4 position-relative">
-
+            <div class="col-12 col-md-6 col-lg-7 col-xl-8 mb-4">
+                <div id="merchantCard" class="card border-0 shadow rounded-4 p-3 p-md-4 position-relative">
                     <div class="card-img-top rounded-top rounded-4 position-relative d-flex align-items-center justify-content-center"
                         style="height: 400px; object-fit: cover; background-color: {{ $imageExist ? 'transparent' : '#e0e0e0' }}">
-
                         @if ($imageExist)
                             <img src="{{ asset($merchant->image) }}" alt="Merchant Image"
                                 class="rounded-top rounded-4 w-100 h-100" style="object-fit:cover;">
@@ -33,7 +31,11 @@
                                 @endif
                             </div>
                             <span class="badge {{ $isOpen ? 'bg-success' : 'bg-danger' }} px-3 py-2 fs-6">
-                                {{ $isOpen ? __('buka') : __('tutup') }}
+                                @if ($isOpen)
+                                    {{ __('buka') }}
+                                @else
+                                    {{ __('tutup') }}
+                                @endif
                             </span>
                         </div>
 
@@ -51,7 +53,7 @@
             </div>
 
             @auth
-                <div class="col-12 col-md-4 col-lg-3 mb-4">
+                <div class="col-12 col-md-6 col-lg-5 col-xl-4 mb-4">
                     <div id="orderCard" class="card border-0 shadow rounded-4 p-4 d-flex flex-column h-100">
 
                         @if ($isMerchant)
@@ -77,12 +79,30 @@
         </div>
 
         <div class="row g-4 px-2 px-sm-3 px-md-4 px-lg-5 mb-5">
-            @foreach ($menus as $menu)
+            @if ($isMerchant)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                    <x-menu-card-kantin-detail name="{{ $menu->name }}" price="{{ $menu->price }}"
-                        image="{{ $menu->image }}" merchant="{{ $isMerchant }}" />
+                    <x-menu-card-kantin-detail add />
                 </div>
-            @endforeach
+            @endif
+            @if ($menus->isEmpty())
+                @unless ($isMerchant)
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm rounded-4 p-5 text-center d-flex align-items-center justify-content-center"
+                            style="background-color: #f8f9fa;">
+                            <h4 class="fw-bold text-muted mb-1">{{ __('menu.belum') }}</h4>
+                            <p class="text-secondary">{{ __('menu.belum.desc') }}</p>
+                        </div>
+                    </div>
+                @endunless
+            @else
+                @foreach ($menus as $menu)
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <x-menu-card-kantin-detail name="{{ $menu->name }}" price="{{ $menu->price }}"
+                            id="{{ $menu->menu_item_id }}" image="{{ $menu->image }}"
+                            isMerchant="{{ $isMerchant }}" />
+                    </div>
+                @endforeach
+            @endif
         </div>
 
         {{-- Modals --}}
@@ -98,7 +118,7 @@
                             <button class="btn btn-primary w-100 mt-3"
                                 id="confirmAddBtn">{{ __('kantin.tambah.true') }}</button>
                             <button class="btn btn-secondary w-100 mt-2"
-                                data-bs-dismiss="modal">{{ __('kantin.tambah.false') }}</button>
+                                data-bs-dismiss="modal">{{ __('kantin.tambah.f alse') }}</button>
                         </div>
                     </div>
                 </div>
@@ -121,7 +141,8 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="qrPaymentModal" tabindex="-1">
+            {{-- nanti buat qr snap --}}
+            {{-- <div class="modal fade" id="qrPaymentModal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-4 shadow">
                         <div class="modal-body text-center p-4">
@@ -131,12 +152,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         @endauth
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
         let cart = [];
         let selectedProduct = null;
@@ -152,17 +172,21 @@
             @endif
         });
 
-        function selectProduct(name, price, image) {
-            selectedProduct = {
-                name,
-                price,
-                image
-            };
-            document.getElementById("selectedProductName").innerText = name;
-            document.getElementById("selectedProductPrice").innerText = "Rp " + price.toLocaleString();
-            document.getElementById("selectedProductPreview").innerHTML =
-                `<img src="/${image}" class="img-fluid rounded mb-2" style="max-height:150px; object-fit:cover;">`;
-            new bootstrap.Modal(document.getElementById('confirmAddModal')).show();
+        function selectProduct(name, price, image, id) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                selectedProduct = {
+                    name,
+                    price,
+                    image,
+                    id,
+                    quantity: 1
+                };
+                cart.push(selectedProduct);
+            }
+            renderCart();
         }
 
         document.getElementById("confirmAddBtn").addEventListener("click", () => {
@@ -175,13 +199,16 @@
             let html = "";
             cart.forEach(item => {
                 html += `
-                <div class="card border-0 shadow-sm rounded-4 mb-2 p-2 d-flex flex-row align-items-center">
-                    <img src="/${item.image}" style="width:60px; height:60px; object-fit:cover; border-radius:10px; margin-right:10px;">
-                    <div class="w-100 d-flex justify-content-between">
-                        <strong>${item.name}</strong>
-                        <span>Rp ${item.price.toLocaleString()}</span>
-                    </div>
-                </div>`;
+        <div class="card border-0 shadow-sm rounded-4 mb-2 p-2 d-flex flex-row align-items-center">
+            <img src="/${item.image}" style="width:60px; height:60px; object-fit:cover; border-radius:10px; margin-right:10px;">
+            <div class="flex-grow-1 d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <span class="text-muted">Rp ${item.price.toLocaleString()}</span>
+                </div>
+                <span class="px-3 py-2 fw-bold" style="color: #4191E8">${item.quantity}</span>
+            </div>
+        </div>`;
             });
             document.getElementById("cartList").innerHTML = html;
         }
@@ -195,15 +222,18 @@
             let html = "",
                 total = 0;
             cart.forEach(item => {
-                total += item.price;
+                total += item.price * item.quantity;
                 html += `
-                <div class="d-flex mb-3 align-items-center">
-                    <img src="/${item.image}" style="width:70px; height:70px; object-fit:cover; border-radius:10px; margin-right:12px;">
-                    <div class="flex-grow-1">
-                        <div class="fw-bold">${item.name}</div>
-                        <div class="text-muted">Rp ${item.price.toLocaleString()}</div>
-                    </div>
-                </div>`;
+        <div class="d-flex mb-3 align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <img src="/${item.image}" style="width:70px; height:70px; object-fit:cover; border-radius:10px; margin-right:12px;">
+                <div>
+                    <div class="fw-bold">${item.name}</div>
+                    <div class="text-muted">Rp ${item.price.toLocaleString()}</div>
+                </div>
+            </div>
+            <div class="fw-bold">x ${item.quantity}</div>
+        </div>`;
             });
 
             document.getElementById("checkoutList").innerHTML = html;
@@ -212,19 +242,35 @@
         }
 
         document.getElementById("confirmPaymentBtn").addEventListener("click", async () => {
-            let total = cart.reduce((sum, item) => sum + item.price, 0);
-            bootstrap.Modal.getInstance(document.getElementById('confirmCheckoutModal')).hide();
-            const qrModal = new bootstrap.Modal(document.getElementById('qrPaymentModal'));
-            qrModal.show();
-            document.getElementById("qrcode").getContext('2d').clearRect(0, 0, 250, 250);
-            setTimeout(() => {
-                QRCode.toCanvas(document.getElementById("qrcode"),
-                    `TOTAL=${total}|ITEMS=${cart.length}`, {
-                        width: 250
-                    }, (err) => {
-                        if (err) console.error(err);
-                    });
-            }, 500);
+            if (cart.length === 0) return;
+
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            try {
+                const response = await fetch("{{ route('order.store') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": token
+                    },
+                    body: JSON.stringify({
+                        items: cart
+                    })
+                });
+
+                if (!response.ok) throw new Error("Gagal membuat pesanan");
+
+                const data = await response.json();
+                // alert("Pesanan berhasil dibuat! Invoice: " + data.invoice_number);
+
+                cart = [];
+                renderCart();
+                bootstrap.Modal.getInstance(document.getElementById('confirmCheckoutModal')).hide();
+
+            } catch (error) {
+                console.error(error);
+                alert("Gagal membuat pesanan.");
+            }
         });
     </script>
 @endsection

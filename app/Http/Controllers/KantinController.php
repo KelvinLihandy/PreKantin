@@ -26,25 +26,10 @@ class KantinController extends Controller
         $isMerchant = $user && $user->role && $user->role->name === "Merchant";
 
         // Default values
-        $orders = collect();
         $isOpen = false;
         $orderCount = 0;
         $customerCount = 0;
         $total = 0;
-
-        // Ambil orders berdasarkan role
-        if ($isMerchant) {
-            $orders = $merchant->orders()
-                ->with(['menu', 'orderItems'])
-                ->latest()
-                ->get();
-        } else if ($user) {
-            $orders = $merchant->orders()
-                ->where('user_id', $user->id)
-                ->with(['menu', 'orderItems'])
-                ->latest()
-                ->get();
-        }
 
         // Hitung jam operasional
         if (!empty($merchant->open) && !empty($merchant->close)) {
@@ -72,7 +57,8 @@ class KantinController extends Controller
                 ->count('user_id');
 
             if ($merchant->orders()->exists()) {
-                $total = $merchant->orders()->sum('total_price');
+                $merchant->load('orders.orderItems.menu_item');
+                $total = $merchant->orders->sum('totalPrice');
             } else {
                 // fallback: hitung total dari orderItems
                 $total = $merchant->orders()
@@ -93,7 +79,6 @@ class KantinController extends Controller
             'orderCount'    => $orderCount,
             'customerCount' => $customerCount,
             'total'         => $total,
-            'orders'        => $orders,
         ]);
     }
 

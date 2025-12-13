@@ -135,7 +135,11 @@
                                             @endphp
                                             <span
                                                 class="badge {{ $isOpen ? 'bg-success' : 'bg-danger' }} py-2 px-3 fw-bold">
-                                                {{ $isOpen ? {{ __('buka') }} : {{ __('tutup') }} }}
+                                                @if ($isOpen)
+                                                    {{ __('buka') }}
+                                                @else
+                                                    {{ __('tutup') }}
+                                                @endif
                                             </span>
                                         </div>
                                     </div>

@@ -107,6 +107,7 @@
     "orderHistory.back": "Kembali",
 
     "merchant.history.title": "Order History Merchant",
+    "merchant.history.order" : "Pesanan Masuk",
     "merchant.history.empty": "Belum ada pesanan masuk untuk saat ini.",
     "lihat.detail": "Lihat Detail",
     "riwayat.transaksi": "Riwayat Transaksi",

@@ -108,6 +108,7 @@
     "orderHistory.back": "Back",
 
     "merchant.history.title": "Merchant Order History",
+    "merchant.history.order" : "Incoming Orders",
     "merchant.history.empty": "No incoming orders at the moment.",
     "lihat.detail": "View Details",
     "riwayat.transaksi": "Transaction History",
