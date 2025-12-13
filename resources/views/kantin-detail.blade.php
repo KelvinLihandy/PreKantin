@@ -93,6 +93,40 @@
                                 image="{{ $menu->image }}" merchant="{{ $isMerchant }}" />
                         </div>
                     @endforeach
+                    @if($isMerchant)
+                        <div class="row mt-5">
+                            <div class="col-12 col-md-6">
+                                <h4 class="fw-bold mb-3">Upload Gambar Menu</h4>
+                                <form action="{{ route('menu.upload', $merchant->id) }}" method="POST" enctype="multipart/form-data" class="card p-3 shadow-sm rounded-4">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <input type="file" name="image" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 fw-bold">Upload</button>
+                                </form>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <h4 class="fw-bold mb-3">Tambah Menu Baru</h4>
+                                <form action="{{ route('menu.add', $merchant->id) }}" method="POST" enctype="multipart/form-data" class="card p-3 shadow-sm rounded-4">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <input type="text" name="nama_menu" class="form-control" placeholder="Nama Menu" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="number" name="harga" class="form-control" placeholder="Harga" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" name="kategori" class="form-control" placeholder="Kategori">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="file" name="image" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100 fw-bold">Tambah Menu</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
 
                 </div>
             </div>

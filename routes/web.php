@@ -29,6 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.changed');
     Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
 
+    // Upload image menu ke Supabase
+    Route::post('/merchant/{id}/menu/upload-image', [KantinController::class, 'uploadMenuImage'])->name('menu.upload');
+
+    // Tambah menu ke Supabase
+    Route::post('/merchant/{id}/menu/add', [KantinController::class, 'addMenu'])->name('menu.add');
+
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
 

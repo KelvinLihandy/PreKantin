@@ -6,6 +6,8 @@ use App\Models\Merchant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SupabaseStorageService;
+use App\Services\SupabaseService;
 
 class KantinController extends Controller
 {
@@ -102,5 +104,61 @@ class KantinController extends Controller
             'total'         => $total,
             'orders'        => $orders,
         ]);
+    }
+
+    // Upload image ke Supabase Storage
+    public function uploadMenuImage(Request $request, $merchantId)
+    {
+        $request->validate([
+            'image' => 'required|image|max:2048',
+        ]);
+
+        $file = $request->file('image');
+        $path = 'menu/' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        $supabaseStorage = new SupabaseStorageService();
+        $result = $supabaseStorage->upload(env('SUPABASE_BUCKET_MENU'), $path, $file);
+
+        if ($result['success']) {
+            return redirect()->back()->with('success', 'Image berhasil diupload ke Supabase! URL: ' . $result['public_url']);
+        }
+
+        return redirect()->back()->with('error', 'Upload gagal: ' . $result['error']);
+    }
+
+    // Tambah menu ke Supabase
+    public function addMenu(Request $request, $merchantId)
+    {
+        $request->validate([
+            'nama_menu' => 'required|string|max:255',
+            'harga'     => 'required|numeric',
+            'kategori'  => 'nullable|string',
+            'image'     => 'nullable|image|max:2048',
+        ]);
+
+        $gambarUrl = null;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $path = 'menu/' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $supabaseStorage = new SupabaseStorageService();
+            $result = $supabaseStorage->upload(env('SUPABASE_BUCKET_MENU'), $path, $file);
+
+            if ($result['success']) {
+                $gambarUrl = $result['public_url'];
+            }
+        }
+
+        $supabase = new SupabaseService();
+        $client = $supabase->getClient();
+        $client->from('menu')->insert([
+            'kantin_id' => $merchantId,
+            'nama_menu' => $request->nama_menu,
+            'harga'     => $request->harga,
+            'kategori'  => $request->kategori,
+            'gambar_url'=> $gambarUrl,
+        ]);
+
+        return redirect()->back()->with('success', 'Menu berhasil ditambahkan!');
     }
 }
