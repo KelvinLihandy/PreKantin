@@ -14,8 +14,9 @@ class MenuCardKantinDetail extends Component
     public $id;
     public $add;
     public $isMerchant;
+    public $isOpen;
 
-    public function __construct($name = "", $price = 0, $image = null, $id = null, $add = false, $isMerchant = false)
+    public function __construct($name = "", $price = 0, $image = null, $id = null, $add = false, $isMerchant = false, $isOpen = true)
     {
         $this->name = $name;
         $this->price = $price;
@@ -23,6 +24,7 @@ class MenuCardKantinDetail extends Component
         $this->id = $id;
         $this->add = $add;
         $this->isMerchant = $isMerchant;
+        $this->isOpen = $isOpen;
     }
 
     /**

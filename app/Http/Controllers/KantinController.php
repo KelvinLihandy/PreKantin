@@ -34,17 +34,18 @@ class KantinController extends Controller
         // Hitung jam operasional
         if (!empty($merchant->open) && !empty($merchant->close)) {
             try {
-                $now   = Carbon::now();
-                $open  = Carbon::createFromFormat('H:i', $merchant->open);
-                $close = Carbon::createFromFormat('H:i', $merchant->close);
+                $tz = 'Asia/Jakarta';
+                $now   = Carbon::now($tz);
+                $open  = Carbon::createFromFormat('H:i:s', $merchant->open, $tz);
+                $close = Carbon::createFromFormat('H:i:s', $merchant->close, $tz);
 
-                // Jika tutup < buka → cross-midnight
                 if ($close->lessThan($open)) {
                     $close->addDay();
                 }
 
                 $isOpen = $now->between($open, $close);
             } catch (\Exception $e) {
+                dd($e);
                 $isOpen = false;
             }
         }

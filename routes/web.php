@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\MerchantMenuController;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
 Route::get('/kantin', [KantinController::class, 'kantinListPage'])->name('kantin.list');
 Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
+Route::post('/payment/callback', [PaymentController::class, 'handleCallback'])->name('payment.callback')
+    ->withoutMiddleware(VerifyCsrfToken::class);;
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'registerPage'])->name('register.page');
@@ -41,7 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/merchant/menu', [MerchantMenuController::class, 'index'])->name('merchant.menu.index');
     Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
 
-    Route::post('/order/add', [OrderController::class, 'addOrder'])->name('order.add');
     Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
-    Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
+    Route::delete('order/remove/{id}', [OrderController::class, 'remove'])->name('order.remove');
 });

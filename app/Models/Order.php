@@ -18,7 +18,6 @@ class Order extends Model
         'order_time',
         'invoice_number',
         'gross_amount',
-        'midtrans_status',
     ];
 
     protected static function booted()
@@ -55,6 +54,11 @@ class Order extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class, 'order_id');
     }
 
     public function getTotalPriceAttribute()

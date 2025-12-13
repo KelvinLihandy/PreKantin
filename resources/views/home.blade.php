@@ -2,6 +2,12 @@
 
 @section('content')
     <div>
+        @guest
+            @php($show = true)
+        @endguest
+        @auth
+            @php($show = Auth::user()->role->name === 'Mahasiswa')
+        @endauth
         <section class="text-white py-5" style="background-color: #4191E8">
             <div class="container">
                 <div class="row align-items-center g-5">
@@ -27,7 +33,7 @@
             </div>
         </section>
 
-        @if (Auth::user() && Auth::user()->role == 'mahasiswa')
+        @if ($show ?? false)
             <section class="bg-light py-5">
                 <div class="container">
                     <div class="d-flex justify-content-between align-items-center mb-4">

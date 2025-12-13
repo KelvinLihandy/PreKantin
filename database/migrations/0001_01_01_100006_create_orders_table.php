@@ -19,7 +19,6 @@ return new class extends Migration
             $table->timestamp('order_time');
             $table->string('invoice_number')->unique();
             $table->integer('gross_amount');
-            $table->string('midtrans_status');
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('user_id')

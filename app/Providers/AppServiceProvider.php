@@ -33,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Config::$serverKey    = config('midtrans.serverKey');
         Config::$clientKey    = config('midtrans.clientKey');
         Config::$isProduction = config('midtrans.isProduction');
-
         Config::$isSanitized = true;
         Config::$is3ds = true;
     }

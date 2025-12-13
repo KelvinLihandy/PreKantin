@@ -1,5 +1,5 @@
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
-    style="cursor:pointer; height:360px; display:flex; flex-direction:column;"
+    style="{{ $isOpen ? "cursor:pointer" : "cursor-none" }}; height:360px; display:flex; flex-direction:column;"
     @if (!$isMerchant) onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')" @endif>
     @if ($add)
         <div class="card border-0 shadow rounded-4 d-flex align-items-center justify-content-center"
@@ -39,7 +39,7 @@
                 {{ $name }}
             </p>
             <button class="btn w-100 fw-bold rounded-pill text-white btn-sm" style="background-color:#4191E8;"
-                onclick="event.stopPropagation(); selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}')">
+                onclick="event.stopPropagation(); selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')">
                 Rp. {{ number_format($price, 2, ',', '.') }}
             </button>
         </div>
