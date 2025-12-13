@@ -11,14 +11,16 @@ class MenuCardKantinDetail extends Component
     public $name;
     public $price;
     public $image;
+    public $id;
     public $add;
     public $isMerchant;
 
-    public function __construct($name = "", $price = 0, $image = null, $add = false, $isMerchant = false)
+    public function __construct($name = "", $price = 0, $image = null, $id = null, $add = false, $isMerchant = false)
     {
         $this->name = $name;
         $this->price = $price;
         $this->image = $image;
+        $this->id = $id;
         $this->add = $add;
         $this->isMerchant = $isMerchant;
     }

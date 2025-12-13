@@ -13,10 +13,10 @@ class StatusSeeder extends Seeder
      */
     public function run(): void
     {
-        Status::create(['name' => 'DITERIMA']);
-        Status::create(['name' => 'DISIAPKAN']);
-        Status::create(['name' => 'KONFIRMASI']);
-        Status::create(['name' => 'SELESAI']);
-        Status::create(['name' => 'DITOLAK']);
+        Status::create(['name' => 'DITERIMA']); //order received by merchant
+        Status::create(['name' => 'DISIAPKAN']); //order prepared by merchant
+        Status::create(['name' => 'KONFIRMASI']); //order completed, waiting for user confirmation
+        Status::create(['name' => 'SELESAI']); //order completed
+        Status::create(['name' => 'DITOLAK']); //order rejected by merchant
     }
 }

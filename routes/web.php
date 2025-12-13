@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
 
     Route::post('/order/add', [OrderController::class, 'addOrder'])->name('order.add');
-    Route::post('/order/create', [OrderController::class, 'store']);
-    Route::post('/order/create', [OrderController::class, 'store'])->name('order.create');
+    Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
     Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
 });
