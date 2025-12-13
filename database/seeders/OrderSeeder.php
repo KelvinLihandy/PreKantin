@@ -36,7 +36,6 @@ class OrderSeeder extends Seeder
                 'order_time' => now(),
                 'invoice_number' => 'INV-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(4)),
                 'gross_amount' => 0,
-                'midtrans_status' => 'pending',
             ]);
 
             $totalAmount = 0;

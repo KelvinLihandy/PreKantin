@@ -17,7 +17,8 @@ class MerchantFactory extends Factory
      */
     public function definition(): array
     {
-        $merchant_users = User::where('is_merchant', true)->pluck('user_id')->toArray();
+        $merchant_users = User::where('is_merchant', true)
+            ->where('email', '!=', 'bconnect404@gmail.com')->pluck('user_id')->toArray();
         $openHour = $this->faker->numberBetween(6, 18);
         $openMinute = $this->faker->numberBetween(0, 59);
         $open = sprintf('%02d:%02d', $openHour, $openMinute);

@@ -210,6 +210,23 @@ return [
             'min' => 'New Password must be at least :min characters.',
             'regex' => 'New Password must contain at least one lowercase letter, one number, and one symbol (!@#$%).',
         ],
+        'nama_menu' => [
+            'required' => "Menu name is required.",
+            'string' => "Menu name must be a string.",
+            'min' => "Menu name must be at least 10 characters.",
+            'max' => "Menu name can be a maximum of 60 characters.",
+        ],
+        'harga' => [
+            'required' => "Price is required.",
+            'numeric' => "Price must be a number.",
+            'min' => "Price must be at least 5,000.",
+            'max' => "Price can be a maximum of 60,000."
+        ],
+        'image' => [
+            'required' => "Image is required.",
+            'mimes' => "Image must be in JPEG or PNG format.",
+            'max' => "Maximum image size is 2 MB.",
+        ],
     ],
 
     /*

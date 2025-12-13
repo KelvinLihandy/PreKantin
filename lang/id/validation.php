@@ -147,6 +147,24 @@ return [
             'min' => 'Password Baru minimal 8 karakter.',
             'regex' => 'Password Baru harus ada minimal 1 huruf kecil, 1 angka, dan simbol !@#$%',
         ],
+        'nama_menu' => [
+            'required' => "Nama Menu wajib diisi.",
+            'string' => "Nama Menu harus berupa string",
+            'min' => "Nama Menu harus minimal 10 karakter",
+            'max' => "Nama menu maksimal 60 karakter",
+        ],
+        'harga' => [
+            'required' => "Harga wajib diisi",
+            'numeric' => "Harga harus berupa angka",
+            'min' => "Harga minimal 5.000",
+            'max' => "Harga maksimal 60.000"
+        ],
+        'image' => [
+            'required' => "Gambar Menu wajib diisi",
+            "image" => "Gambar Menu harus berupa gambar",
+            'mimetypes' => "Gambar Menu harus berformat JPEG atau PNG",
+            'max' => "Ukuran Gambar Menu maksimal 2 MB",
+        ],
     ],
 
 ];

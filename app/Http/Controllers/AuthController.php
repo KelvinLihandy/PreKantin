@@ -51,8 +51,8 @@ class AuthController extends Controller
         try {
             $user = User::create([
                 'role_id' => ($data['role'] === 'merchant') ? 2 : 1,
-                'name' => $data['name'],
-                'email' => $data['email'],
+                'name'     => trim($data['name']),
+                'email'    => trim($data['email']),
                 'password' => $data['password'],
                 'is_merchant' => $data['role'] === 'merchant',
             ]);

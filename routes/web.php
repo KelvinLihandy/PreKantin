@@ -3,15 +3,18 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\KantinController;
+use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
-use App\Http\Controllers\MerchantMenuController;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
 Route::get('/kantin', [KantinController::class, 'kantinListPage'])->name('kantin.list');
 Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
+Route::post('/payment/callback', [PaymentController::class, 'handleCallback'])->name('payment.callback')
+    ->withoutMiddleware(VerifyCsrfToken::class);;
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'registerPage'])->name('register.page');
@@ -30,24 +33,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/change-password', [AuthController::class, 'changePage'])->name('password.change');
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.changed');
 
-    // Upload image menu ke Supabase
-    Route::post('/merchant/{id}/menu/upload-image', [KantinController::class, 'uploadMenuImage'])->name('menu.upload');
-
-    // Tambah menu ke Supabase
-    Route::post('/merchant/{id}/menu/add', [KantinController::class, 'addMenu'])->name('menu.add');
-
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
-
+    
     Route::get('/merchant/order-history', [OrderHistoryController::class, 'merchantIndex'])->name('merchant.order.history');
     Route::post('/merchant/order/{id}/status', [OrderHistoryController::class, 'updateStatus'])->name('merchant.order.update');
-
     Route::get('/merchant/order/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
+    Route::post('/merchant/menu', [KantinController::class, 'addMenu'])->name('menu.add');
+    Route::post('/merchant/name', [MerchantController::class, 'saveName'])->name('merchant.name');
+    Route::post('/merchant/time', [MerchantController::class, 'saveTime'])->name('merchant.time');
+    Route::post('/merchant/image', [MerchantController::class, 'saveImage'])->name('merchant.image');
 
-    Route::get('/merchant/menu', [MerchantMenuController::class, 'index'])->name('merchant.menu.index');
-    Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
-
-    Route::post('/order/add', [OrderController::class, 'addOrder'])->name('order.add');
     Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
-    Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
+    Route::delete('order/remove/{id}', [OrderController::class, 'remove'])->name('order.remove');
 });

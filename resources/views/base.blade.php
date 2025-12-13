@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PreKantin | {{ __('header.cepat_praktis_lezat') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -30,6 +31,14 @@
         .nav-item.dropdown:hover .dropdown-menu {
             display: block;
             margin-top: 0;
+        }
+
+        .img-guest {
+            height: clamp(300px, 30vw, 600px);
+        }
+
+        .img-auth {
+            height: clamp(300px, 40vw, 500px);
         }
     </style>
 </head>
@@ -88,7 +97,8 @@
                             <div class="mx-4" style="width:2px;height:40px;background:white;"></div>
                             <li class="nav-item d-flex align-items-center gap-2">
                                 <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
-                                <a class="nav-link p-0" href="{{ $role === 'Mahasiswa' ? route('order.history') : route('merchant.order.history') }}">
+                                <a class="nav-link p-0"
+                                    href="{{ $role === 'Mahasiswa' ? route('order.history') : route('merchant.order.history') }}">
                                     <x-history />
                                 </a>
                             </li>
@@ -204,4 +214,5 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

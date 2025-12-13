@@ -1,10 +1,12 @@
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
-    style="cursor:pointer; height:360px; display:flex; flex-direction:column;"
-    @if (!$isMerchant) onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')" @endif>
+    style="{{ $isOpen ? "cursor:pointer" : "cursor-none" }}; height:360px; display:flex; flex-direction:column;"
+    @if (!$isMerchant && !$add) onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')" @endif
+    @if ($isMerchant && !$add) onclick="addMenu(false, '{{ $image }}', '{{ $name }}', {{ $price }}, '{{ $id }}')" @endif>
     @if ($add)
         <div class="card border-0 shadow rounded-4 d-flex align-items-center justify-content-center"
             style="flex: 1; background-color: #D9D9D9;">
             <button class="btn rounded-5 text-white d-flex align-items-center justify-content-center"
+                onclick="event.stopPropagation(); addMenu()"
                 style="background-color: #4191E8; width: 60px; height: 60px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -39,7 +41,7 @@
                 {{ $name }}
             </p>
             <button class="btn w-100 fw-bold rounded-pill text-white btn-sm" style="background-color:#4191E8;"
-                onclick="event.stopPropagation(); selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}')">
+                onclick="event.stopPropagation(); selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')">
                 Rp. {{ number_format($price, 2, ',', '.') }}
             </button>
         </div>

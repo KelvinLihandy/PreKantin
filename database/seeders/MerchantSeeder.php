@@ -27,8 +27,8 @@ class MerchantSeeder extends Seeder
         Merchant::create([
             'user_id' => $user->user_id,
             'image' => 'images/dummyKantin.png',
-            'open' => '08:00',
-            'close' => '17:00',
+            'open' => '00:01',
+            'close' => '23:59',
         ]);
 
         // Buat beberapa merchant tambahan berdasarkan user merchant yang dibuat oleh UserSeeder

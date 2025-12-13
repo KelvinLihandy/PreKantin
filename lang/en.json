@@ -108,7 +108,7 @@
     "orderHistory.back": "Back",
 
     "merchant.history.title": "Merchant Order History",
-    "merchant.history.order" : "Incoming Orders",
+    "merchant.history.order": "Incoming Orders",
     "merchant.history.empty": "No incoming orders at the moment.",
     "lihat.detail": "View Details",
     "riwayat.transaksi": "Transaction History",
@@ -120,5 +120,20 @@
     "kantin.list.high": "Highest Price",
     "kantin.list.empty": "Sorry, no canteens are available at the moment.",
     "kantin.list.count": "Ordered ",
-    "kantin.list.times": " times"
+    "kantin.list.times": " times",
+
+    "modal.add": "Add Menu",
+    "modal.edit": "Edit Menu",
+    "modal.menu": "Menu Name",
+    "modal.harga": "Menu Price",
+    "menu.image.fail": "Failed to upload image",
+    "menu.success.add": "Menu added successfully!",
+    "menu.success.edit": "Menu updated successfully!",
+    "menu.image.missing": "No image provided",
+
+    "merchant.edit.name": "Merchant name updated successfully",
+    "merchant.success.add": "Successfully added menu!",
+    "merchant.success.edit": "Successfully edited menu!",
+    "merchant.edit.void": "No image changes",
+    "merchant.edit.image.error": "Image is required"
 }

@@ -119,5 +119,20 @@
     "kantin.list.high": "Harga Tertinggi",
     "kantin.list.empty": "Maaf, tidak ada kantin yang tersedia saat ini.",
     "kantin.list.count": "Telah dipesan ",
-    "kantin.list.times": " kali"
+    "kantin.list.times": " kali",
+
+    "modal.add": "Tambahkan Menu",
+    "modal.edit": "Edit Menu",
+    "modal.menu": "Nama Menu",
+    "modal.harga": "Harga Menu",
+    "menu.image.fail": "Gagal mengupload gambar",
+    "menu.success.add": "Berhasil menambahkan menu!",
+    "menu.success.edit": "Berhasil mengubah menu!",
+    "menu.image.missing": "Tidak ada gambar",
+
+    "merchant.edit.name": "Nama merchant berhasil diubah",
+    "merchant.success.add": "Berhasil menambahkan menu!",
+    "merchant.success.edit": "Berhasil mengubah menu!",
+    "merchant.edit.void": "Tidak ada perubahan gambar",
+    "merchant.edit.image.error": "Gambar dibutuhkan"
 }
