@@ -89,10 +89,15 @@
                 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
                     @foreach ($menus as $menu)
                         <div class="col">
-                            <x-menu-card-kantin-detail name="{{ $menu->name }}" price="{{ $menu->price }}"
-                                image="{{ $menu->image }}" merchant="{{ $isMerchant }}" />
+                            <x-menu-card-kantin-detail 
+                                name="{{ $menu->name }}" 
+                                price="{{ $menu->price }}"
+                                image="{{ $menu->image }}" 
+                                merchant="{{ $isMerchant }}" />
                         </div>
                     @endforeach
+
+                    {{-- Form khusus merchant, muncul setelah daftar menu --}}
                     @if($isMerchant)
                         <div class="row mt-5">
                             <div class="col-12 col-md-6">
@@ -127,7 +132,6 @@
                             </div>
                         </div>
                     @endif
-
                 </div>
             </div>
         </div>
