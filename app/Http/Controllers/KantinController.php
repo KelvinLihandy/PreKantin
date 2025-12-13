@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MenuItem;
 use App\Models\Merchant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SupabaseStorageService;
+use App\Services\SupabaseService;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class KantinController extends Controller
 {
     public function kantinPage($id)
     {
+        $storage = new SupabaseStorageService();
         // Ambil merchant atau 404 jika tidak ada
         $merchant = Merchant::findOrFail($id);
 
-        // Ambil daftar menu
-        $menus = $merchant->menuItems()->latest()->get();
+        $menus = $merchant->menuItems()->latest()->get()->map(function ($menu) use ($storage) {
+            $menu->image_url = $storage->getImage($menu->image, true);
+            return $menu;
+        });
 
         // Cek image exist hanya berdasarkan apakah ada value di DB
         $imageExist = !empty($merchant->image);
@@ -30,6 +38,8 @@ class KantinController extends Controller
         $orderCount = 0;
         $customerCount = 0;
         $total = 0;
+
+        $imageUrl = $storage->getImage($merchant->image, false);
 
         // Hitung jam operasional
         if (!empty($merchant->open) && !empty($merchant->close)) {
@@ -80,6 +90,7 @@ class KantinController extends Controller
             'orderCount'    => $orderCount,
             'customerCount' => $customerCount,
             'total'         => $total,
+            'imageUrl'      => $imageUrl,
         ]);
     }
 
@@ -118,5 +129,61 @@ class KantinController extends Controller
         }
 
         return view('kantin-list', compact('merchants', 'sort'));
+    }
+
+    public function addMenu(Request $request)
+    {
+        $rules = [
+            'nama_menu' => 'required|string|min:10|max:60',
+            'harga'     => 'required|numeric|min:5000|max:30000',
+            'merchant_id'  => 'required|numeric',
+            'menu_item_id' => 'nullable|numeric',
+        ];
+        if (!$request->menu_item_id) {
+            $rules['image'] = 'required|image|mimetypes:image/jpeg,image/png|max:2048';
+        } else {
+            $rules['image'] = 'nullable|image|mimetypes:image/jpeg,image/png|max:2048';
+        }
+        $request->validate($rules);
+
+        $menu = null;
+        $imageUrl = null;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $path = 'menu/' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $supabaseStorage = new SupabaseStorageService();
+            $result = $supabaseStorage->upload(env('SUPABASE_BUCKET_MENU'), $path, $file);
+
+            if ($result['success']) {
+                $imageUrl = $result['public_url'];
+            }
+        }
+
+        if ($request->menu_item_id) {
+            $menu = MenuItem::findOrFail($request->menu_item_id);
+
+            $dataToUpdate = [
+                'merchant_id' => $request->merchant_id,
+                'name'        => $request->nama_menu,
+                'price'       => $request->harga,
+            ];
+
+            if ($imageUrl) {
+                $dataToUpdate['image'] = $imageUrl;
+            }
+
+            $menu->update($dataToUpdate);
+        } else {
+            $menu = MenuItem::create([
+                'merchant_id' => $request->merchant_id,
+                'image'       => $imageUrl ?? 'temp',
+                'name'        => $request->nama_menu,
+                'price'       => $request->harga,
+            ]);
+        }
+
+        return redirect()->back()->with('success', $request->menu_item_id ? __('menu.success.edit') : __('menu.success.add'));
     }
 }

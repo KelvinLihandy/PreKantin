@@ -12,8 +12,8 @@
                 <div class="card-img-top rounded-top rounded-4 position-relative d-flex align-items-center justify-content-center {{ auth()->check() ? 'img-auth' : 'img-guest' }}"
                     style="object-fit: cover; background-color: {{ $imageExist ? 'transparent' : '#e0e0e0' }}">
                     @if ($imageExist)
-                        <img src="{{ asset($merchant->image) }}" alt="Merchant Image"
-                            class="rounded-top rounded-4 w-100 h-100" style="object-fit:cover;">
+                        <img src="{{ $imageUrl }}" alt="Merchant Image" class="rounded-top rounded-4 w-100 h-100"
+                            style="object-fit:cover;">
                     @else
                         <x-camera size="96" class="text-gray-500" />
                     @endif
@@ -104,8 +104,7 @@
             @foreach ($menus as $menu)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                     <x-menu-card-kantin-detail name="{{ $menu->name }}" price="{{ $menu->price }}"
-                        isOpen="{{ $isOpen }}" id="{{ $menu->menu_item_id }}" image="{{ $menu->image }}"
-                        isMerchant="{{ $isMerchant }}" />
+                        id="{{ $menu->menu_item_id }}" image="{{ $menu->image_url }}" isMerchant="{{ $isMerchant }}" />
                 </div>
             @endforeach
         @endif
@@ -113,14 +112,14 @@
 
     @auth
         <div class="modal fade" id="confirmAddModal" tabindex="-1">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content rounded-4 shadow">
                     <div class="modal-body text-center p-4">
                         <h4 class="fw-bold mb-3">{{ __('kantin.tambah.title') }}</h4>
                         <div id="selectedProductPreview" class="mb-3"></div>
                         <p class="fw-bold" id="selectedProductName"></p>
                         <p id="selectedProductPrice" class="text-primary fw-bold"></p>
-                        <button class="btn w-100 mt-3 text-white" style="background-color: #4191E8"
+                        <button class="btn w-100 mt-3 text-white fw-bold" style="background-color: #4191E8"
                             id="confirmAddBtn">{{ __('kantin.tambah.true') }}</button>
                         <button class="btn btn-secondary w-100 mt-2"
                             data-bs-dismiss="modal">{{ __('kantin.tambah.false') }}</button>
@@ -130,7 +129,7 @@
         </div>
 
         <div class="modal fade" id="confirmCheckoutModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content rounded-4 shadow">
                     <div class="modal-body p-4">
                         <h3 class="fw-bold mb-3">{{ __('kantin.pesan.konfirmasi') }}</h3>
@@ -151,7 +150,105 @@
                 </div>
             </div>
         </div>
+
+        @if (Auth::user()->role->name === 'Merchant')
+            <div class="modal fade" id="kantinModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-4 shadow">
+                        <div class="modal-body p-4">
+                            <form id="addMenuForm" action="{{ route('menu.add') }}" method="POST"
+                                enctype="multipart/form-data" onsubmit="handleMenuSubmit(event)">
+                                @csrf
+                                <input type="hidden" name="merchant_id" value="{{ $merchant->merchant_id }}" />
+                                <input type="hidden" id="menuIdInput" name="menu_item_id"
+                                    value="{{ old('menu_item_id') }}" />
+                                <div class="mb-3 w-100">
+                                    <input type="file" id="menuImageInput" name="image" accept="image/*"
+                                        class="d-none">
+                                    <div id="menuImage" class="rounded-4 w-100"
+                                        style="height:300px; background-color:#e0e0e0; cursor:pointer; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"
+                                            viewBox="0 0 24 24" fill="none" stroke="#6c757d" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
+                                            <path
+                                                d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" />
+                                            <circle cx="12" cy="13" r="3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control form-control-lg border-0 text-white"
+                                        placeholder="{{ __('modal.menu') }}" name="nama_menu" id="menuName"
+                                        value="{{ old('nama_menu') }}"
+                                        style="background-color: rgba(65, 145, 232, 0.75); caret-color: white;" required>
+                                    @error('nama_menu')
+                                        <div class="small text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-text bg-white border-0" id="basic-addon1"
+                                            style="color:#4191E8; font-weight:bold;">Rp</span>
+                                        <input type="number" class="form-control border-0 text-white"
+                                            placeholder="{{ __('modal.harga') }}" name="harga" id="menuPriceInput"
+                                            value="{{ old('harga') }}"
+                                            style="background-color: rgba(65, 145, 232, 0.75); caret-color: white;" required>
+                                    </div>
+                                    @error('harga')
+                                        <div class="small text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <button type="submit" id="submitMenu" class="btn w-100 fw-bold text-white mb-2"
+                                    style="background-color: #4191E8">
+                                </button>
+                                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                                    {{ __('kantin.tambah.false') }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     @endauth
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        @if (session('success'))
+            <div id="uploadToast" class="toast align-items-center text-bg-success border-0" role="alert"
+                aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('success') }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+        @if (session('error'))
+            <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert"
+                aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('error') }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+        @if ($errors->any())
+            <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert"
+                aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {!! implode('<br>', $errors->all()) !!}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+    </div>
     </div>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
     </script>
@@ -177,6 +274,82 @@
             document.getElementById("cancelCheckoutBtn").disabled = false;
             document.getElementById("confirmPaymentSpinner").classList.add("d-none");
             document.getElementById("confirmPaymentText").innerText = "{{ __('kantin.pesan.lanjut') }}";
+        }
+
+        function addMenu(add = true, image = null, name = "", price = null, id = null) {
+            @if (!$isMerchant)
+                return;
+            @endif
+
+            const imageEle = document.getElementById("menuImage");
+            const imageInput = document.getElementById("menuImageInput");
+            const submit = document.getElementById("submitMenu");
+            const menuNameInput = document.getElementById("menuName");
+            const menuPriceInput = document.getElementById("menuPriceInput");
+            const menuIdInput = document.getElementById("menuIdInput");
+
+            submit.innerText = add ? "{{ __('modal.add') }}" : "{{ __('modal.edit') }}";
+            menuNameInput.value = name;
+            menuPriceInput.value = price;
+            menuIdInput.value = id;
+
+            if (add || !image) {
+                imageEle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none"
+                stroke="#6c757d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="text-gray-500" style="cursor:pointer;">
+                <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/>
+                <circle cx="12" cy="13" r="3"/>
+            </svg>
+        `;
+                imageInput.value = "";
+            } else {
+                imageEle.innerHTML = `
+            <img src="${image}" style="width:100%; height:100%; object-fit:cover; cursor:pointer;">
+        `;
+            }
+
+            imageEle.onclick = () => imageInput.click();
+
+            imageInput.onchange = () => {
+                const file = imageInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imageEle.innerHTML = `
+                    <img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; cursor:pointer;">
+                `;
+                        imageEle.onclick = () => imageInput.click();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imageEle.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none"
+                    stroke="#6c757d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="text-gray-500" style="cursor:pointer;">
+                    <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/>
+                    <circle cx="12" cy="13" r="3"/>
+                </svg>
+            `;
+                    imageEle.onclick = () => imageInput.click();
+                }
+            };
+
+            new bootstrap.Modal(document.getElementById('kantinModal')).show();
+        }
+
+        function handleMenuSubmit(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById("submitMenu");
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            `;
+
+            event.target.submit();
         }
 
         function renderCart() {
@@ -274,6 +447,22 @@
 
             if (merchantCard && orderCard) {
                 orderCard.style.maxHeight = merchantCard.offsetHeight + "px";
+            }
+
+            var uploadToastEl = document.getElementById('uploadToast');
+            if (uploadToastEl) {
+                var uploadToast = new bootstrap.Toast(uploadToastEl, {
+                    delay: 10000
+                });
+                uploadToast.show();
+            }
+
+            var errorToastEl = document.getElementById('errorToast');
+            if (errorToastEl) {
+                var errorToast = new bootstrap.Toast(errorToastEl, {
+                    delay: 10000
+                });
+                errorToast.show();
             }
         });
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\KantinController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
-use App\Http\Controllers\MerchantMenuController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
@@ -35,14 +34,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
-
+    
     Route::get('/merchant/order-history', [OrderHistoryController::class, 'merchantIndex'])->name('merchant.order.history');
     Route::post('/merchant/order/{id}/status', [OrderHistoryController::class, 'updateStatus'])->name('merchant.order.update');
-
     Route::get('/merchant/order/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
-
-    Route::get('/merchant/menu', [MerchantMenuController::class, 'index'])->name('merchant.menu.index');
-    Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
+    Route::post('/merchant/menu', [KantinController::class, 'addMenu'])->name('menu.add');
 
     Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
     Route::delete('order/remove/{id}', [OrderController::class, 'remove'])->name('order.remove');
