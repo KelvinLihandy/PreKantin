@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SupabaseStorageService;
-use App\Services\SupabaseService;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class KantinController extends Controller
 {

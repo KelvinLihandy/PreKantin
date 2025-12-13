@@ -129,5 +129,11 @@
     "menu.image.fail": "Failed to upload image",
     "menu.success.add": "Menu added successfully!",
     "menu.success.edit": "Menu updated successfully!",
-    "menu.image.missing": "No image provided"
+    "menu.image.missing": "No image provided",
+
+    "merchant.edit.name": "Merchant name updated successfully",
+    "merchant.success.add": "Successfully added menu!",
+    "merchant.success.edit": "Successfully edited menu!",
+    "merchant.edit.void": "No image changes",
+    "merchant.edit.image.error": "Image is required"
 }

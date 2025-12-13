@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\KantinController;
+use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderHistoryController;
@@ -39,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/merchant/order/{id}/status', [OrderHistoryController::class, 'updateStatus'])->name('merchant.order.update');
     Route::get('/merchant/order/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
     Route::post('/merchant/menu', [KantinController::class, 'addMenu'])->name('menu.add');
+    Route::post('/merchant/name', [MerchantController::class, 'saveName'])->name('merchant.name');
+    Route::post('/merchant/time', [MerchantController::class, 'saveTime'])->name('merchant.time');
+    Route::post('/merchant/image', [MerchantController::class, 'saveImage'])->name('merchant.image');
 
     Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
     Route::delete('order/remove/{id}', [OrderController::class, 'remove'])->name('order.remove');

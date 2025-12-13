@@ -11,28 +11,60 @@
             <div id="merchantCard" class="card border-0 shadow rounded-4 p-3 p-md-4 position-relative">
                 <div class="card-img-top rounded-top rounded-4 position-relative d-flex align-items-center justify-content-center {{ auth()->check() ? 'img-auth' : 'img-guest' }}"
                     style="object-fit: cover; background-color: {{ $imageExist ? 'transparent' : '#e0e0e0' }}">
-                    @if ($imageExist)
-                        <img src="{{ $imageUrl }}" alt="Merchant Image" class="rounded-top rounded-4 w-100 h-100"
-                            style="object-fit:cover;">
-                    @else
-                        <x-camera size="96" class="text-gray-500" />
-                    @endif
+
+                    <div id="merchantImagePreview" class="w-100 h-100 position-absolute top-0 start-0">
+                        @if ($imageExist)
+                            <img src="{{ $imageUrl }}" alt="Merchant Image" class="rounded-top rounded-4 w-100 h-100"
+                                style="object-fit:cover;">
+                        @else
+                            <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                                <x-camera size="96" class="text-gray-500" />
+                            </div>
+                        @endif
+                    </div>
 
                     @if ($isMerchant)
-                        <div class="position-absolute top-0 end-0 m-4 d-flex align-items-center justify-content-center rounded-circle"
-                            style="width:50px; height:50px; cursor:pointer; background-color:#4191E8">
+                        <form id="merchantImageForm" action="{{ route('merchant.image') }}" method="POST"
+                            enctype="multipart/form-data" class="d-none">
+                            @csrf
+                            <input type="hidden" name="merchant_id" value="{{ $merchant->merchant_id }}">
+                            <input type="file" id="merchantImageInput" name="image" accept="image/jpeg,image/png">
+                        </form>
+                        <div id="editImageBtn"
+                            class="position-absolute top-0 end-0 m-4 d-flex align-items-center justify-content-center rounded-circle"
+                            style="width:50px; height:50px; cursor:pointer; background-color:#4191E8; z-index:10;"
+                            onclick="openImagePicker()">
                             <x-pencil color="white" />
+                        </div>
+                        <div id="loadingImageBtn"
+                            class="position-absolute top-0 end-0 m-4 d-none align-items-center justify-content-center rounded-circle"
+                            style="width:50px; height:50px; background-color:#4191E8; z-index:10;">
+                            <span class="spinner-border spinner-border-sm text-white" role="status"></span>
                         </div>
                     @endif
                 </div>
-
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="d-flex align-items-center">
-                            <h3 class="fw-bold mb-0 me-2">{{ $merchant->user->name }}</h3>
-                            @if ($isMerchant)
-                                <x-pencil color="black" />
-                            @endif
+                            <form id="merchantNameForm" action="{{ route('merchant.name') }}" method="POST"
+                                class="d-flex align-items-center">
+                                @csrf
+                                <input type="hidden" name="merchant_id" value="{{ $merchant->merchant_id }}">
+                                <h3 id="merchantName" class="fw-bold mb-0 me-3">{{ $merchant->user->name }}</h3>
+                                <input type="text" id="merchantNameInput" name="name"
+                                    class="form-control form-control-lg fw-bold me-4 d-none"
+                                    value="{{ $merchant->user->name }}" style="max-width: 300px;" required>
+
+                                @if ($isMerchant)
+                                    <span id="editNameBtn" style="cursor: pointer;" onclick="toggleEditName(event)">
+                                        <x-pencil color="black" />
+                                    </span>
+                                    <button type="submit" id="saveNameBtn" class="d-none btn btn-link p-0 border-0"
+                                        style="cursor: pointer;">
+                                        <x-pencil color="#4191E8" />
+                                    </button>
+                                @endif
+                            </form>
                         </div>
                         <span class="badge {{ $isOpen ? 'bg-success' : 'bg-danger' }} px-3 py-2 fs-6">
                             @if ($isOpen)
@@ -44,12 +76,29 @@
                     </div>
 
                     <div class="d-flex align-items-center mt-2">
-                        <p class="mb-0 me-2" style="color:#4191E8">
+                        <p id="merchantHours" class="mb-0 me-2" style="color:#4191E8">
                             {{ substr($merchant->open, 0, 5) ?? '00:00' }} -
                             {{ substr($merchant->close, 0, 5) ?? '00:00' }}
                         </p>
+
+                        <form id="merchantHoursForm" action="{{ route('merchant.time') }}" method="POST"
+                            class="d-none align-items-center gap-2">
+                            @csrf
+                            <input type="hidden" name="merchant_id" value="{{ $merchant->merchant_id }}">
+                            <input type="time" id="openTime" name="open" class="form-control form-control-sm"
+                                value="{{ substr($merchant->open, 0, 5) }}" style="width: 100px;" required>
+                            <span>-</span>
+                            <input type="time" id="closeTime" name="close" class="form-control form-control-sm"
+                                value="{{ substr($merchant->close, 0, 5) }}" style="width: 100px;" required>
+                            <button type="submit" id="saveHoursBtn" class="btn btn-link p-0 border-0">
+                                <x-pencil color="#4191E8" size="20" />
+                            </button>
+                        </form>
+
                         @if ($isMerchant)
-                            <x-pencil color="black" size="20" />
+                            <span id="editHoursBtn" style="cursor: pointer;" onclick="toggleEditHours()">
+                                <x-pencil color="black" size="20" />
+                            </span>
                         @endif
                     </div>
                 </div>
@@ -104,7 +153,8 @@
             @foreach ($menus as $menu)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                     <x-menu-card-kantin-detail name="{{ $menu->name }}" price="{{ $menu->price }}"
-                        id="{{ $menu->menu_item_id }}" image="{{ $menu->image_url }}" isMerchant="{{ $isMerchant }}" />
+                        id="{{ $menu->menu_item_id }}" image="{{ $menu->image_url }}"
+                        isMerchant="{{ $isMerchant }}" />
                 </div>
             @endforeach
         @endif
@@ -254,6 +304,8 @@
     </script>
     <script>
         let cart = [];
+        let selectedImageFile = null;
+        let isImageSelected = false;
         let selectedProduct = null;
         let isProcessing = false;
         let checkoutModal = null;
@@ -274,6 +326,153 @@
             document.getElementById("cancelCheckoutBtn").disabled = false;
             document.getElementById("confirmPaymentSpinner").classList.add("d-none");
             document.getElementById("confirmPaymentText").innerText = "{{ __('kantin.pesan.lanjut') }}";
+        }
+
+        function openImagePicker() {
+            const imageInput = document.getElementById('merchantImageInput');
+            if (!imageInput) return;
+
+            imageInput.click();
+        }
+
+        function saveImage() {
+            if (!selectedImageFile || !isImageSelected) {
+                return;
+            }
+
+            const editBtn = document.getElementById('editImageBtn');
+            const loadingBtn = document.getElementById('loadingImageBtn');
+
+            if (!editBtn || !loadingBtn) return;
+
+            editBtn.classList.add('d-none');
+            loadingBtn.classList.remove('d-none');
+            loadingBtn.classList.add('d-flex');
+
+            isImageSelected = false;
+
+            document.getElementById('merchantImageForm')?.submit();
+        }
+
+        function cancelImageEdit() {
+            const preview = document.getElementById('merchantImagePreview');
+            const imageInput = document.getElementById('merchantImageInput');
+
+            if (preview) {
+                preview.innerHTML = `
+                @if ($imageExist)
+                    <img src="{{ $imageUrl }}" alt="Merchant Image" class="rounded-top rounded-4 w-100 h-100"
+                        style="object-fit:cover;">
+                @else
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                        <x-camera size="96" class="text-gray-500" />
+                    </div>
+                @endif
+            `;
+            }
+
+            if (imageInput) imageInput.value = '';
+            selectedImageFile = null;
+            isImageSelected = false;
+        }
+
+        function toggleEditHours() {
+            const hoursDisplay = document.getElementById('merchantHours');
+            const hoursForm = document.getElementById('merchantHoursForm');
+            const editBtn = document.getElementById('editHoursBtn');
+
+            if (!hoursDisplay || !hoursForm || !editBtn) return;
+
+            hoursDisplay.classList.add('d-none');
+            hoursForm.classList.remove('d-none');
+            hoursForm.classList.add('d-flex');
+            editBtn.classList.add('d-none');
+
+            document.getElementById('openTime')?.focus();
+        }
+
+        function cancelEditHours() {
+            const hoursDisplay = document.getElementById('merchantHours');
+            const hoursForm = document.getElementById('merchantHoursForm');
+            const editBtn = document.getElementById('editHoursBtn');
+
+            if (!hoursDisplay || !hoursForm || !editBtn) return;
+
+            hoursDisplay.classList.remove('d-none');
+            hoursForm.classList.remove('d-flex');
+            hoursForm.classList.add('d-none');
+            editBtn.classList.remove('d-none');
+
+            document.getElementById('openTime').value = '{{ substr($merchant->open, 0, 5) }}';
+            document.getElementById('closeTime').value = '{{ substr($merchant->close, 0, 5) }}';
+        }
+
+        function showHoursLoadingSpinner() {
+            const saveBtn = document.getElementById('saveHoursBtn');
+            if (saveBtn) {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm" style="color: #4191E8" role="status"></span>
+            `;
+            }
+        }
+
+        function validateHours() {
+            const openTime = document.getElementById('openTime');
+            const closeTime = document.getElementById('closeTime');
+
+            if (!openTime.value || !closeTime.value) {
+                alert('Please select both opening and closing time');
+                return false;
+            }
+
+            if (openTime.value >= closeTime.value) {
+                alert('Closing time must be after opening time');
+                return false;
+            }
+
+            return true;
+        }
+
+        function showNameLoadingSpinner() {
+            const saveBtn = document.getElementById('saveNameBtn');
+            if (saveBtn) {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm" style="color:#4191E8" role="status"></span>
+                `;
+            }
+        }
+
+        function doNameTrim() {
+            const nameInput = document.getElementById('merchantNameInput');
+
+            if (!nameInput.value.trim()) {
+                e.preventDefault();
+                alert('Name cannot be empty');
+                return false;
+            }
+        }
+
+        function toggleEditName() {
+            const nameDisplay = document.getElementById('merchantName');
+            const nameInput = document.getElementById('merchantNameInput');
+            const editBtn = document.getElementById('editNameBtn');
+            const saveBtn = document.getElementById('saveNameBtn');
+
+            nameDisplay.classList.add('d-none');
+            nameInput.classList.remove('d-none');
+            editBtn.classList.add('d-none');
+            saveBtn.classList.remove('d-none');
+
+            nameInput.focus();
+            nameInput.select();
+        }
+
+        function confirmSave() {
+            doNameTrim();
+            showNameLoadingSpinner();
+            return true;
         }
 
         function addMenu(add = true, image = null, name = "", price = null, id = null) {
@@ -463,6 +662,154 @@
                     delay: 10000
                 });
                 errorToast.show();
+            }
+        });
+
+        document.getElementById('merchantImageInput')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                alert('Only JPEG and PNG images are allowed');
+                this.value = '';
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image size must be less than 2MB');
+                this.value = '';
+                return;
+            }
+
+            selectedImageFile = file;
+            isImageSelected = true;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.getElementById('merchantImagePreview');
+                if (preview) {
+                    preview.innerHTML = `
+                    <img src="${event.target.result}" alt="Preview" class="rounded-top rounded-4 w-100 h-100"
+                        style="object-fit:cover;">
+                `;
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && isImageSelected) {
+                e.preventDefault();
+                saveImage();
+            } else if (e.key === 'Escape' && isImageSelected) {
+                e.preventDefault();
+                cancelImageEdit();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const saveBtn = document.getElementById('saveImageBtn');
+                if (saveBtn && !saveBtn.classList.contains('d-none')) {
+                    cancelImageEdit();
+                }
+            }
+        });
+
+        document.getElementById('merchantHoursForm')?.addEventListener('submit', function(e) {
+            doNameTrim();
+            showHoursLoadingSpinner();
+        });
+
+        document.getElementById('openTime')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+
+                if (!validateHours()) {
+                    return false;
+                }
+
+                showHoursLoadingSpinner();
+
+                setTimeout(() => {
+                    document.getElementById('merchantHoursForm')?.submit();
+                }, 100);
+            }
+        });
+
+        document.getElementById('closeTime')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+
+                if (!validateHours()) {
+                    return false;
+                }
+
+                showHoursLoadingSpinner();
+
+                setTimeout(() => {
+                    document.getElementById('merchantHoursForm')?.submit();
+                }, 100);
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const hoursForm = document.getElementById('merchantHoursForm');
+                if (hoursForm && !hoursForm.classList.contains('d-none')) {
+                    cancelEditHours();
+                }
+            }
+        });
+
+        document.getElementById('merchantNameForm')?.addEventListener('submit', function(e) {
+            const nameInput = document.getElementById('merchantNameInput');
+
+            if (!nameInput.value.trim()) {
+                e.preventDefault();
+                alert('Name cannot be empty');
+                return false;
+            }
+
+            showNameLoadingSpinner()
+
+        });
+
+        document.getElementById('merchantNameInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const nameInput = document.getElementById('merchantNameInput');
+                const saveBtn = document.getElementById('saveNameBtn');
+
+                if (!nameInput.value.trim()) {
+                    e.preventDefault();
+                    alert('Name cannot be empty');
+                    return false;
+                }
+
+                if (saveBtn) {
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = `
+                <span class="spinner-border spinner-border" style="color:#4191E8;" role="status"></span>
+            `;
+                }
+
+                document.getElementById('merchantNameForm').submit();
+            }
+        });
+
+        document.getElementById('merchantNameInput')?.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const nameDisplay = document.getElementById('merchantName');
+                const nameInput = document.getElementById('merchantNameInput');
+                const editBtn = document.getElementById('editNameBtn');
+                const saveBtn = document.getElementById('saveNameBtn');
+
+                nameInput.value = nameDisplay.textContent.trim();
+                nameDisplay.classList.remove('d-none');
+                nameInput.classList.add('d-none');
+                editBtn.classList.remove('d-none');
+                saveBtn.classList.add('d-none');
             }
         });
 
