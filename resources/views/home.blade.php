@@ -27,31 +27,32 @@
             </div>
         </section>
 
-        <section class="bg-light py-5">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold">{{ __('home.paling_banyak_dipesan') }}</h3>
-                    {{-- not implemented --}}
-                    <a href="#" class="fw-bold btn"
-                        style="color: #4191E8; border: 2px solid #FB8C30; background-color: transparent; text-decoration: none; rounded"
-                        onmouseover="this.style.backgroundColor='#FB8C30'; this.style.color='white'; this.style.borderColor='#FB8C30';"
-                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='#4191E8'; this.style.borderColor='#FB8C30';">
-                        {{ __('home.menu.more') }}
-                    </a>
+        @if (Auth::user() && Auth::user()->role == 'mahasiswa')
+            <section class="bg-light py-5">
+                <div class="container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold">{{ __('home.paling_banyak_dipesan') }}</h3>
+                        <a href="{{ route('kantin.list') }}" class="fw-bold btn"
+                            style="color: #4191E8; border: 2px solid #FB8C30; background-color: transparent; text-decoration: none; rounded"
+                            onmouseover="this.style.backgroundColor='#FB8C30'; this.style.color='white'; this.style.borderColor='#FB8C30';"
+                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#4191E8'; this.style.borderColor='#FB8C30';">
+                            {{ __('home.menu.more') }}
+                        </a>
 
+                    </div>
+                    <div class="row g-4">
+                        @foreach ($topMenuItems as $topMenuItem)
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <x-fav-menu-card image="{{ $topMenuItem->menu_item->image }}"
+                                    name="{{ $topMenuItem->menu_item->name }}"
+                                    merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
+                                    price="{{ $topMenuItem->menu_item->price }}" />
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="row g-4">
-                    @foreach ($topMenuItems as $topMenuItem)
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <x-fav-menu-card image="{{ $topMenuItem->menu_item->image }}"
-                                name="{{ $topMenuItem->menu_item->name }}"
-                                merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
-                                price="{{ $topMenuItem->menu_item->price }}" />
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
         <section class="text-white py-5 text-center" style="background-color: #4191E8">
             <div class="container">

@@ -15,7 +15,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h4 class="fw-bold m-0 text-dark">{{ __('orderHistory.detail_title') }}</h4>
-                                <p class="text-muted m-0 small">{{ __('orderHistory.order_id') }}: #{{ $order->order_id }}</p>
+                                <p class="text-muted m-0 small">{{ __('orderHistory.order_id') }}: #{{ $order->invoice_number }}</p>
                             </div>
                             <span class="badge bg-primary fs-6 px-3 py-2 rounded-3">{{ $order->status->name }}</span>
                         </div>

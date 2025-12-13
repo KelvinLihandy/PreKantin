@@ -8,7 +8,7 @@
                 <h2 class="fw-bold m-0">{{ __('merchant.history.title') }}</h2>
             </div>
 
-            <h3 class="fw-bold text-primary mb-3 mt-5 px-2">{{ __('orderHistory.title') }}</h3>
+            <h3 class="fw-bold text-primary mb-3 mt-5 px-2">{{ __('merchant.history.order') }}</h3>
 
             @if($activeOrders->isEmpty())
                 <div class="card rounded-4 border-0 p-4 text-center shadow-sm bg-white">
@@ -32,7 +32,7 @@
                                     </div>
 
                                     <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
-                                        <a href="{{ route('order.detail', $order->order_id) }}" class="btn text-white fw-bold px-4"
+                                        <a href="{{ route('merchant.order.detail', $order->invoice_number) }}" class="btn text-white fw-bold px-4"
                                             style="background-color: #4191E8;">
                                             {{ __('lihat.detail') }}
                                         </a>

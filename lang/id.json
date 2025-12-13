@@ -13,6 +13,7 @@
     "total.harga": "Total Harga",
     "pembeli": "Pembeli",
     "waktu": "Waktu",
+    "harga": "Harga",
 
     "terima": "TERIMA",
     "tolak": "TOLAK",
@@ -106,7 +107,17 @@
     "orderHistory.back": "Kembali",
 
     "merchant.history.title": "Order History Merchant",
+    "merchant.history.order" : "Pesanan Masuk",
     "merchant.history.empty": "Belum ada pesanan masuk untuk saat ini.",
     "lihat.detail": "Lihat Detail",
-    "riwayat.transaksi": "Riwayat Transaksi"
+    "riwayat.transaksi": "Riwayat Transaksi",
+
+    "kantin.list.title": "Kantin-Kantin Kami",
+    "kantin.list.lead": "esan sekarang dan nikmati makanan segar dari berbagai kantin pilihan!",
+    "kantin.list.all": "Semua Kantin",
+    "kantin.list.low": "Harga Terendah",
+    "kantin.list.high": "Harga Tertinggi",
+    "kantin.list.empty": "Maaf, tidak ada kantin yang tersedia saat ini.",
+    "kantin.list.count": "Telah dipesan ",
+    "kantin.list.times": " kali"
 }

@@ -1,19 +1,14 @@
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
     style="cursor:pointer; height:360px; display:flex; flex-direction:column;"
-    @if(!$add)
-        onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}')"
-    @endif
->
+    @if (!$isMerchant) onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')" @endif>
     @if ($add)
         <div class="card border-0 shadow rounded-4 d-flex align-items-center justify-content-center"
             style="flex: 1; background-color: #D9D9D9;">
             <button class="btn rounded-5 text-white d-flex align-items-center justify-content-center"
                 style="background-color: #4191E8; width: 60px; height: 60px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                     viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-plus-icon lucide-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-plus-icon lucide-plus">
                     <path d="M5 12h14" />
                     <path d="M12 5v14" />
                 </svg>
@@ -36,16 +31,14 @@
             @endif
         </div>
         <div class="p-3 d-flex flex-column justify-content-between" style="height:200px;">
-            <p class="fw-bold text-break"
-                style="color:#FB8C30; font-size:1rem;display: -webkit-box;
-                    -webkit-line-clamp: 3;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    text-overflow: ellipsis;">
+            <p class="fw-bold text-break fs-6 fs-md-5"
+                style="color:#FB8C30; display:-webkit-box;
+                    -webkit-line-clamp:3;
+                    -webkit-box-orient:vertical;
+                    overflow:hidden;">
                 {{ $name }}
             </p>
-            <button class="btn w-100 fw-bold rounded-pill text-white"
-                style="background-color:#4191E8;"
+            <button class="btn w-100 fw-bold rounded-pill text-white btn-sm" style="background-color:#4191E8;"
                 onclick="event.stopPropagation(); selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}')">
                 Rp. {{ number_format($price, 2, ',', '.') }}
             </button>

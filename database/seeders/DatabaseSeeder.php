@@ -20,9 +20,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MerchantSeeder::class,
             StatusSeeder::class,
-            OrderSeeder::class,
             MenuItemSeeder::class,
-            OrderItemSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

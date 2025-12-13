@@ -54,7 +54,7 @@
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                href="#">{{ __('navbar.kantin') }}</a></li>
+                                href="{{ route('kantin.list') }}">{{ __('navbar.kantin') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
                                 href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
                         <li class="nav-item"><a class="nav-link text-white fw-bold"
@@ -73,9 +73,8 @@
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
-                                {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="#">{{ __('navbar.kantin') }}</a></li>
+                                        href="{{ route('kantin.list') }}">{{ __('navbar.kantin') }}</a></li>
                             @endif
 
                             @if ($role === 'Merchant')
@@ -99,6 +98,7 @@
 
                                 <ul class="dropdown-menu dropdown-menu-end text-center">
                                     <li class="fw-bold px-2 py-1">{{ $fullName }}</li>
+                                    {{-- KRITIS: Menggunakan route yang sesuai dengan web.php Anda --}}
                                     <li><a class="dropdown-item fw-bold" style="color: #4191E8"
                                             href="{{ route('password.change') }}">{{ __('reset.title') }}</a></li>
                                     <li>
@@ -115,9 +115,8 @@
                             @if ($role === 'Mahasiswa')
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
                                         href="{{ route('home.page') }}">{{ __('navbar.home') }}</a></li>
-                                {{-- not implemented --}}
                                 <li class="nav-item"><a class="nav-link text-white fw-bold"
-                                        href="#">{{ __('navbar.kantin') }}</a></li>
+                                        href="{{ route('kantin.list') }}">{{ __('navbar.kantin') }}</a></li>
                             @endif
 
                             @if ($role === 'Merchant')
@@ -205,5 +204,4 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

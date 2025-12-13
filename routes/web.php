@@ -10,6 +10,8 @@ use App\Http\Controllers\MerchantMenuController;
 use App\Http\Controllers\PaymentController;
 
 Route::get('/', [BaseController::class, 'homePage'])->name('home.page');
+Route::get('/kantin', [KantinController::class, 'kantinListPage'])->name('kantin.list');
+Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'registerPage'])->name('register.page');
@@ -27,7 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/change-password', [AuthController::class, 'changePage'])->name('password.change');
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('password.changed');
-    Route::get('/kantin/{id}', [KantinController::class, 'kantinPage'])->name('kantin.page');
 
     // Upload image menu ke Supabase
     Route::post('/merchant/{id}/menu/upload-image', [KantinController::class, 'uploadMenuImage'])->name('menu.upload');
@@ -47,7 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/merchant/menu', [MerchantMenuController::class, 'store'])->name('merchant.menu.store');
 
     Route::post('/order/add', [OrderController::class, 'addOrder'])->name('order.add');
-    Route::post('/order/create', [OrderController::class, 'store']);
-    Route::post('/order/create', [OrderController::class, 'store'])->name('order.create');
+    Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
     Route::post('/payment/create-qris', [PaymentController::class, 'createQris']);
 });
