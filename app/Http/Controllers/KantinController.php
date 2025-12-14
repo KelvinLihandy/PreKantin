@@ -113,6 +113,15 @@ class KantinController extends Controller
 
         $merchants = $query->paginate(12);
 
+        $storage = new SupabaseStorageService();
+
+        $merchants->getCollection()->transform(function ($merchant) use ($storage) {
+            if ($merchant->image) {
+                $merchant->image_url = $storage->getImage($merchant->image, true);
+            }
+            return $merchant;
+        });
+
         if ($merchants->total() === 0) {
             $empty = new LengthAwarePaginator(
                 collect(), // empty

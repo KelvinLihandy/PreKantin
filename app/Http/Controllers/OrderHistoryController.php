@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\SupabaseStorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -11,14 +12,32 @@ class OrderHistoryController extends Controller
 {
     public function index()
     {
+        $storage = new SupabaseStorageService();
         if (Auth::user()->role->name !== 'Mahasiswa') {
             abort(403, 'Halaman ini khusus Mahasiswa.');
         }
 
         $orders = Order::where('user_id', Auth::id())
-            ->with(['merchant.user', 'status', 'orderItems.menu_item']) // Load relasi biar ga berat
-            ->orderBy('order_time', 'desc')
-            ->get();
+            ->with(['merchant.user', 'status', 'orderItems.menu_item'])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($order) use ($storage) {
+                $order->orderItems->map(function ($item) use ($storage) {
+                    if ($item->menu_item && $item->menu_item->image) {
+                        $item->menu_item->image_url = $storage->getImage(
+                            $item->menu_item->image,
+                            true
+                        );
+                    }
+                    return $item;
+                });
+
+                return $order;
+            });
+
+        $activeOrders = $orders->whereIn('status_id', [1, 2, 3]);
+        $finishedOrders = $orders->whereIn('status_id', [4, 5]);
+        $orders = $activeOrders->concat($finishedOrders);
 
         $groupedOrders = $orders->groupBy(function ($order) {
             return $order->order_time->format('Y'); // Group Tahun (2025, 2024)
@@ -35,13 +54,20 @@ class OrderHistoryController extends Controller
 
     public function show(Order $order)
     {
-        // Cek keamanan: Pastikan yang buka detail ini adalah pemilik ordernya
+        $storage = new SupabaseStorageService();
+
         if ($order->user_id !== Auth::id()) {
             abort(403, 'Anda tidak memiliki akses ke pesanan ini.');
         }
 
-        // Load detail item dan menu-nya
         $order->load(['orderItems.menu_item', 'merchant.user', 'status']);
+
+        $order->orderItems->map(function ($item) use ($storage) {
+            if ($item->menu_item && $item->menu_item->image) {
+                $item->menu_item->image_url = $storage->getImage($item->menu_item->image, true);
+            }
+            return $item;
+        });
 
         return view('order-detail', [
             'order' => $order
@@ -50,6 +76,7 @@ class OrderHistoryController extends Controller
 
     public function merchantShow(Order $order)
     {
+        $storage = new SupabaseStorageService();
         $user = Auth::user();
 
         if (!$user->merchant || $order->merchant_id !== $user->merchant->merchant_id) {
@@ -58,11 +85,20 @@ class OrderHistoryController extends Controller
 
         $order->load(['orderItems.menu_item', 'user', 'status']);
 
+        $order->orderItems->map(function ($item) use ($storage) {
+            if ($item->menu_item && $item->menu_item->image) {
+                $item->menu_item->image_url = $storage->getImage($item->menu_item->image, true);
+            }
+            return $item;
+        });
+
+
         return view('merchant.order-detail', compact('order'));
     }
 
     public function merchantIndex()
     {
+        $storage = new SupabaseStorageService();
         $user = Auth::user();
 
         if (!$user->merchant) {
@@ -73,13 +109,24 @@ class OrderHistoryController extends Controller
 
         $orders = Order::where('merchant_id', $merchantId)
             ->with(['user', 'status', 'orderItems.menu_item'])
-            ->orderBy('order_time', 'desc')
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($order) use ($storage) {
+                $order->orderItems->map(function ($item) use ($storage) {
+                    if ($item->menu_item && $item->menu_item->image) {
+                        $item->menu_item->image_url = $storage->getImage(
+                            $item->menu_item->image,
+                            true
+                        );
+                    }
+                    return $item;
+                });
 
-        // Pesanan Aktif: Masuk (1), Diterima (2), dan Disiapkan (3)
+                return $order;
+            });;
+
         $activeOrders = $orders->whereIn('status_id', [1, 2, 3]);
 
-        // Riwayat: Selesai (4) dan Ditolak (5)
         $groupedHistory = $orders->whereIn('status_id', [4, 5])
             ->groupBy(fn($order) => $order->order_time->format('Y'))
             ->map(fn($yearGroup) => $yearGroup->groupBy(fn($order) => $order->order_time->translatedFormat('F')));
@@ -92,17 +139,29 @@ class OrderHistoryController extends Controller
         $order = Order::findOrFail($id);
         $user = Auth::user();
 
-        if (!$user->merchant) {
-            abort(403, 'Profil Merchant tidak ditemukan.');
+        $statusId = (int) $request->status_id;
+        $merchantStatuses = [2, 3, 5];
+        $studentStatuses = [4];
+
+        if (in_array($statusId, $merchantStatuses)) {
+            if (!$user->merchant) {
+                abort(403, 'Profil Merchant tidak ditemukan.');
+            }
+            if ($order->merchant_id != $user->merchant->merchant_id) {
+                abort(403, 'Anda tidak memiliki akses untuk mengubah pesanan ini.');
+            }
         }
 
-        $merchantId = $user->merchant->merchant_id;
-
-        if ($order->merchant_id != $merchantId) {
-            abort(403, 'Anda tidak memiliki akses untuk mengubah pesanan ini.');
+        if (in_array($statusId, $studentStatuses)) {
+            if (!$user->user_id) {
+                abort(403, 'Profil Mahasiswa tidak ditemukan.');
+            }
+            if ($order->user_id != $user->user_id) {
+                abort(403, 'Anda tidak memiliki akses untuk mengubah pesanan ini.');
+            }
         }
 
-        $order->status_id = $request->status_id;
+        $order->status_id = $statusId;
         $order->save();
 
         return back()->with('success', 'Status pesanan berhasil diperbarui!');

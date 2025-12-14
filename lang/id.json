@@ -15,11 +15,15 @@
     "waktu": "Waktu",
     "harga": "Harga",
 
-    "terima": "TERIMA",
     "tolak": "TOLAK",
     "siapkan": "SIAPKAN",
-    "selesai.caps": "SELESAI",
-    "selesai.pesanan": "PESANAN SELESAI",
+    "selesai.caps": "SIAP DIAMBIL",
+    "belum.ambil": "BELUM DIAMBIL",
+    "ambil": "AMBIL PESANAN",
+    "selesai.pesanan": "SELESAI",
+    "diterima": "DITERIMA",
+    "ditolak": "DITOLAK",
+    "disiapkan": "DISIAPKAN",
 
     "header.cepat_praktis_lezat": "Cepat Praktis Lezat",
     "navbar.home": "Home",

@@ -168,7 +168,7 @@
                         <h4 class="fw-bold mb-3">{{ __('kantin.tambah.title') }}</h4>
                         <div id="selectedProductPreview" class="mb-3"></div>
                         <p class="fw-bold" id="selectedProductName"></p>
-                        <p id="selectedProductPrice" class="text-primary fw-bold"></p>
+                        <p id="selectedProductPrice" class="fw-bold" style="color: #4191E8"></p>
                         <button class="btn w-100 mt-3 text-white fw-bold" style="background-color: #4191E8"
                             id="confirmAddBtn">{{ __('kantin.tambah.true') }}</button>
                         <button class="btn btn-secondary w-100 mt-2"
