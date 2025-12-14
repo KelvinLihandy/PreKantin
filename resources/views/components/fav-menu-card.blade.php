@@ -1,5 +1,5 @@
 <div class="card border-0 shadow-sm rounded rounded-4">
-    <img src="{{ asset($image) }}" class="card-img-top rounded-top rounded-4" style="height:300px" alt="Bakmi">
+    <img src="{{ $image }}" class="card-img-top rounded-top rounded-4" style="height:300px" alt="Bakmi">
     <div class="card-body">
         <h5 class="fw-bold"
             style="color:#FB8C30;

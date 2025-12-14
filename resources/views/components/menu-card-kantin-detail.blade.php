@@ -19,7 +19,7 @@
     @else
         <div style="height:220px; width:100%; overflow:hidden; position:relative;">
             @if (!empty($image))
-                <img src="{{ asset($image) }}" class="w-100 h-100" style="object-fit:cover;">
+                <img src="{{ $image }}" class="w-100 h-100" style="object-fit:cover;">
             @else
                 <div class="d-flex justify-content-center align-items-center w-100 h-100 bg-light">
                     <x-camera size="50" class="text-secondary" />

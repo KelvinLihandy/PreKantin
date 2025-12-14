@@ -95,20 +95,19 @@
                             <li class="nav-item"><a class="nav-link text-white fw-bold"
                                     href="{{ route('about.page') }}">{{ __('navbar.tentang') }}</a></li>
                             <div class="mx-4" style="width:2px;height:40px;background:white;"></div>
-                            <li class="nav-item d-flex align-items-center gap-2">
-                                <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
+                            <li class="nav-item d-flex align-items-center gap-2 me-5">
+                                <span class="fw-bold text-warning">{{ $order_count ?? 0 }}</span>
                                 <a class="nav-link p-0"
                                     href="{{ $role === 'Mahasiswa' ? route('order.history') : route('merchant.order.history') }}">
                                     <x-history />
                                 </a>
                             </li>
-                            <li class="nav-item dropdown d-flex flex-column align-items-end fw-bold ms-3">
+                            <li class="nav-item dropdown d-flex flex-column align-items-end fw-bold ms-5">
                                 <p class="text-warning m-0">{{ $role }}</p>
                                 <p class="text-white m-0">{{ $displayName }}</p>
 
                                 <ul class="dropdown-menu dropdown-menu-end text-center">
                                     <li class="fw-bold px-2 py-1">{{ $fullName }}</li>
-                                    {{-- KRITIS: Menggunakan route yang sesuai dengan web.php Anda --}}
                                     <li><a class="dropdown-item fw-bold" style="color: #4191E8"
                                             href="{{ route('password.change') }}">{{ __('reset.title') }}</a></li>
                                     <li>
@@ -144,7 +143,7 @@
                                     <span class="text-white d-block">{{ $fullName }}</span>
                                 </li>
                                 <li class="nav-item d-flex align-items-center gap-2">
-                                    <span class="text-danger fw-bold">{{ $order_count ?? 0 }}</span>
+                                    <span class="fw-bold text-warning" style="">{{ $order_count ?? 0 }}</span>
                                     <a class="nav-link p-0 text-white fw-bold"
                                         href="{{ $role === 'Mahasiswa' ? route('order.history') : route('merchant.order.history') }}">
                                         <x-history />

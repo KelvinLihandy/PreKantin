@@ -82,7 +82,7 @@
                                     <!-- Image -->
                                     <div style="height: 200px; overflow: hidden; background-color: #e0e0e0;">
                                         @if ($merchant->image)
-                                            <img src="{{ asset($merchant->image) }}" alt="{{ $merchant->user->name }}"
+                                            <img src="{{ $merchant->image_url }}" alt="{{ $merchant->user->name }}"
                                                 class="w-100 h-100" style="object-fit: cover;">
                                         @else
                                             <div class="d-flex justify-content-center align-items-center w-100 h-100"

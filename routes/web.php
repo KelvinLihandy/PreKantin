@@ -35,10 +35,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/order-history', [OrderHistoryController::class, 'index'])->name('order.history');
     Route::get('/order-history/{order}', [OrderHistoryController::class, 'show'])->name('order.detail');
+    Route::post('/order/{id}/status', [OrderHistoryController::class, 'updateStatus'])->name('order.update');
     
     Route::get('/merchant/order-history', [OrderHistoryController::class, 'merchantIndex'])->name('merchant.order.history');
-    Route::post('/merchant/order/{id}/status', [OrderHistoryController::class, 'updateStatus'])->name('merchant.order.update');
-    Route::get('/merchant/order/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
+    Route::get('/merchant/order-history/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
     Route::post('/merchant/menu', [KantinController::class, 'addMenu'])->name('menu.add');
     Route::post('/merchant/name', [MerchantController::class, 'saveName'])->name('merchant.name');
     Route::post('/merchant/time', [MerchantController::class, 'saveTime'])->name('merchant.time');
