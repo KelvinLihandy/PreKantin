@@ -11,13 +11,24 @@
             <h3 class="fw-bold mb-3 mt-5 px-2" style="color: #4191E8">{{ __('merchant.history.order') }}</h3>
 
             @if ($activeOrders->isEmpty())
-                <div class="card rounded-4 border-0 p-4 text-center shadow-sm bg-white">
+                <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+                    <div class="mb-4">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                            <path
+                                d="M9 2C9 1.44772 9.44772 1 10 1H14C14.5523 1 15 1.44772 15 2V3H19C19.5523 3 20 3.44772 20 4V6C20 6.55228 19.5523 7 19 7H5C4.44772 7 4 6.55228 4 6V4C4 3.44772 4.44772 3 5 3H9V2Z"
+                                fill="#4191E8" />
+                            <path d="M5 8H19V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V8Z"
+                                fill="#4191E8" />
+                            <path d="M9 11V18" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            <path d="M15 11V18" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
                     <p class="m-0 text-muted">{{ __('merchant.history.empty') }}</p>
                 </div>
             @else
                 @foreach ($activeOrders as $order)
-                    <div class="card border-2 shadow-sm rounded-4 mb-4"
-                        style="border-color: #4191E8 !important;">
+                    <div class="card border-2 shadow-sm rounded-4 mb-4" style="border-color: #4191E8 !important;">
                         <div class="card-body p-4">
                             <div class="row h-100 align-items-stretch">
                                 <div class="col-md-7 d-flex flex-column justify-content-between">
@@ -58,13 +69,13 @@
                                             <form action="{{ route('order.update', $order->order_id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status_id" value="3">
-                                                <button
-                                                    class="btn fw-bold px-3 text-white" style="background-color: #FB8C30">{{ __('selesai.caps') }}</button>
+                                                <button class="btn fw-bold px-3 text-white"
+                                                    style="background-color: #FB8C30">{{ __('selesai.caps') }}</button>
                                             </form>
                                         @endif
                                         @if ($order->status_id == 3)
-                                            <button
-                                                class="btn fw-bold px-3 text-white" style="cursor: default; background-color: #B85BFF">{{ __('belum.ambil') }}</button>
+                                            <button class="btn fw-bold px-3 text-white"
+                                                style="cursor: default; background-color: #B85BFF">{{ __('belum.ambil') }}</button>
                                         @endif
                                     </div>
                                 </div>

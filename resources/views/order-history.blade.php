@@ -8,10 +8,22 @@
             </div>
 
             @if ($groupedOrders->isEmpty())
-                <div class="text-center py-5">
-                    <h4 class="text-muted">{{ __('orderHistory.empty') }}</h4>
-                    <a href="{{ route('home.page') }}" class="btn mt-3"
-                        style="background-color: #4191E8">{{ __('orderHistory.order_now') }}</a>
+                <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+                    <div class="mb-4">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                            <path
+                                d="M9 2C9 1.44772 9.44772 1 10 1H14C14.5523 1 15 1.44772 15 2V3H19C19.5523 3 20 3.44772 20 4V6C20 6.55228 19.5523 7 19 7H5C4.44772 7 4 6.55228 4 6V4C4 3.44772 4.44772 3 5 3H9V2Z"
+                                fill="#4191E8" />
+                            <path d="M5 8H19V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V8Z"
+                                fill="#4191E8" />
+                            <path d="M9 11V18" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            <path d="M15 11V18" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h4 class="fw-bold mb-3" style="color: #4191E8;">{{ __('orderHistory.empty') }}</h4>
+                    <a href="{{ route('home.page') }}" class="btn text-white fw-bold px-4 py-2 mx-auto mt-2"
+                        style="background-color: #4191E8; max-width: 200px;">{{ __('orderHistory.order_now') }}</a>
                 </div>
             @else
                 @foreach ($groupedOrders as $year => $months)
