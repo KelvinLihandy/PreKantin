@@ -89,7 +89,7 @@
                                                             @elseif ($order->status_id == 4)
                                                                 <button class="btn fw-bold px-3 text-white"
                                                                     style='cursor: default; background-color: #53DB09'>{{ __('selesai.pesanan') }}</button>
-                                                            @elseif ($order->status_id == 4)
+                                                            @elseif ($order->status_id == 5)
                                                                 <button class="btn fw-bold px-3 text-white"
                                                                     style='cursor: default; background-color: #F20A0A'>{{ __('ditolak') }}</button>
                                                             @endif
