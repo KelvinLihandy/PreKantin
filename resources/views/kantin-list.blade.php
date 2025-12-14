@@ -27,7 +27,7 @@
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle fw-bold" type="button" id="sortDropdown" style="background-color: #4191E8"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-funnel"></i> {{ __('harga') }}
+                                    <i class="bi bi-funnel text-white"></i> {{ __('harga') }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sortDropdown">
                                     <li>
