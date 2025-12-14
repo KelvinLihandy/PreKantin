@@ -187,7 +187,7 @@
                         <hr>
                         <h4 class="fw-bold mt-3">{{ __('kantin.pesan.total') }}: <span id="checkoutTotal" class=""
                                 style="color: #4191E8"></span></h4>
-                        <button class="btn w-100 mt-3 text-white" style="background-color: #4191E8" id="confirmPaymentBtn">
+                        <button class="btn w-100 mt-3 text-white fw-bold" style="background-color: #4191E8" id="confirmPaymentBtn">
                             <span id="confirmPaymentText">{{ __('kantin.pesan.lanjut') }}</span>
                             <span id="confirmPaymentSpinner" class="spinner-border spinner-border-sm d-none ms-2"
                                 role="status"></span>
@@ -556,7 +556,7 @@
             cart.forEach(item => {
                 html += `
                 <div class="card border-0 shadow-sm rounded-4 mb-2 p-2 d-flex flex-row align-items-center">
-                    <img src="/${item.image}" style="width:60px; height:60px; object-fit:cover; border-radius:10px; margin-right:10px;">
+                    <img src="${item.image}" style="width:60px; height:60px; object-fit:cover; border-radius:10px; margin-right:10px;">
                     <div class="flex-grow-1 d-flex justify-content-between align-items-center">
                         <div>
                             <strong>${item.name}</strong><br>
@@ -608,7 +608,7 @@
             document.getElementById("selectedProductName").innerText = name;
             document.getElementById("selectedProductPrice").innerText = "Rp " + price.toLocaleString();
             document.getElementById("selectedProductPreview").innerHTML =
-                `<img src="/${image}" class="img-fluid rounded mb-2" style="max-height:150px; object-fit:cover;">`;
+                `<img src="${image}" class="img-fluid rounded mb-2" style="max-height:150px; object-fit:cover;">`;
             new bootstrap.Modal(document.getElementById('confirmAddModal')).show();
         }
 
@@ -624,7 +624,7 @@
                 html += `
                 <div class="d-flex mb-3 align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
-                        <img src="/${item.image}"
+                        <img src="${item.image}"
                             style="width:70px; height:70px; object-fit:cover; border-radius:10px; margin-right:12px;">
                         <div>
                             <div class="fw-bold">${item.name}</div>
