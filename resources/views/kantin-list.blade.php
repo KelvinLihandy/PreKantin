@@ -5,11 +5,11 @@
         <div class="" style="background-color: #4191E8">
             <section class="container">
                 <div class="row align-items-center mb-5">
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-center text-md-start">
                         <h1 class="fw-bold text-white mb-3" style="font-size: 3rem;">{{ __('kantin.list.title') }}</h1>
                         <p class="text-white fs-5">{{ __('kantin.list.lead') }}</p>
                     </div>
-                    <div class="col-md-6 text-end">
+                    <div class="col-md-6 text-center text-md-end">
                         <img src="{{ asset('images/kantinListImage.png') }}" alt="Kantin" class="img-fluid shadow mb-5"
                             style="max-width: 400px;">
                     </div>
@@ -25,8 +25,8 @@
                         <form method="GET" action="{{ route('kantin.list') }}" class="d-flex align-items-center gap-3"
                             id="sortForm">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle fw-bold text-white" type="button" id="sortDropdown" style="background-color: #4191E8"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn dropdown-toggle fw-bold text-white" type="button" id="sortDropdown"
+                                    style="background-color: #4191E8" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-funnel"></i> {{ __('harga') }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sortDropdown">
