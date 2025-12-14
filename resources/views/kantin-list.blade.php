@@ -118,17 +118,24 @@
                                                 $isOpen = false;
                                                 if ($merchant->open && $merchant->close) {
                                                     try {
-                                                        $now = \Carbon\Carbon::now();
+                                                        $tz = 'Asia/Jakarta';
+                                                        $now = \Carbon\Carbon::now($tz);
                                                         $open = \Carbon\Carbon::createFromFormat(
                                                             'H:i:s',
                                                             $merchant->open,
+                                                            $tz,
                                                         );
                                                         $close = \Carbon\Carbon::createFromFormat(
                                                             'H:i:s',
                                                             $merchant->close,
+                                                            $tz,
                                                         );
+                                                        if ($close->lessThan($open)) {
+                                                            $close->addDay();
+                                                        }
                                                         $isOpen = $now->between($open, $close);
                                                     } catch (\Exception $e) {
+                                                        dd($e);
                                                         $isOpen = false;
                                                     }
                                                 }
