@@ -25,7 +25,7 @@
                         <form method="GET" action="{{ route('kantin.list') }}" class="d-flex align-items-center gap-3"
                             id="sortForm">
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle fw-bold" type="button" id="sortDropdown"
+                                <button class="btn dropdown-toggle fw-bold" type="button" id="sortDropdown" style="background-color: #4191E8"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-funnel"></i> {{ __('harga') }}
                                 </button>
@@ -52,8 +52,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div id="loadingSpinner" class="spinner-border text-primary d-none"
-                                style="width: 1.6rem; height: 1.6rem;">
+                            <div id="loadingSpinner" class="spinner-border d-none"
+                                style="width: 1.6rem; height: 1.6rem;color: #4191E8">
                             </div>
                         </form>
                     </div>

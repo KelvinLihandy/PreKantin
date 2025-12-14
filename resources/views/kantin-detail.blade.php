@@ -317,7 +317,7 @@
             document.getElementById("confirmPaymentBtn").disabled = true;
             document.getElementById("cancelCheckoutBtn").disabled = true;
             document.getElementById("confirmPaymentSpinner").classList.remove("d-none");
-            document.getElementById("confirmPaymentText").innerText = ".";
+            document.getElementById("confirmPaymentText").innerText = "";
         }
 
         function unlockCheckoutModal() {

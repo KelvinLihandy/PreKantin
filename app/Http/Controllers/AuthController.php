@@ -143,7 +143,7 @@ class AuthController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('login')->with('success', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 
@@ -161,17 +161,19 @@ class AuthController extends Controller
         $request->validate([
             'password' => 'required',
             'new_password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%]{8,}$/',
-            'confirmation' => 'required|same:password',
+            'confirmation' => 'required|same:new_password',
         ]);
 
         $user = Auth::user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors(['password' => __('passwords.differ')]);
         }
-        $user->password = $request->password;
+        $user->password = $request->new_password;
         $user->save();
 
-        return back()->with('success', __('passwords.update'));
+        return redirect()
+            ->route('home.page')
+            ->with('success', __('passwords.update'));
     }
 }

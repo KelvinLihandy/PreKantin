@@ -5,7 +5,7 @@
         <div class="container">
 
             <a href="{{ route('order.history') }}" class="btn btn-light fw-bold mb-4 shadow-sm" style="color: #4191E8">
-                <span class="me-2">←</span> {{ __('orderHistory.back') }}
+                <x-arrow/>
             </a>
 
             <div class="row justify-content-center">

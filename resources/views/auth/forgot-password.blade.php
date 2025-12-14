@@ -20,7 +20,7 @@
 
                             <h3 class="text-center mb-4 fw-bold text-dark" id="formTitle">{{ __('forgot.title') }}
                             </h3>
-                            <p class="text-center m-5 w-50 mx-auto fw-semibold text-dark">
+                            <p class="text-center m-5 w-50 mx-auto fw-semibold" style="color: #4191E8">
                                 {{ __('forgot.desc') }}
                             </p>
 
@@ -35,8 +35,8 @@
                                     @error('email')
                                         <div class="small text-danger mt-1">{{ $message }}</div>
                                     @enderror
-                                    @if (session('status'))
-                                        <div class="small text-success fw-bold mt-1">{{ session('status') }}</div>
+                                    @if (session('success'))
+                                        <div class="small text-success fw-bold mt-1">{{ session('success') }}</div>
                                     @endif
                                 </div>
 
