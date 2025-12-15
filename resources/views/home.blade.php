@@ -11,7 +11,7 @@
         <section class="text-white py-5" style="background-color: #4191E8">
             <div class="container">
                 <div class="row align-items-center g-5">
-                    <div class="col-md-6 text-center text-md-start">
+                    <div class="col-md-6 text-center text-sm-start">
                         <p class="fw-bold mb-3 display-1">
                             {{ __('home.boom') }}
                         </p>
@@ -46,13 +46,44 @@
                         </a>
 
                     </div>
-                    <div class="row g-4">
+                    <div class="row g-4 d-none d-lg-flex">
                         @foreach ($topMenuItems as $topMenuItem)
-                            <div class="col-12 col-md-6 col-lg-4">
+                            <div class="col-lg-4">
                                 <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
                                     name="{{ $topMenuItem->menu_item->name }}"
                                     merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
                                     price="{{ $topMenuItem->menu_item->price }}" />
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="accordion d-lg-none" id="topMenuAccordion">
+                        @foreach ($topMenuItems as $index => $topMenuItem)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                    <button class="accordion-button {{ $index !== 0 ? 'collapsed' : '' }}" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
+                                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
+                                        aria-controls="collapse{{ $index }}">
+
+                                        {{ $topMenuItem->menu_item->name }}
+                                        <span class="ms-auto fw-bold text-primary">
+                                            Rp {{ number_format($topMenuItem->menu_item->price, 0, ',', '.') }}
+                                        </span>
+                                    </button>
+                                </h2>
+
+                                <div id="collapse{{ $index }}"
+                                    class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                    aria-labelledby="heading{{ $index }}" data-bs-parent="#topMenuAccordion">
+
+                                    <div class="accordion-body">
+                                        <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
+                                            name="{{ $topMenuItem->menu_item->name }}"
+                                            merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
+                                            price="{{ $topMenuItem->menu_item->price }}" />
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
