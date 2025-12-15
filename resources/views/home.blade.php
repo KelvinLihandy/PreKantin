@@ -57,36 +57,20 @@
                         @endforeach
                     </div>
 
-                    <div class="accordion d-lg-none" id="topMenuAccordion">
-                        @foreach ($topMenuItems as $index => $topMenuItem)
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{ $index }}">
-                                    <button class="accordion-button {{ $index !== 0 ? 'collapsed' : '' }}" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
-                                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
-                                        aria-controls="collapse{{ $index }}">
 
-                                        {{ $topMenuItem->menu_item->name }}
-                                        <span class="ms-auto fw-bold text-primary">
-                                            Rp {{ number_format($topMenuItem->menu_item->price, 0, ',', '.') }}
-                                        </span>
-                                    </button>
-                                </h2>
-
-                                <div id="collapse{{ $index }}"
-                                    class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
-                                    aria-labelledby="heading{{ $index }}" data-bs-parent="#topMenuAccordion">
-
-                                    <div class="accordion-body">
-                                        <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
-                                            name="{{ $topMenuItem->menu_item->name }}"
-                                            merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
-                                            price="{{ $topMenuItem->menu_item->price }}" />
-                                    </div>
+                    <div class="d-lg-none">
+                        <div class="d-flex gap-3 overflow-auto pb-2" style="scroll-snap-type: x mandatory;">
+                            @foreach ($topMenuItems as $topMenuItem)
+                                <div style="min-width: 85%; scroll-snap-align: start;">
+                                    <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
+                                        name="{{ $topMenuItem->menu_item->name }}"
+                                        merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
+                                        price="{{ $topMenuItem->menu_item->price }}" />
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
+
                 </div>
             </section>
         @endif
