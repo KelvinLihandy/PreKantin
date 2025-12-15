@@ -564,7 +564,6 @@
                         </div>
                         <div class="d-flex align-items-center gap-2">
                             <button class="btn btn-sm btn-outline-secondary" type="button"
-                                ${item.quantity <= 1 ? 'disabled' : ''}
                                 onclick="updateQty(${item.id}, -1)">−</button>
                             <span class="px-2 fw-bold" style="color:#4191E8">
                                 ${item.quantity}
