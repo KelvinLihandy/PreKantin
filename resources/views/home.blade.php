@@ -113,7 +113,7 @@
                                     <p class="mb-0 mt-2">
                                         {{ __('home.why.merchant.desc') }}
                                         <strong>
-                                            {{ _('home.why.merchant.desc.strong') }}
+                                            {{ __('home.why.merchant.desc.strong') }}
                                         </strong>
                                         {{ __('home.why.merchant.desc.continue') }}
                                     </p>

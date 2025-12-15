@@ -52,8 +52,8 @@
                                         <span class="visually-hidden">Loading...</span>
                                     </span>
                                 </button>
-                                @if (session('status'))
-                                    <div class="small text-success fw-bold mt-1">{{ session('status') }}</div>
+                                @if (session('success'))
+                                    <div class="small text-success fw-bold mt-1">{{ session('success') }}</div>
                                 @endif
                             </form>
                         </div>

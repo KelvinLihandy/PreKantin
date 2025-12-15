@@ -138,5 +138,14 @@
     "merchant.success.add": "Berhasil menambahkan menu!",
     "merchant.success.edit": "Berhasil mengubah menu!",
     "merchant.edit.void": "Tidak ada perubahan gambar",
-    "merchant.edit.image.error": "Gambar dibutuhkan"
+    "merchant.edit.image.error": "Gambar dibutuhkan",
+
+    "error.access_denied": "Akses ditolak.",
+    "error.only_mahasiswa": "Halaman ini khusus Mahasiswa.",
+    "error.no_order_access": "Anda tidak memiliki akses ke pesanan ini.",
+    "error.order_detail_forbidden": "Akses detail pesanan dilarang.",
+    "error.not_merchant": "Akses ditolak. Anda tidak terdaftar sebagai Merchant.",
+    "error.merchant_profile_not_found": "Profil Merchant tidak ditemukan.",
+    "error.no_permission_update_order": "Anda tidak memiliki akses untuk mengubah pesanan ini.",
+    "error.student_profile_not_found": "Profil Mahasiswa tidak ditemukan."
 }

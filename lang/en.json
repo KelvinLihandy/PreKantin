@@ -138,5 +138,14 @@
     "merchant.success.add": "Successfully added menu!",
     "merchant.success.edit": "Successfully edited menu!",
     "merchant.edit.void": "No image changes",
-    "merchant.edit.image.error": "Image is required"
+    "merchant.edit.image.error": "Image is required",
+
+    "error.access_denied": "Access denied.",
+    "error.only_mahasiswa": "This page is for Students only.",
+    "error.no_order_access": "You do not have access to this order.",
+    "error.order_detail_forbidden": "Access to order details is forbidden.",
+    "error.not_merchant": "Access denied. You are not registered as a Merchant.",
+    "error.merchant_profile_not_found": "Merchant profile not found.",
+    "error.no_permission_update_order": "You do not have permission to update this order.",
+    "error.student_profile_not_found": "Student profile not found."
 }

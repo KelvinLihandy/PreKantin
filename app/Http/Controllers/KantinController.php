@@ -93,6 +93,10 @@ class KantinController extends Controller
 
     public function kantinListPage(Request $request)
     {
+        $user = Auth::user();
+        if ($user->role->name == "Merchant") {
+            abort(403, __('error.access_denied'));
+        }
         $sort = $request->get('sort', 'name');
 
         $query = Merchant::with('user', 'menuItems')

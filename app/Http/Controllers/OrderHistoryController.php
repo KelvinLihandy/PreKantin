@@ -14,7 +14,7 @@ class OrderHistoryController extends Controller
     {
         $storage = new SupabaseStorageService();
         if (Auth::user()->role->name !== 'Mahasiswa') {
-            abort(403, 'Halaman ini khusus Mahasiswa.');
+            abort(403, __('error.only_mahasiswa'));
         }
 
         $orders = Order::where('user_id', Auth::id())
@@ -57,7 +57,7 @@ class OrderHistoryController extends Controller
         $storage = new SupabaseStorageService();
 
         if ($order->user_id !== Auth::id()) {
-            abort(403, 'Anda tidak memiliki akses ke pesanan ini.');
+            abort(403, __('error.no_order_access'));
         }
 
         $order->load(['orderItems.menu_item', 'merchant.user', 'status']);
@@ -80,7 +80,7 @@ class OrderHistoryController extends Controller
         $user = Auth::user();
 
         if (!$user->merchant || $order->merchant_id !== $user->merchant->merchant_id) {
-            abort(403, 'Akses detail pesanan dilarang.');
+            abort(403, __('error.order_detail_forbidden'));
         }
 
         $order->load(['orderItems.menu_item', 'user', 'status']);
@@ -102,7 +102,7 @@ class OrderHistoryController extends Controller
         $user = Auth::user();
 
         if (!$user->merchant) {
-            abort(403, 'Akses ditolak. Anda tidak terdaftar sebagai Merchant.');
+            abort(403, __('error.not_merchant'));
         }
 
         $merchantId = $user->merchant->merchant_id;
@@ -145,19 +145,19 @@ class OrderHistoryController extends Controller
 
         if (in_array($statusId, $merchantStatuses)) {
             if (!$user->merchant) {
-                abort(403, 'Profil Merchant tidak ditemukan.');
+                abort(403, __('error.merchant_profile_not_found'));
             }
             if ($order->merchant_id != $user->merchant->merchant_id) {
-                abort(403, 'Anda tidak memiliki akses untuk mengubah pesanan ini.');
+                abort(403, __('error.no_permission_update_order'));
             }
         }
 
         if (in_array($statusId, $studentStatuses)) {
             if (!$user->user_id) {
-                abort(403, 'Profil Mahasiswa tidak ditemukan.');
+                abort(403, __('error.student_profile_not_found'));
             }
             if ($order->user_id != $user->user_id) {
-                abort(403, 'Anda tidak memiliki akses untuk mengubah pesanan ini.');
+                abort(403, __('error.no_permission_update_order'));
             }
         }
 
