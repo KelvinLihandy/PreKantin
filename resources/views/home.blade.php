@@ -44,29 +44,15 @@
                             onmouseout="this.style.backgroundColor='transparent'; this.style.color='#4191E8'; this.style.borderColor='#FB8C30';">
                             {{ __('home.menu.more') }}
                         </a>
-
                     </div>
-                    <div class="row g-4 d-none d-lg-flex">
+                    <div class="row g-4">
                         @foreach ($topMenuItems as $topMenuItem)
-                            <div class="col-lg-4">
-                                <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
+                            <div class="col-12 col-md-6 col-lg-4"> <x-fav-menu-card
+                                    image="{{ $topMenuItem->menu_item->image_url }}"
                                     name="{{ $topMenuItem->menu_item->name }}"
                                     merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
-                                    price="{{ $topMenuItem->menu_item->price }}" />
-                            </div>
+                                    price="{{ $topMenuItem->menu_item->price }}" /> </div>
                         @endforeach
-                    </div>
-                    <div class="d-lg-none">
-                        <div class="d-flex gap-3 overflow-auto pb-2" style="scroll-snap-type: x mandatory;">
-                            @foreach ($topMenuItems as $topMenuItem)
-                                <div class="flex-shrink-0" style="width: 33.333333%; scroll-snap-align: start;">
-                                    <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
-                                        name="{{ $topMenuItem->menu_item->name }}"
-                                        merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
-                                        price="{{ $topMenuItem->menu_item->price }}" />
-                                </div>
-                            @endforeach
-                        </div>
                     </div>
                 </div>
             </section>
