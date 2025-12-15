@@ -56,12 +56,10 @@
                             </div>
                         @endforeach
                     </div>
-
-
                     <div class="d-lg-none">
                         <div class="d-flex gap-3 overflow-auto pb-2" style="scroll-snap-type: x mandatory;">
                             @foreach ($topMenuItems as $topMenuItem)
-                                <div style="min-width: 85%; scroll-snap-align: start;">
+                                <div class="flex-shrink-0" style="width: 33.333333%; scroll-snap-align: start;">
                                     <x-fav-menu-card image="{{ $topMenuItem->menu_item->image_url }}"
                                         name="{{ $topMenuItem->menu_item->name }}"
                                         merchant="{{ $topMenuItem->menu_item->merchant->user->name }}"
@@ -70,7 +68,6 @@
                             @endforeach
                         </div>
                     </div>
-
                 </div>
             </section>
         @endif
