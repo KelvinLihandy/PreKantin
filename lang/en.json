@@ -133,12 +133,16 @@
     "menu.success.add": "Menu added successfully!",
     "menu.success.edit": "Menu updated successfully!",
     "menu.image.missing": "No image provided",
+    "menu.hapus.title": "Delete Menu",
+    "menu.hapus.true": "Delete",
+    "menu.hapus.loading": "Deleting",
 
     "merchant.edit.name": "Merchant name updated successfully",
     "merchant.success.add": "Successfully added menu!",
     "merchant.success.edit": "Successfully edited menu!",
     "merchant.edit.void": "No image changes",
     "merchant.edit.image.error": "Image is required",
+    "merchant.remove.menu": "Menu Item succesfully deleted!",
 
     "error.access_denied": "Access denied.",
     "error.only_mahasiswa": "This page is for Students only.",
@@ -147,5 +151,6 @@
     "error.not_merchant": "Access denied. You are not registered as a Merchant.",
     "error.merchant_profile_not_found": "Merchant profile not found.",
     "error.no_permission_update_order": "You do not have permission to update this order.",
-    "error.student_profile_not_found": "Student profile not found."
+    "error.student_profile_not_found": "Student profile not found.",
+    "error.menu_not_found": "Menu Item not found."
 }

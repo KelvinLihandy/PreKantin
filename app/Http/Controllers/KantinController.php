@@ -18,7 +18,7 @@ class KantinController extends Controller
         // Ambil merchant atau 404 jika tidak ada
         $merchant = Merchant::findOrFail($id);
 
-        $menus = $merchant->menuItems()->latest()->get()->map(function ($menu) use ($storage) {
+        $menus = $merchant->menuItems()->where('is_available', true)->latest()->get()->map(function ($menu) use ($storage) {
             $menu->image_url = $storage->getImage($menu->image, true);
             return $menu;
         });
@@ -94,7 +94,7 @@ class KantinController extends Controller
     public function kantinListPage(Request $request)
     {
         $user = Auth::user();
-        if ($user && $user->role->name == "Merchant") {
+        if ($user && $user->role->name !== "Mahasiswa") {
             abort(403, __('error.access_denied'));
         }
         $sort = $request->get('sort', 'name');
@@ -195,5 +195,22 @@ class KantinController extends Controller
         }
 
         return redirect()->back()->with('success', $request->menu_item_id ? __('menu.success.edit') : __('menu.success.add'));
+    }
+
+    public function removeMenu($id)
+    {
+        $user = Auth::user();
+        if ($user && $user->role->name !== 'Merchant') {
+            abort(403, __('error.access_denied'));
+        }
+
+        $menuItem = MenuItem::where('menu_item_id', $id)->first();
+        if (!$menuItem) {
+            return redirect()->back()->with('error', __('menu.not_found'));
+        }
+        $menuItem->is_available = false;
+        $menuItem->save();
+
+        return redirect()->back()->with('success', __('merchant.remove.menu'));
     }
 }

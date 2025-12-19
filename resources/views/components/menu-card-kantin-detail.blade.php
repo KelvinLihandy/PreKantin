@@ -26,9 +26,14 @@
                 </div>
             @endif
             @if ($isMerchant)
-                <div class="position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center rounded-circle shadow"
-                    style="width:38px; height:38px; cursor:pointer; background-color:#4191E8;">
+                <div id="deleteMenuBtn-{{ $id }}" class="position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center rounded-circle"
+                    style="width:38px; height:38px; cursor:pointer; background-color:#4191E8;"
+                    onclick="event.stopPropagation();showDeleteConfirmation('{{ $image }}', '{{ $name }}', {{ $price }}, '{{ $id }}')">
                     <x-pencil color="white" size="20" />
+                </div>
+                <div id="loadingDeleteMenuBtn-{{ $id }}" class="position-absolute top-0 end-0 m-3 d-none align-items-center justify-content-center rounded-circle"
+                    style="width:38px; height:38px; cursor:pointer; background-color:#4191E8;">
+                    <span class="spinner-border spinner-border-sm text-white" role="status"></span>
                 </div>
             @endif
         </div>

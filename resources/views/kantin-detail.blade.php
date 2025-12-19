@@ -187,7 +187,8 @@
                         <hr>
                         <h4 class="fw-bold mt-3">{{ __('kantin.pesan.total') }}: <span id="checkoutTotal" class=""
                                 style="color: #4191E8"></span></h4>
-                        <button class="btn w-100 mt-3 text-white fw-bold" style="background-color: #4191E8" id="confirmPaymentBtn">
+                        <button class="btn w-100 mt-3 text-white fw-bold" style="background-color: #4191E8"
+                            id="confirmPaymentBtn">
                             <span id="confirmPaymentText">{{ __('kantin.pesan.lanjut') }}</span>
                             <span id="confirmPaymentSpinner" class="spinner-border spinner-border-sm d-none ms-2"
                                 role="status"></span>
@@ -259,6 +260,28 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="menuDeleteModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-4 shadow">
+                        <div class="modal-body text-center p-4">
+                            <form id="deleteMenuForm" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <h4 class="fw-bold mb-3">{{ __('menu.hapus.title') }}</h4>
+                                <div id="selectedDeletePreview" class="mb-3"></div>
+                                <p class="fw-bold" id="selectedDeleteName"></p>
+                                <p id="selectedDeletePrice" class="fw-bold" style="color: #4191E8"></p>
+                                <button type="button" class="btn w-100 mt-3 text-white fw-bold"
+                                    style="background-color: #F20A0A"
+                                    id="confirmDeleteBtn">{{ __('menu.hapus.true') }}</button>
+                                <button type="button" class="btn btn-secondary w-100 mt-2"
+                                    data-bs-dismiss="modal">{{ __('kantin.tambah.false') }}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
     @endauth
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
@@ -309,6 +332,8 @@
         let selectedProduct = null;
         let isProcessing = false;
         let checkoutModal = null;
+        let deletingMenuId = null;
+        let isDeletingMenu = false;
         const orderDetailRoute = "{{ route('order.detail', ['order' => ':invoice']) }}";
         const orderRemoveRoute = "{{ route('order.remove', ['id' => ':id']) }}";
 
@@ -326,6 +351,24 @@
             document.getElementById("cancelCheckoutBtn").disabled = false;
             document.getElementById("confirmPaymentSpinner").classList.add("d-none");
             document.getElementById("confirmPaymentText").innerText = "{{ __('kantin.pesan.lanjut') }}";
+        }
+
+        function showDeleteConfirmation(image = null, name = "", price = null, id = null) {
+            @if (!$isMerchant)
+                return;
+            @endif
+
+            deletingMenuId = id;
+
+            document.getElementById("selectedDeleteName").innerText = name;
+            document.getElementById("selectedDeletePrice").innerText = "Rp " + price.toLocaleString();
+            document.getElementById("selectedDeletePreview").innerHTML =
+                `<img src="${image}" class="img-fluid rounded mb-2" style="max-height:150px; object-fit:cover;">`;
+
+            const form = document.getElementById('deleteMenuForm');
+            form.action = `/merchant/menu/${id}`;
+
+            new bootstrap.Modal(document.getElementById('menuDeleteModal')).show();
         }
 
         function openImagePicker() {
@@ -662,6 +705,33 @@
                 });
                 errorToast.show();
             }
+        });
+
+        document.getElementById('menuDeleteModal')
+            .addEventListener('hide.bs.modal', function(e) {
+                if (isDeletingMenu) {
+                    e.preventDefault();
+                }
+            });
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (!deletingMenuId || isDeletingMenu) return;
+
+            isDeletingMenu = true;
+
+            this.disabled = true;
+            this.innerText = "{{ __('menu.hapus.loading') }}";
+
+            const deleteBtn = document.getElementById(`deleteMenuBtn-${deletingMenuId}`);
+            const loadingBtn = document.getElementById(`loadingDeleteMenuBtn-${deletingMenuId}`);
+
+            if (deleteBtn && loadingBtn) {
+                deleteBtn.classList.add('d-none');
+                loadingBtn.classList.remove('d-none');
+                loadingBtn.classList.add('d-flex');
+            }
+
+            document.getElementById('deleteMenuForm').submit();
         });
 
         document.getElementById('merchantImageInput')?.addEventListener('change', function(e) {

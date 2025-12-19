@@ -40,10 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/merchant/order-history', [OrderHistoryController::class, 'merchantIndex'])->name('merchant.order.history');
     Route::get('/merchant/order-history/{order}', [OrderHistoryController::class, 'merchantShow'])->name('merchant.order.detail');
     Route::post('/merchant/menu', [KantinController::class, 'addMenu'])->name('menu.add');
+    Route::delete('/merchant/menu/{id}', [KantinController::class, 'removeMenu'])->name('menu.remove');
     Route::post('/merchant/name', [MerchantController::class, 'saveName'])->name('merchant.name');
     Route::post('/merchant/time', [MerchantController::class, 'saveTime'])->name('merchant.time');
     Route::post('/merchant/image', [MerchantController::class, 'saveImage'])->name('merchant.image');
 
-    Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
-    Route::delete('order/remove/{id}', [OrderController::class, 'remove'])->name('order.remove');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::delete('order/{id}', [OrderController::class, 'remove'])->name('order.remove');
 });
