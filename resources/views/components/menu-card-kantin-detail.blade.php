@@ -1,5 +1,5 @@
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden"
-    style="{{ $isOpen ? "cursor:pointer" : "cursor-none" }}; height:360px; display:flex; flex-direction:column;"
+    style="{{ $isOpen ? 'cursor:pointer' : 'cursor-none' }}; height:360px; display:flex; flex-direction:column;"
     @if (!$isMerchant && !$add) onclick="selectProduct('{{ $name }}', {{ $price }}, '{{ $image }}', '{{ $id }}')" @endif
     @if ($isMerchant && !$add) onclick="addMenu(false, '{{ $image }}', '{{ $name }}', {{ $price }}, '{{ $id }}')" @endif>
     @if ($add)
@@ -26,12 +26,19 @@
                 </div>
             @endif
             @if ($isMerchant)
-                <div id="deleteMenuBtn-{{ $id }}" class="position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center rounded-circle"
-                    style="width:38px; height:38px; cursor:pointer; background-color:#4191E8;"
+                <div id="deleteMenuBtn-{{ $id }}"
+                    class="position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center rounded-circle"
+                    style="width:38px; height:38px; cursor:pointer; background-color:#F20A0A;"
                     onclick="event.stopPropagation();showDeleteConfirmation('{{ $image }}', '{{ $name }}', {{ $price }}, '{{ $id }}')">
-                    <x-pencil color="white" size="20" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-x-icon lucide-x">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
                 </div>
-                <div id="loadingDeleteMenuBtn-{{ $id }}" class="position-absolute top-0 end-0 m-3 d-none align-items-center justify-content-center rounded-circle"
+                <div id="loadingDeleteMenuBtn-{{ $id }}"
+                    class="position-absolute top-0 end-0 m-3 d-none align-items-center justify-content-center rounded-circle"
                     style="width:38px; height:38px; cursor:pointer; background-color:#4191E8;">
                     <span class="spinner-border spinner-border-sm text-white" role="status"></span>
                 </div>
