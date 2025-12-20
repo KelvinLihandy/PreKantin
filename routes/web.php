@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/merchant/time', [MerchantController::class, 'saveTime'])->name('merchant.time');
     Route::post('/merchant/image', [MerchantController::class, 'saveImage'])->name('merchant.image');
 
-    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::post('/order', [OrderController::class, 'order'])->name('order.do');
+    Route::post('order/create', [OrderController::class, 'store'])->name('order.create');
     Route::delete('order/{id}', [OrderController::class, 'remove'])->name('order.remove');
 });

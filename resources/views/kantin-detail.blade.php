@@ -357,7 +357,6 @@
             @if (!$isMerchant)
                 return;
             @endif
-
             deletingMenuId = id;
 
             document.getElementById("selectedDeleteName").innerText = name;
@@ -685,6 +684,47 @@
         document.addEventListener("DOMContentLoaded", () => {
             const merchantCard = document.getElementById('merchantCard');
             const orderCard = document.getElementById('orderCard');
+            const modalDel = document.getElementById('menuDeleteModal');
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function() {
+                    if (!deletingMenuId || isDeletingMenu) return;
+                    isDeletingMenu = true;
+
+                    this.disabled = true;
+                    this.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            `;
+                    const deleteBtn = document.getElementById(`deleteMenuBtn-${deletingMenuId}`);
+                    const loadingBtn = document.getElementById(
+                        `loadingDeleteMenuBtn-${deletingMenuId}`);
+
+                    if (deleteBtn && loadingBtn) {
+                        deleteBtn.classList.add('d-none');
+                        loadingBtn.classList.remove('d-none');
+                        loadingBtn.classList.add('d-flex');
+                    }
+
+                    const form = document.getElementById('deleteMenuForm');
+                    if (form) {
+                        form.submit();
+                    } else {
+                        console.error('Delete form not found');
+                        isDeletingMenu = false;
+                        this.disabled = false;
+                        this.innerText = "{{ __('menu.hapus.true') }}";
+                    }
+                });
+            }
+
+            if (modalDel) {
+                modalDel.addEventListener('hide.bs.modal', function(e) {
+                    if (isDeletingMenu === true) {
+                        e.preventDefault();
+                    }
+                });
+            }
 
             if (merchantCard && orderCard) {
                 orderCard.style.maxHeight = merchantCard.offsetHeight + "px";
@@ -705,33 +745,6 @@
                 });
                 errorToast.show();
             }
-        });
-
-        document.getElementById('menuDeleteModal')
-            .addEventListener('hide.bs.modal', function(e) {
-                if (isDeletingMenu) {
-                    e.preventDefault();
-                }
-            });
-
-        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-            if (!deletingMenuId || isDeletingMenu) return;
-
-            isDeletingMenu = true;
-
-            this.disabled = true;
-            this.innerText = "{{ __('menu.hapus.loading') }}";
-
-            const deleteBtn = document.getElementById(`deleteMenuBtn-${deletingMenuId}`);
-            const loadingBtn = document.getElementById(`loadingDeleteMenuBtn-${deletingMenuId}`);
-
-            if (deleteBtn && loadingBtn) {
-                deleteBtn.classList.add('d-none');
-                loadingBtn.classList.remove('d-none');
-                loadingBtn.classList.add('d-flex');
-            }
-
-            document.getElementById('deleteMenuForm').submit();
         });
 
         document.getElementById('merchantImageInput')?.addEventListener('change', function(e) {
@@ -935,11 +948,12 @@
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             try {
-                const response = await fetch("{{ route('order.store') }}", {
+                const response = await fetch("{{ route('order.do') }}", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": token
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
                     },
                     body: JSON.stringify({
                         merchant_id: {{ $merchant->merchant_id }},
@@ -956,28 +970,66 @@
                 isProcessing = false;
                 modal.hide();
                 snap.pay(trueRes.snap_token, {
-                    onSuccess: function(result) {
-                        window.location.href = orderDetailRoute.replace(':invoice', trueRes
-                            .invoice_number);
+                    onSuccess: async function(result) {
+                        const order = trueRes.order;
+                        if (!order) {
+                            console.log("Order ", order)
+                            alert("order not found.");
+                        }
+                        try {
+                            await fetch("{{ route('order.create') }}", {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': token
+                                },
+                                body: JSON.stringify({
+                                    orderData: order,
+                                })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('Failed to store order');
+                            }
+
+                            const data = await response.json();
+                            window.location.href = orderDetailRoute.replace(':invoice', data.data
+                                .invoice_number);
+                        } catch (err) {
+                            console.error(err);
+                            alert("error on pending.");
+                        }
                     },
                     onPending: async function(result) {
-                        await fetch(orderRemoveRoute.replace(':id', trueRes.order_id), {
-                            method: 'DELETE',
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': token
-                            }
-                        });
+                        try {
+                            await fetch(orderRemoveRoute.replace(':id', trueRes.order_id), {
+                                method: 'DELETE',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': token
+                                }
+                            });
+                        } catch (err) {
+                            console.error(err);
+                            alert("error on pending.");
+                        }
                         unlockCheckoutModal();
                     },
                     onError: async function(result) {
-                        await fetch(orderRemoveRoute.replace(':id', trueRes.order_id), {
-                            method: 'DELETE',
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': token
-                            }
-                        });
+                        try {
+                            await fetch(orderRemoveRoute.replace(':id', trueRes.order_id), {
+                                method: 'DELETE',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'X-CSRF-TOKEN': token
+                                }
+                            });
+                        } catch (err) {
+                            console.error(err);
+                            alert("Error.");
+                        }
                         unlockCheckoutModal();
                     }
                 });

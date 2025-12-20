@@ -10,41 +10,61 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    public function order(Request $request)
     {
         $user = Auth::user();
         $items = $request->items;
         $merchant_id = $request->merchant_id;
 
+        $menuItemIds = collect($items)->pluck('id');
+
+        $menuItems = MenuItem::whereIn('menu_item_id', $menuItemIds)
+            ->get()
+            ->keyBy('menu_item_id');
+
         $totalAmount = 0;
-        $orderData = null;
+        $item_details = [];
+        $tempItems = [];
 
-        $orderData = DB::transaction(function () use ($items, $user, &$totalAmount, &$order, $merchant_id) {
-            $order = Order::create([
-                'user_id' => $user->user_id,
-                'merchant_id' => $merchant_id,
-                'status_id' => 1,
-                'order_time' => now(),
-                'gross_amount' => 0,
-            ]);
+        foreach ($items as $item) {
+            $menuItem = $menuItems[$item['id']] ?? null;
 
-            foreach ($items as $item) {
-                $orderItem = OrderItem::create([
-                    'order_id' => $order->order_id,
-                    'menu_item_id' => $item['id'],
-                    'quantity'     => $item['quantity'],
-                ]);
-
-                $totalAmount += $orderItem->subtotal;
+            if (!$menuItem) {
+                abort(400, 'Invalid menu item');
             }
 
-            $order->update(['gross_amount' => $totalAmount]);
+            $subtotal = $menuItem->price * $item['quantity'];
+            $totalAmount += $subtotal;
 
-            return $order;
-        });
+            $item_details[] = [
+                'id'       => $menuItem->menu_item_id,
+                'price'    => $menuItem->price,
+                'quantity' => $item['quantity'],
+                'name'     => $menuItem->name,
+            ];
+
+            $tempItems[] = [
+                'menu_item_id' => $menuItem->menu_item_id,
+                'name'         => $menuItem->name,
+                'price'        => $menuItem->price,
+                'quantity'     => $item['quantity'],
+                'subtotal'     => $subtotal,
+            ];
+        }
+
+        $invoiceNumber = 'INV-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(4));
+
+        $tempOrder = [
+            'invoice_number' => $invoiceNumber,
+            'user_id'        => $user->user_id,
+            'merchant_id'    => $merchant_id,
+            'gross_amount'   => $totalAmount,
+            'items'          => $tempItems,
+        ];
 
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
         \Midtrans\Config::$isProduction = config('midtrans.is_production');
@@ -52,56 +72,77 @@ class OrderController extends Controller
         \Midtrans\Config::$is3ds = config('midtrans.is_3ds');
 
         $nameParts = explode(' ', $user->name, 2);
-        $item_details = [];
 
-        $transaction_details = [
-            'order_id' => $orderData->invoice_number,
-            'gross_amount' => $orderData->gross_amount,
-        ];
-        $customer_details = array(
-            'first_name'    => $nameParts[0],
-            'last_name'     => $nameParts[1],
-            'email'         => $user->email,
-            'phone'         => "",
-        );
-        foreach ($orderData->orderItems as $detail) {
-            $item_details[] = [
-                'id' => $detail->order_item_id,
-                'price' => $detail->menu_item->price,
-                'quantity' => $detail->quantity,
-                'name' => $detail->menu_item->name,
-            ];
-        }
-        $transaction = array(
-            'transaction_details' => $transaction_details,
-            'customer_details' => $customer_details,
+        $transaction = [
+            'transaction_details' => [
+                'order_id'     => $invoiceNumber,
+                'gross_amount' => $totalAmount,
+            ],
+            'customer_details' => [
+                'first_name' => $nameParts[0],
+                'last_name'  => $nameParts[1] ?? '',
+                'email'      => $user->email,
+            ],
             'item_details' => $item_details,
-        );
+        ];
 
         try {
             $snap_token = \Midtrans\Snap::getSnapToken($transaction);
-            Payment::updateOrCreate(
-                ['order_id' => $orderData->order_id],
-                [
-                    'amount' => $orderData->gross_amount,
-                    'status' => 'pending',
-                    'snap_token' => $snap_token
-                ]
-            );
         } catch (\Exception $e) {
-            $this->remove($orderData->order_id);
-            echo $e->getMessage();
+            abort(500, $e->getMessage());
         }
+
         return response()->json([
             'success' => true,
-            'message' => 'Order berhasil dibuat',
+            'message' => 'Snap token created',
             'data' => [
-                'order_id' => $orderData->order_id,
-                'invoice_number' => $orderData->invoice_number,
-                'gross_amount' => $totalAmount,
                 'snap_token' => $snap_token,
+                'order' => $tempOrder
             ]
-        ], 201);
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+
+        $orderData = $request->orderData;
+
+        if (!$orderData) {
+            return response()->json([
+                'message' => 'Order data missing'
+            ], 422);
+        }
+
+        $order = DB::transaction(function () use ($orderData, $user) {
+
+            $order = Order::create([
+                'user_id'        => $user->user_id,
+                'merchant_id'    => $orderData['merchant_id'],
+                'invoice_number' => $orderData['invoice_number'],
+                'status_id'      => 1,
+                'order_time'     => now(),
+                'gross_amount'   => $orderData['gross_amount'],
+            ]);
+
+            foreach ($orderData['items'] as $item) {
+                OrderItem::create([
+                    'order_id'      => $order->order_id,
+                    'menu_item_id'  => $item['menu_item_id'],
+                    'price'         => $item['price'],
+                    'quantity'      => $item['quantity'],
+                ]);
+            }
+
+            return $order;
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'invoice_number' => $order->invoice_number
+            ]
+        ]);
     }
 
     public function remove($id)

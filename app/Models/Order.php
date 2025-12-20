@@ -20,15 +20,6 @@ class Order extends Model
         'gross_amount',
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($order) {
-            if (empty($order->invoice_number)) {
-                $order->invoice_number = 'INV-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(4));
-            }
-        });
-    }
-
     protected function casts(): array
     {
         return [
